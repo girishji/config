@@ -1,33 +1,42 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Mon, 02 May 2022 19:34:00 +0200
+Date:   Mon, 02 May 2022 19:37:49 +0200
 
-Add plugin config files
+fixed ignore file
 
-config as in
-https://www.youtube.com/playlist?list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ
 
 M  .gitignore
-A  nvim/init.lua
-A  nvim/lua/user/autopairs.lua
-A  nvim/lua/user/bufferline.lua
-A  nvim/lua/user/cmp.lua
-A  nvim/lua/user/comment.lua
-A  nvim/lua/user/indentline.lua
-A  nvim/lua/user/keymaps.lua
-A  nvim/lua/user/lsp/configs.lua
-A  nvim/lua/user/lsp/handlers.lua
-A  nvim/lua/user/lsp/init.lua
-A  nvim/lua/user/lsp/null-ls.lua
-A  nvim/lua/user/lsp/settings/jsonls.lua
-A  nvim/lua/user/lsp/settings/sumneko_lua.lua
-A  nvim/lua/user/lualine.lua
-A  nvim/lua/user/options.lua
-A  nvim/lua/user/plugins.lua
-A  nvim/lua/user/telescope.lua
-A  nvim/lua/user/toggleterm.lua
-A  nvim/lua/user/treesitter.lua
-A  nvim/lua/user/whichkey.lua
-A  nvim/plugin/packer_compiled.lua
+
+commit a64c100c313757459601e42b278ec66b34fc06c6
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:34:00 2022 +0200
+
+    Add plugin config files
+    
+    config as in
+    https://www.youtube.com/playlist?list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ
+    
+    M  .gitignore
+    A  nvim/init.lua
+    A  nvim/lua/user/autopairs.lua
+    A  nvim/lua/user/bufferline.lua
+    A  nvim/lua/user/cmp.lua
+    A  nvim/lua/user/comment.lua
+    A  nvim/lua/user/indentline.lua
+    A  nvim/lua/user/keymaps.lua
+    A  nvim/lua/user/lsp/configs.lua
+    A  nvim/lua/user/lsp/handlers.lua
+    A  nvim/lua/user/lsp/init.lua
+    A  nvim/lua/user/lsp/null-ls.lua
+    A  nvim/lua/user/lsp/settings/jsonls.lua
+    A  nvim/lua/user/lsp/settings/sumneko_lua.lua
+    A  nvim/lua/user/lualine.lua
+    A  nvim/lua/user/options.lua
+    A  nvim/lua/user/plugins.lua
+    A  nvim/lua/user/telescope.lua
+    A  nvim/lua/user/toggleterm.lua
+    A  nvim/lua/user/treesitter.lua
+    A  nvim/lua/user/whichkey.lua
+    A  nvim/plugin/packer_compiled.lua
 
 commit 6c24091b3af3ec08d619e1a12bc3d2782cd47281
 Author: gp <girishji@gmail.com>
