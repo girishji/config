@@ -1,10 +1,19 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Mon, 02 May 2022 19:37:49 +0200
+Date:   Mon, 02 May 2022 19:39:35 +0200
 
-fixed ignore file
+fixed typo
 
 
 M  .gitignore
+D  nvim/plugin/packer_compiled.lua
+
+commit 4ccc54ec3f05db90e9091af264f3c80c2e1d63a8
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:37:49 2022 +0200
+
+    fixed ignore file
+    
+    M  .gitignore
 
 commit a64c100c313757459601e42b278ec66b34fc06c6
 Author: Girish Palya <girishji@gmail.com>
