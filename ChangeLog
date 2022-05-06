@@ -1,11 +1,26 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Mon, 02 May 2022 19:39:35 +0200
+Date:   Fri, 06 May 2022 13:06:24 +0200
 
-fixed typo
+add zsh and nvim files
 
 
-M  .gitignore
-D  nvim/plugin/packer_compiled.lua
+ M .gitignore
+ M nvim/init.lua
+ M nvim/lua/user/keymaps.lua
+ M nvim/lua/user/lsp/handlers.lua
+ M nvim/lua/user/options.lua
+ M nvim/lua/user/treesitter.lua
+ M nvim/lua/user/whichkey.lua
+A  zsh/zshrc.local
+
+commit fbcb8874f83c5fb6389326fef4accfbb530847f2
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:39:35 2022 +0200
+
+    fixed typo
+    
+    M  .gitignore
+    D  nvim/plugin/packer_compiled.lua
 
 commit 4ccc54ec3f05db90e9091af264f3c80c2e1d63a8
 Author: Girish Palya <girishji@gmail.com>

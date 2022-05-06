@@ -1,0 +1,609 @@
+# Download vimrc from grml.org into local .vimrc. This file will be sourced by
+#   their .vimrc
+#   https://grml.org/zsh/zsh-refcard.pdf
+
+#setopt emacs
+setopt vi
+
+# Useful keybindings in .zshrc line 1525 (\e is meta key)
+#   ctrl(meta)-arrows are bound (line 1640)
+#   see refcard for keybindings
+#
+#   prompt_grml-large_help-h grml  and prompt_grml-large_help
+#   See also https://stackoverflow.com/questions/36539623/how-do-i-find-the-name-of-the-conda-environment-in-which-my-code-is-running 
+# http://bewatermyfriend.org/p/2013/001/
+# default prompt:
+# zstyle ':prompt:grml:left:setup' items rc change-root user at host path vcs percent
+# rc is the return code of command, if it is non-zero (error)
+# change-root pertains to sudo
+# https://github.com/arparp3733/arch-grml-zsh-custom-prompt/blob/master/zshrc
+#     print all env variables using 'env' command
+# function conda_prmpt () {
+#    REPLY=${CONDA_PROMPT_MODIFIER+${CONDA_PROMPT_MODIFIER:t}}
+# }
+# grml_theme_add_token conda_show -f conda_prmpt
+# zstyle ':prompt:grml:left:setup' items rc change-root conda_show path vcs percent
+function arch_get () {
+    ARCH_PROMPT_MODIFIER="[$(arch)] "
+    REPLY=${ARCH_PROMPT_MODIFIER+${ARCH_PROMPT_MODIFIER:t}}
+}
+grml_theme_add_token arch_show -f arch_get '%F{magenta}' '%f'
+# See nerdfont website and copy arrow icon
+function arrow_get () {
+    PROMPT_MODIFIER=" "
+    REPLY=${PROMPT_MODIFIER+${PROMPT_MODIFIER:t}}
+}
+grml_theme_add_token arrow_show -f arrow_get '%F{magenta}' '%f'
+# zstyle ':prompt:grml:left:setup' items rc change-root arch_show user at host path vcs percent
+zstyle ':prompt:grml:left:setup' items rc change-root arch_show path vcs arrow_show
+
+# PROMPT='%F{magenta}%~%f %# '
+# PROMPT='%n %~ %# '
+# PROMPT='%n %3~ %# '
+# default:
+# PROMPT='%n@%m %1~ %#'
+
+# editor: https://missing.csail.mit.edu/2020/editors/
+# bindkey -v
+export EDITOR=nvim
+
+# https://unix.stackexchange.com/questions/44115/how-do-i-perform-a-reverse-history-search-in-zshs-vi-mode
+# bindkey "^R" history-incremental-search-backward
+# bindkey "^P" history-beginning-search-backward
+# bindkey "^N" history-beginning-search-forward
+# bindkey "^S" history-incremental-search-forward
+
+# GCE google ccompute engine
+# export CLOUDSDK_COMPUTE_ZONE=us-central1-f
+
+# # remember to turn this VM off (from console of compute engine)
+# alias ssh1='gcloud beta compute ssh --zone "us-central1-f" "vm-fast" --project "finanse" --ssh-flag="-ServerAliveInterval=30"'
+# # shut off free vm too, as it appears they may charge $3.85 per month. use cloud shell
+# alias sshf='gcloud beta compute ssh --zone "us-central1-f" "vm-free" --project "finanse" --ssh-flag="-ServerAliveInterval=30"'
+# alias sshw='gcloud beta compute ssh --zone "europe-central2-a" "vm-wawa" --project "finanse" --ssh-flag="-ServerAliveInterval=30"'
+# alias sshc='gcloud beta cloud-shell ssh' # files are lost after 120 day inactivity,
+#              # packages don't persist after VM restart, so use free vm (above cmd) instead
+# alias gscp='gcloud compute scp'
+# alias gscpr='gcloud compute scp --recurse'
+
+##
+# https://stackoverflow.com/questions/39514510/exclude-directories-from-tar-archive-with-a-tarignore-file
+# ex: tar -c --exclude-from=.gitignore -vzf archiveName.tar.gz *
+alias targ='tar -c --exclude-from=.gitignore -vzf'
+
+##
+alias r='radian'
+alias R='R --no-save'
+alias l='less -R'
+alias c='bat --theme=GitHub'
+alias bat='bat --theme=GitHub'
+alias h='head -20'
+alias v='nvim'
+alias v2='vim --clean'
+alias n='nvim'
+alias bc='bc -l'
+alias op='open'
+alias ip='ipython --no-confirm-exit'
+alias gd='git diff'
+#alias py='python'
+#alias em='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+alias em='emacs'
+# alias ec='my_emacsclient'
+# alias e='my_emacsclient'
+# #alias ec='emacsclient --alternate-editor="" -t'
+alias rm='rm -i'
+alias op='open'  # open foo.rtf will open in textedit
+alias cl='clear'
+alias ls='ls -FG'
+alias ll='ls -l'
+alias lt='ls -lrt'
+alias grep='grep --color'
+alias gr='grep -E'  # extended regex 
+alias g='grep -E -R'  # extended regex and recursive
+alias gi='grep -Ei'  # extended regex and case insensitive
+alias u='cd ..'
+alias uu='cd ../..'
+alias uuu='cd ../../..'
+alias uuuu='cd ../../../..'
+alias uuuuu='cd ../../../../..'
+alias uuuuuu='cd ../../../../../..'
+alias uuuuuuu='cd ../../../../../../..'
+alias uuuuuuuu='cd ../../../../../../../..'
+alias uuuuuuuuu='cd ../../../../../../../../..'
+
+# suffix aliases (pressing 'return' on these file types will open corresponding
+# app.
+
+alias -s lua=nvim
+alias -s cpp=nvim
+alias -s c=nvim
+alias -s py=nvim
+alias -s java=nvim
+alias -s html=w3m
+
+export PATH="$PATH:$HOME/bin";
+
+# http://zsh.sourceforge.net/Doc/Release/Expansion.html
+# setopt GLOBSTARSHORT
+
+###############################
+#
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+###############################
+#
+# https://gist.github.com/LukeSmithxyz/e62f26e55ea8b0ed41a65912fbebbe52
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[2 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[6 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[6 q"
+}
+zle -N zle-line-init
+echo -ne '\e[6 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
+
+###############################
+# Setup to use appropriate brew based on arch value and use bin folder of preferred
+# arch first followed by the bin folder of the other arch 
+#
+# https://chaudhryjunaid.medium.com/how-to-setup-your-new-apple-silicon-m1-mac-for-development-bda241926841
+if [ "$(arch)" = "arm64" ]; then
+ eval $(/opt/homebrew/bin/brew shellenv);
+ export PATH="$PATH:/usr/local/bin:/usr/local/sbin";
+else
+ eval $(/usr/local/bin/brew shellenv);
+ export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin";
+fi
+
+
+
+######################################################################
+# emacsclient
+# 1) If a terminal has a emacsclient running, suspend it, open new file
+#    and it should connect to suspended client
+# 2) You can connect from multiple tabs or windows of iTerm, and cut-paste
+# Note: No need to start server in .emacs file. Better to have it start automatically
+#       This way you can start standalong emacs "em" without interference.
+#
+# function my_emacsclient() {
+#     if jobs |grep emacsclient  > /dev/null 2>&1; then # get recent suspended client
+# 	for fname in "$@"; do
+#             if ! echo $fname | grep '^/' > /dev/null; then
+#                 fname=$(pwd)"/$fname"
+#             fi
+# 	    # insert file into client (but not foreground it)
+# 	    emacsclient -n -e "(find-file \"$fname\")"
+# 	    #emacsclient -n -e "((find-file \"$fname\") (forward-line 33))"
+# 	done
+# 	local id=$(jobs | grep emacsclient | sed -e 's/^\[//' -e 's/\].*//')
+# 	fg %$id
+#     else
+# 	emacsclient --alternate-editor="" -t $@
+#     fi
+# }
+
+######################################################################
+#https://unix.stackexchange.com/questions/258656/how-can-i-have-two-keystrokes-to-delete-to-either-a-slash-or-a-word-in-zsh
+# alt-backspace kill a word or filename up to '/'
+backward-kill-a-unit-in-path () {
+    local WORDCHARS=${WORDCHARS/\/}
+    zle backward-kill-word
+}
+zle -N backward-kill-a-unit-in-path
+bindkey '^[^?' backward-kill-a-unit-in-path
+
+# ######################################################################
+# # Grep recursively
+#
+# zsh: grep string **/*.h (or ls **/filename | xargs grep -n string_to_search)
+#   grep string **/(.)  // to search all files
+#   chmod 700 **/(/)  // to chmod all dirs
+#   see https://grml.org/zsh/zsh-lovers.html
+#
+# function fgg() {
+#     if [ "$#" -eq "2" ]; then
+#         find . -name "$1" -type f -follow | awk '{gsub(" ","\\ "); print}' | xargs grep -n "$2"
+#     else
+#         find . -type f -follow  | awk '{gsub(" ","\\ "); print}' |xargs grep -n "$@"
+#     fi;
+# }
+# 
+# ######################################################################
+# # Find file by traversing directory tree.
+#
+# In zsh do $ls -l **/README to search for README file recursively
+# see https://grml.org/zsh/zsh-lovers.html
+#
+# function ff() {
+#     # echo "Attention: Use '' around regexp containing *"
+#     # otherwise files in current directory won't be noticed
+# 
+#     TMPFILE="/tmp/ff.$$.`whoami`"
+# 
+#     if [ -n "$1" ]; then
+#         if [ -n "$2" ]; then
+#             find "$2" -type f -follow -name "$1" > $TMPFILE
+#         else 
+#             find . -type f -follow -name "$1" > $TMPFILE
+#         fi
+#     fi
+# 
+#     i=1
+#     while read line; do
+#         eval l$i=$line
+#         echo "l$i $line"
+#         i=$(($i+1));
+#     done < $TMPFILE
+# }
+
+############################################################
+
+# cdl, rml etc commands. Work like cdargs utility.
+
+export CD_LIST=$HOME/.cdlist
+
+######################################################################
+# Mark a directory with a marker
+#
+# @oparam  marker  if marker is not specified then current dir name is
+#                  used. 
+##
+ml() {
+    mark=$1
+    if [ -z $mark ]; then
+        #mark=$(basename $(pwd))
+	mark=$(pwd|sed -e 's/\/.*\///')
+	mark=${mark// /_} # replace space by _
+        echo -n "$mark "
+        pwd
+    fi
+    if [ ! -f $CD_LIST ]; then
+        touch $CD_LIST
+    fi
+
+    dir=`pwd`
+    line="$mark $dir"
+
+    # if duplicate line exists, ignore
+    grep "^${line}$" $CD_LIST > /dev/null 2>&1
+    if [ $? -eq 0 ]; then # duplicate
+        echo "Duplicate, returning"
+        return
+    fi
+
+    # if a duplicate mark exists, add another entry after appending '=' character
+    grep "^$mark " $CD_LIST > /dev/null 2>&1
+    if [ $? -eq 0 ]; then # duplicate
+        mark="${mark}="
+        line="$mark $dir"
+        echo "Identical mark different target, appending '='"
+    fi
+
+    # add line and sort
+    echo $line >> $CD_LIST
+    sort $CD_LIST -o $CD_LIST
+}
+
+######################################################################
+# cd to a marked directory. If no arg is given then show the list.
+#
+# @oparam mark  Mark used to denote directory. Mark could also be the
+#               line number of cdl output  when cdl is called without
+#               any argument.
+##
+cdl() {
+    echo "Use z (zoxide)"
+    mark=$1
+    if [ -z $mark ]; then
+        if [ -f $CD_LIST ]; then
+	    # To account for spaces in directory names simply use fields 2 to 7 (7 should be enough)
+            awk '{printf("%-4d%-14s -> %s %s %s %s %s %s\n", NR, $1, $2, $3, $4, $5, $6, $7)}' $CD_LIST
+        fi
+    else
+        dir="";
+        echo $mark | egrep '[^0-9]' > /dev/null 2>&1
+        if [ $? -eq 0 ]; then # non number
+            dir=`egrep "^$mark " $CD_LIST | head -1 | cut -d" " -f 2,3,4,5,6,7`
+        else
+            dir=`awk "NR==$mark" $CD_LIST| cut -d" " -f 2,3,4,5,6,7`
+        fi
+        if [ -n $dir ]; then
+            cd $dir
+        else
+            echo "$mark not found"
+        fi
+    fi
+}
+
+######################################################################
+# Remove all marked directories.
+##
+rmlall() {
+    if [ -e $CD_LIST ]; then
+        mv $CD_LIST $CD_LIST.save
+        touch $CD_LIST
+    fi
+}
+
+######################################################################
+# Remove a marked directory.
+#
+# @param mark  Mark used to denote directory. Mark could also be the
+#              line number of cdl output  when cdl is called without
+#              any argument.
+##
+rml() {
+    mark=$1
+    if [ -z $mark ]; then 
+        echo "mark($mark) not found"
+    fi
+    echo $mark | egrep '[^0-9]' > /dev/null 2>&1
+    if [ $? -eq 0 ]; then # non-number
+        if egrep "^$mark " $CD_LIST; then
+            mv $CD_LIST $CD_LIST.save
+            egrep -v "^$mark " $CD_LIST.save > $CD_LIST
+        fi
+    else
+        mv $CD_LIST $CD_LIST.save
+        awk "NR!=$mark" $CD_LIST.save > $CD_LIST
+    fi
+}
+
+######################################################################
+# Bash programming completion for cdl() and rml()
+##
+function _cdl_aliases ()
+{
+    local -a subcmds
+    while read i; do subcmds+=($(echo $i | sed -e 's/ /:/')); done < $CD_LIST
+    _describe 'command' subcmds
+}
+
+# https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
+autoload -U compinit && compinit
+compdef _cdl_aliases cdl rml
+
+############################################################
+# Keybindings
+
+# fzf
+#
+fzf_pipe() {
+    text_to_add=" | fzf --layout=reverse --height=40%"
+    # here 'reverse' refers to having first choice at top
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+}
+zle -N fzf_pipe
+bindkey "\C-xz" fzf_pipe
+
+## alt arrow keys
+# bindkey "^[^[[D" backward-word
+# bindkey "^[^[[C" forward-word
+# following put cursor just after a word during forward
+bindkey "^[^[[D" emacs-backward-word
+bindkey "^[^[[C" emacs-forward-word
+
+## while loop
+append_while () {
+    text_to_add=" | while read x; do ; done"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-word
+    zle backward-word
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N append_while
+bindkey "\C-xw" append_while
+
+## for loop
+for_loop () {
+    text_to_add="for x in ;do ;done"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-word -n 2
+}
+zle -N for_loop
+bindkey "\C-xf" for_loop
+# bindkey "\C-x\C-f" for_loop
+
+for_loop2 () {
+    # use *** to follow symlink
+    # text_to_add="for x (**/*());do ;done"
+    text_to_add="for x (**);do ;done"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-word
+    zle backward-char -n 5
+}
+zle -N for_loop2
+bindkey "\C-x\C-f" for_loop2
+
+# tee command to redirect to file
+tee_cmd () {
+    zle end-of-line
+    text_to_add=" 2>&1|tee .out"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-word
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N tee_cmd
+bindkey "\C-xt" tee_cmd
+
+## find and grep
+find_grep () {
+    # text_to_add="find . -follow -type f |xargs -r egrep -n ''"
+    text_to_add="for x (***(.)); do grep -n -H '' \$x; done"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-word -n 2
+    zle backward-char -n 2
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N find_grep
+bindkey "\C-xg" find_grep
+# bindkey "\C-x\C-g" find_grep
+
+# do 'ls **fo.cpp' or ls ***sth.cpp (follow symlinks)
+## find
+# find_name () {
+#     text_to_add="find . -follow -name ''"
+#     RBUFFER=${RBUFFER}${text_to_add}
+#     zle end-of-line
+#     zle backward-char
+# }
+# # create a zle widget, which will invoke the function, and bind the key
+# zle -N find_name
+# bindkey "\C-xf" find_name
+
+# Insert awk
+insert_awk () {
+    text_to_add="|awk ''"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-char
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N insert_awk
+bindkey "\C-xa" insert_awk
+
+# Insert sed
+insert_sed () {
+    text_to_add="|sed -e 's///'"
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+    zle backward-char
+    zle backward-char
+    zle backward-char
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N insert_sed
+bindkey "\C-xs" insert_sed
+
+# Insert xargs
+insert_xargs () {
+    text_to_add="|xargs -r -L "
+    RBUFFER=${RBUFFER}${text_to_add}
+    zle end-of-line
+}
+# create a zle widget, which will invoke the function, and bind the key
+zle -N insert_xargs
+bindkey "\C-xx" insert_xargs
+
+# https://github.com/junegunn/fzf/wiki/examples#command-history
+# some fzf scripts
+#
+# open file
+#
+# fe [FUZZY PATTERN] - Open the selected file with the default editor
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fe() {
+  if [[ -d "${1}" ]]; then cd "${1}"; unset 1; shift; fi  
+  # above: cannot unset $1 (positional param), can shift though
+  # without preview window:
+  # IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 --preview 'bat --color=always --style=numbers --line-range=:500 --theme=GitHub {}'))
+  [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
+}
+
+# Changing directory
+#
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+# fdu - cd to selected parent directory
+fdu() {
+  local declare dirs=()
+  get_parent_dirs() {
+    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+    if [[ "${1}" == '/' ]]; then
+      for _dir in "${dirs[@]}"; do echo $_dir; done
+    else
+      get_parent_dirs $(dirname "$1")
+    fi
+  }
+  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+  cd "$DIR"
+}
+
+# Searching file contents
+# grep --line-buffered --color=never -r "" * | fzf
+
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --smart-case --files-with-matches --no-messages "$1" | fzf --preview "bat --color=always --theme=GitHub --style=numbers --line-range=:500 {} 2> /dev/null | rg --colors 'match:bg:white' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+}
+
+# command history
+# fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+# Processes
+# fkill - kill process
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+
+# Print whether intel/i386 or arm
+# https://vineethbharadwaj.medium.com/m1-mac-switching-terminal-between-x86-64-and-arm64-e45f324184d9
+# arch
+
+# fzf keybindings (CTRL-T for files, CTRL-R for history, ALT-C to change to subdir) and autocompletions
+# run /usr/local/opt/fzf/install to generate below script
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# git autocompletions are alreay automatically installed 
+
+# zoxide, super fast cd
+eval "$(zoxide init zsh)"
+# z foo              # cd into highest ranked directory matching foo
+# z foo bar          # cd into highest ranked directory matching foo and bar
+# z foo /            # cd into a subdirectory starting with foo
+#
+# z ~/foo            # z also works like a regular cd command
+# z foo/             # cd into relative path
+# z ..               # cd one level up
+# z -                # cd into previous directory
+#
+# zi foo             # cd with interactive selection (using fzf)
+#
+# z foo<SPACE><TAB>  # show interactive zsh-completions
+
+
+#####################################
+# Plugins
+#
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# note: If you press the → key (forward-char widget) or End (end-of-line widget) with the cursor at
+# the end of the buffer, it will accept the suggestion.
+#
