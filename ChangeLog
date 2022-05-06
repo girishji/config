@@ -1,17 +1,32 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Fri, 06 May 2022 13:06:24 +0200
+Date:   Fri, 06 May 2022 15:18:19 +0200
 
-add zsh and nvim files
+add nvim files
 
 
- M .gitignore
- M nvim/init.lua
- M nvim/lua/user/keymaps.lua
- M nvim/lua/user/lsp/handlers.lua
- M nvim/lua/user/options.lua
- M nvim/lua/user/treesitter.lua
- M nvim/lua/user/whichkey.lua
-A  zsh/zshrc.local
+M  .gitignore
+M  nvim/init.lua
+M  nvim/lua/user/keymaps.lua
+M  nvim/lua/user/lsp/handlers.lua
+M  nvim/lua/user/options.lua
+M  nvim/lua/user/treesitter.lua
+M  nvim/lua/user/whichkey.lua
+M  zsh/zshrc.local
+
+commit 37a1555f1bf6c451a3cd60eecec9c0842899be15
+Author: Girish Palya <girishji@gmail.com>
+Date:   Fri May 6 13:06:24 2022 +0200
+
+    add zsh and nvim files
+    
+     M .gitignore
+     M nvim/init.lua
+     M nvim/lua/user/keymaps.lua
+     M nvim/lua/user/lsp/handlers.lua
+     M nvim/lua/user/options.lua
+     M nvim/lua/user/treesitter.lua
+     M nvim/lua/user/whichkey.lua
+    A  zsh/zshrc.local
 
 commit fbcb8874f83c5fb6389326fef4accfbb530847f2
 Author: Girish Palya <girishji@gmail.com>

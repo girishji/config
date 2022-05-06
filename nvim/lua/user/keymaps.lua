@@ -9,7 +9,7 @@ local keymap = vim.api.nvim_set_keymap
 keymap("n", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
- 
+
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -59,29 +59,24 @@ keymap("v", ">", ">gv", opts)
 
 -- Terminal --
 -- Better terminal navigation
--- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
--- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
--- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
--- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
+keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
+keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
+keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Telescope
 keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 -- get rid of preview window when showing file list
--- keymap("n", "<leader>f", 
+-- keymap("n", "<leader>f",
 --   "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
 
 -- toggle relative line num
 keymap("n", "<C-n>", ":set rnu!", opts)
 
 -- save file and quit
-keymap("n", "<C-w>", ":w<CR>", opts)
-keymap("i", "<C-w>", "<Esc>:w<CR>i", opts)
+-- following 3 are also redefined in whichkey.lua (using leader key)
+keymap("n", "<C-s>", ":w<CR>", opts)
+keymap("i", "<C-s>", "<Esc>:w<CR>i", opts)
 keymap("n", "<c-q>", ":q<cr>", opts)
 
--- registers
-keymap("n", "<leader>r", "<cmd>registers<cr>", opts)
-
--- misc
---   format code in entire file (see file lsp/handlers.lua)
-keymap("n", "<leader>t", ":Format<cr>", opts)

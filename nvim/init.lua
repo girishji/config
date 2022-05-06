@@ -2,12 +2,12 @@
 
 require "user.keymaps"
 require "user.options"
+require "user.treesitter"
 require "user.plugins"
 -- require "user.colorscheme"
 require "user.cmp"
 require "user.lsp"
 require "user.telescope"
-require "user.treesitter"
 require "user.autopairs"
 require "user.comment"
 -- require "user.gitsigns"
@@ -22,10 +22,16 @@ require "user.indentline"
 -- require "user.alpha"
 require "user.whichkey"
 -- require "user.autocommands"
-
-
+--
 -- HELP --
 -- double esc will get rid of popup window
+--
+-- whichkey.lua has leader mappings. hold leader <spc> key for a while and it pops up
+--   all keybindings
+--
+-- C-w will lead to menu for split window and other window commands
+--
+--  shift-' will bring up all registers and the contents. <c-r>reg_name to insert contents.
 --
 -- to install lsp server do :LspInstallInfo and pick a server (choose i to pick and X to remove)
 --

@@ -210,8 +210,10 @@ bindkey '^[^?' backward-kill-a-unit-in-path
 # # Grep recursively
 #
 # zsh: grep string **/*.h (or ls **/filename | xargs grep -n string_to_search)
-#   grep string **/(.)  // to search all files
+#   grep string **(.)  // to search all files
+#   same as above but follows symlinks ***(.)
 #   chmod 700 **/(/)  // to chmod all dirs
+#   (.) is file and (/) is dir
 #   see https://grml.org/zsh/zsh-lovers.html
 #
 # function fgg() {
@@ -514,7 +516,8 @@ bindkey "\C-xx" insert_xargs
 #   - Bypass fuzzy finder if there's only one match (--select-1)
 #   - Exit if there's no match (--exit-0)
 fe() {
-  if [[ -d "${1}" ]]; then cd "${1}"; unset 1; shift; fi  
+  # following unsettles if multiple inputs are used
+  # if [[ -d "${1}" ]]; then cd "${1}"; unset 1; shift; fi  
   # above: cannot unset $1 (positional param), can shift though
   # without preview window:
   # IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
@@ -555,6 +558,15 @@ fif() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   rg --smart-case --files-with-matches --no-messages "$1" | fzf --preview "bat --color=always --theme=GitHub --style=numbers --line-range=:500 {} 2> /dev/null | rg --colors 'match:bg:white' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
+
+# CTRL-X-1 - Invoke Readline functions by name
+__fzf_readline ()
+{
+  zle_cmd=$(builtin bindkey | command fzf +s +m|cut -d' ' -f2) 
+  zle ${zle_cmd}
+}
+zle -N __fzf_readline
+bindkey "\C-x1" __fzf_readline
 
 # command history
 # fh - repeat history
