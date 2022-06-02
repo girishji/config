@@ -74,8 +74,13 @@ alias targ='tar -c --exclude-from=.gitignore -vzf'
 ##
 alias r='radian'
 alias R='R --no-save'
-alias l='less -R'
-alias c='bat --theme=GitHub'
+alias l='ls'
+alias le='less -R'
+alias b='bat --theme=GitHub'
+alias c='z'
+alias ci='zi'
+alias cd2='builtin cd'
+alias cd='z'
 alias bat='bat --theme=GitHub'
 alias h='head -20'
 alias v='nvim'
@@ -523,6 +528,9 @@ fe() {
   # IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 --preview 'bat --color=always --style=numbers --line-range=:500 --theme=GitHub {}'))
   [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
+}
+ff() {
+  fe $@
 }
 
 # Changing directory

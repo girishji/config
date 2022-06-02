@@ -32,9 +32,11 @@ keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers (including bufferline plugin)
+-- comment out below since you can use C-^ and telescope (space-b),
+-- and want H and L for viewport navigation
+-- to toggle between two buffers use C-^ (ctrl-6)
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
--- to toggle between two buffers use C-^ (ctrl-6)
 
 -- Move text up and down
 -- keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
@@ -65,8 +67,8 @@ keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Telescope
-keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
-keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
+-- keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
+-- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 -- get rid of preview window when showing file list
 -- keymap("n", "<leader>f",
 --   "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
@@ -79,4 +81,15 @@ keymap("n", "<C-n>", ":set rnu!", opts)
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:w<CR>i", opts)
 keymap("n", "<c-q>", ":q<cr>", opts)
+
+-- misc
+-- make gm move to center of line
+keymap("n", "gm", "gM", opts)
+keymap("v", "gm", "gM", opts)
+-- gp to selct visually last pasted text
+-- keymap("n", "gp", "`[v`]", opts)
+-- following mapping to reselect last modified chunk (including pasted)
+vim.cmd [[
+  nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
+]]
 

@@ -48,8 +48,10 @@ return packer.startup(function(use)
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
   use "numToStr/Comment.nvim" -- Easily comment stuff
   use "kyazdani42/nvim-web-devicons"
-  -- use "kyazdani42/nvim-tree.lua"
+  use "kyazdani42/nvim-tree.lua"
+  -- XXX switch to main branch for bufferline
   use "akinsho/bufferline.nvim"
+  -- use { "akinsho/bufferline.nvim", branch = "dev" }
   use "moll/vim-bbye"
   -- use "nvim-lualine/lualine.nvim"
   use "akinsho/toggleterm.nvim"
@@ -75,12 +77,17 @@ return packer.startup(function(use)
 
   -- snippets
   use "L3MON4D3/LuaSnip" --snippet engine
-  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+  -- use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+  use "girishji/friendly-snippets" -- a bunch of snippets to use
+  use "girishji/algorithm-mnemonics.nvim"
 
   -- LSP
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer (bootstraps lsps and gives you menu)
   -- use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
+  -- null-ls connects to nvim's lsp (acts as another language server) and injects diagnostics or
+  --   provides formatting command (if designated language server does not do so), and more.
+  --   see https://youtu.be/b7OguLuaYvE 
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
   -- Telescope
@@ -96,6 +103,10 @@ return packer.startup(function(use)
 
   -- Git
   -- use "lewis6991/gitsigns.nvim"
+
+  -- open browser; search for word under cursor
+  -- https://idie.ru/posts/vim-modern-cpp
+  use "tyru/open-browser.vim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -15,8 +15,11 @@ local options = {
   smartindent = true,                      -- make indenting smarter again
   splitbelow = true,                       -- force all horizontal splits to go below current window
   splitright = true,                       -- force all vertical splits to go to the right of current window
-  -- -- swapfile = false,                        -- creates a swapfile
-  -- -- termguicolors = true,                    -- set term gui colors (most terminals support this)
+  -- swapfile = false,                        -- creates a swapfile
+  -- termguicolors = true,                    -- set term gui colors (see below)
+  -- bufferline will not show background colors otherwise, but this makes use
+  -- of bright colors and everything look iffy.
+  --
   undofile = true,                         -- enable persistent undo
   updatetime = 300,                        -- faster completion (4000ms default)
   writebackup = false,                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
@@ -31,7 +34,7 @@ local options = {
   wrap = true,                             -- display lines as one long line
   scrolloff = 8,                           -- is one of my fav
   sidescrolloff = 8,
-  guifont = "monospace:h17",               -- the font used in graphical neovim applications
+  -- guifont = "monospace:h17",               -- the font used in graphical neovim applications
   showmatch = true,                        -- show matching braces when text indicator is over them
 }
 
@@ -42,8 +45,8 @@ for k, v in pairs(options) do
 end
 
 vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]       -- so that 'cw' would gobble through '-'
-vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
+-- vim.cmd [[set iskeyword+=-]]       -- so that 'cw' would gobble through '-'
+-- vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
 
 -- Autocommand that restores last cursor postion when file is opened
 vim.cmd [[

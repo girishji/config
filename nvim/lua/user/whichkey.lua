@@ -84,7 +84,7 @@ local mappings = {
     "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Buffers",
   },
-  -- ["E"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+  ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["w"] = { "<cmd>w<CR>", "Save" },
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
@@ -93,11 +93,40 @@ local mappings = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
-  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
+  ["g"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
+  ["r"] = { "<cmd>Telescope resume theme=ivy<cr>", "Resumes the last picker" },
+  ["p"] = { "<cmd>Telescope pickers theme=ivy<cr>", "Picker over cached pickers" },
+  ["G"] = { "<cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>",
+    "Find Text in opened buffers" },
+  ["u"] = { "<cmd>Telescope grep_string theme=ivy<cr>", "Find Text under cursor" },
+  ["k"] = {
+    "<cmd>Telescope quickfix theme=ivy<cr>",
+    "QuickFix list (<c-k> & <m-q> to populate)",
+  },
+  ["K"] = {
+    "<cmd>lua require('telescope.builtin').quickfixhistory(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+    "List all QuickFix lists",
+  },
+  ["L"] = {
+    "<cmd>lua require('telescope.builtin').loclist(require('telescope.themes').get_dropdown{previewer = true})<cr>",
+    "location list (of current window)",
+  },
+  ["j"] = {
+    "<cmd>Telescope jumplist theme=ivy<cr>",
+    "Lists Jump List entries",
+  },
+  ["m"] = {
+    "<cmd>Telescope marks theme=ivy<cr>",
+    "Lists marks",
+  },
+  ["R"] = {
+    "<cmd>Telescope registers theme=ivy<cr>",
+    "Lists registers",
+  },
+  -- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
   ["T"] = { "<cmd>Format<CR>", "Format all code" },
 
-  p = {
+  P = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
     i = { "<cmd>PackerInstall<cr>", "Install" },
@@ -135,6 +164,12 @@ local mappings = {
     d = {
       "<cmd>Telescope lsp_document_diagnostics<cr>",
       "Document Diagnostics",
+    },
+    -- can do https://github.com/folke/which-key.nvim/issues/135
+    -- only for clangd
+    x = {
+      "<cmd>ClangdSwitchSourceHeader<cr>",
+      "switch bw source/header (exchange)",
     },
     w = {
       "<cmd>Telescope lsp_workspace_diagnostics<cr>",
