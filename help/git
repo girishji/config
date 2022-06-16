@@ -1,0 +1,101 @@
+to resotre local copy with changes back to committed copy:
+git checkout filename
+
+==
+
+For qmk, you created branch origin/girish_dev_branch
+
+simply do 'git push' to push changes
+
+to sync with latest qmk, do 'git fetch' and also do 'fetch' through
+web interface for both 'master' (default branch) and after picking
+'girish_dev_branch'. then see: 
+see https://stackoverflow.com/questions/7244321/how-do-i-update-or-sync-a-forked-repository-on-github
+says:
+In your local clone of your forked repository, you can add the original GitHub
+repository as a "remote". ("Remotes" are like nicknames for the URLs of
+repositories - origin is one, for example.) ...
+
+you cannot remove and clone repository new, it will take you to master
+branch, not girish_dev_branch. to clone specific branch:
+git clone -b <branchname> <remote-repo-url>
+git clone -b girish_dev_branch https://github.com/girishji/qmk_firmware.git
+then do
+make git-submodule
+
+read this about understanding how master
+contains all branches:
+https://www.freecodecamp.org/news/git-clone-branch-how-to-clone-a-specific-branch/
+... In summary Remote is the URL that points you to the repository on the
+internet while Origin is an alias for this remote URL...
+
+to change one branch to another, do
+git checkout branchname
+
+==
+
+For re2:
+
+echo "# re2" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/girishji/re2.git
+git push -u origin main
+
+# …or push an existing repository from the command line
+git remote add origin https://github.com/girishji/re2.git
+git branch -M main
+git push -u origin main
+
+==
+
+Using a token on the command line
+Once you have a token, you can enter it instead of your password when performing Git operations over HTTPS.
+
+For example, on the command line you would enter the following:
+
+$ git clone https://github.com/username/repo.git
+Username: your_username
+Password: your_token (de0af6559c67185621fea2a072c341329afee573)
+
+==
+
+
+git config
+https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+
+I did:
+git config --global user.name "Girish Palya"
+git config --global user.email "girishji@gmail.com"
+git config --global core.editor emacs
+git config --global commit.template ~/.gitmessage.txt
+
+they are all in ~/.gitconfig file
+
+==
+
+What are the major differences between Forking and Cloning?
+Forking is done on the GitHub Account while Cloning is done using Git. When you fork a repository, you create a copy of the original repository (upstream repository) but the repository remains on your GitHub account. Whereas, when you clone a repository, the repository is copied on to your local machine with the help of Git.
+
+https://www.toolsqa.com/git/difference-between-git-clone-and-git-fork/
+
+--
+
+https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
+
+Basically, the “fork and branch” workflow looks something like this:
+
+Fork a GitHub repository.
+Clone the forked repository to your local system.
+Add a Git remote for the original repository.
+Create a feature branch in which to place your changes.
+Make your changes to the new branch.
+Commit the changes to the branch.
+Push the branch to GitHub.
+Open a pull request from the new branch to the original repo.
+Clean up after your pull request is merged.
+
+--
+

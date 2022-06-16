@@ -1,0 +1,16 @@
+to debug: use tjvries vlog file (github)
+:messages  // shows log messages 
+to get all 256 colors do :hilights (:hi)
+first 16 colors are chosen  through iterm2 preferences, rest have fixed rgb.
+do not enable termguicolors. this gives 24 big colors (much bigger palette)
+than 256 that comes with cterm. theyare called 'gui' colors, as in guibg
+guifg etc. as opposed to ctermbg, ctermfg, etc.
+:lua =vim.api.nvim_get_hl_by_name("Normal", true)
+prints gui colors of group 'Normal'. passing 'false' gives cterm colors.
+in vimscript, same would be :echo synIDattr(synIDtrans(hlID("DevIconTwig")), "fg")
+also:
+https://www.ditig.com/256-colors-cheat-sheet
+ihttps://stackoverflow.com/questions/27776368/how-where-are-rgb-values-mapped-to-xterm-color-codes-can-they-be-overridden
+
+nvim stores data in ~/.local/share/nvim/
+plugins are also stored in there under pack/packer...

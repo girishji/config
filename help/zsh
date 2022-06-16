@@ -1,0 +1,111 @@
+https://grml.org/zsh/
+see https://grml.org/zsh/zsh-refcard.pdf
+
+http://zsh.sourceforge.net/Guide/zshguide.html
+
+==
+There is fuzzy completion:
+https://grml.org/zsh/zsh-lovers.html
+
+==
+
+Recursive Globbing
+read: http://zsh.sourceforge.net/Doc/Release/Expansion.html
+** vs *** (follows symlinks)
+
+setopt GLOBSTARSHORT
+ls -ld -- **.c 
+(read above link)
+ls -ld -- **/bar
+does a recursive directory search for files named ‘bar’ (potentially including the file ‘bar’ in the current directory). This form does not follow symbolic links; the alternative form ‘***/’ does, but is otherwise identical.
+
+Aside:
+What is the meaning of the -- in there?
+More precisely, a double dash (--) is used in most Bash built-in commands and many other commands to signify the end of command options, after which only positional arguments are accepted.
+Example use: Let's say you want to grep a file for the string -v - normally -v will be considered the option to reverse the matching meaning (only show lines that do not match), but with -- you can grep for the string -v like this:
+grep -- -v file
+
+==
+(()) vs $(())
+Numeric parameters
+(http://zsh.sourceforge.net/Guide/zshguide03.html)
+(()) evaluates arithmatic, etc
+(($#var)) will be true if var has a value
+so can do: (($#l)) && ls -ltd -- $l
+( aside: variable $# has the arguments to a function )
+
+$(())
+Arithmetic substitution
+  http://zsh.sourceforge.net/Guide/zshguide03.html
+Arithmetic substitution is easy to explain: everything I told you about the (( ... )) command under numerical parameters, above, applies to arithmetic substitution. You simply bang a `$' in front, and it becomes an expansion.
+  % print $(( 32 + 2 * 5 ))
+
+==
+
+for (( i = 36#n; i <= 36#y; i++ )); do
+  done
+
+==============================================================
+zsh-lovers
+zsh-lovers is a small project which tries to collect tips, tricks and examples for the Z shell.
+https://grml.org/zsh/zsh-lovers.html
+also
+  http://zsh.sourceforge.net/Doc/Release/Expansion.html:
+  http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
+==
+# Get the names of all files that *don't* match a pattern *anywhere* on the
+# file (and without ``-L'' because its GNUish)
+  $ print -rl -- *(.^e{'grep -q pattern $REPLY'})
+  # or
+  $ : *(.e{'grep -q pattern $REPLY || print -r -- $REPLY'})
+
+from http://zsh.sourceforge.net/Doc/Release/Expansion.html:
+e string - The string will be executed as shell code... also $REPLY
+^ negates all qualifiers following it
+
+from http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html
+print ... (-l means 1 per line, -r is to suppress echo like sth, -- is probably
+  not needed)
+: [ arg ... ]
+This command does nothing, although normal argument expansions is performed which may have effects on shell parameters. A zero exit status is returned.
+
+==
+# foreach in one line of shell
+  $ for f (*) print -r -- $f
+or
+  $ for f (*); print -r -- $f
+
+==
+# Fetch the newest file containing the string 'fgractg*.log' in the
+# filename and contains the string 'ORA-' in it
+  $ file=(fgractg*.log(Nm0om[1]))
+  $ (($#file)) && grep -l ORA- $file
+==
+
+# Search for `README' in all Subdirectories
+$ ls -l **/README
+
+etc.
+
+==
+
+to print all dirs which contain 'test' in name:
+print -rl **test*/
+(print -rl is something to remember)
+(/ above is a modifier that says 'dir', and for file use '.')
+
+list all dirs:
+for i (**/*(/));do echo $i ;done
+
+or f=(**/*(/)); echo $f
+
+/ means dir, . means file. See Glob Qualifiers (http://zsh.sourceforge.net/Doc/Release/Expansion.html)
+==
+
+${} means variable inside is a string and some manipulation is done 
+
+==
+# deletes all symlinks in /Dir that are older than 3 minutes
+   $ rm -f /Dir/**/*(@mm+3)
+==
+

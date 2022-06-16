@@ -1,0 +1,46 @@
+Command History Shortcuts
+The command history goes beyond your current IPython session: your entire command history is stored in a SQLite database in your IPython profile directory. The most straightforward way to access these is with the up and down arrow keys to step through the history, but other options exist as well:
+Keystroke
+Action
+Ctrl-p (or the up arrow key)
+Access previous command in history
+Ctrl-n (or the down arrow key)
+Access next command in history
+Ctrl-r
+Reverse-search through command history
+
+The reverse-search can be particularly useful. Recall that in the previous section we defined a function called square. Let's reverse-search our Python history from a new IPython shell and find this definition again. When you press Ctrl-r in the IPython terminal, you'll see the following prompt:
+In [1]:
+(reverse-i-search)`':
+
+If you start typing characters at this prompt, IPython will auto-fill the most recent command, if any, that matches those characters:
+In [1]: 
+(reverse-i-search)`sqa': square??
+
+At any point, you can add more characters to refine the search, or press Ctrl-r again to search further for another command that matches the query. If you followed along in the previous section, pressing Ctrl-r twice more gives:
+In [1]: 
+(reverse-i-search)`sqa': def square(a):
+    """Return the square of a"""
+    return a ** 2
+
+Once you have found the command you're looking for, press Return and the search will end. We can then use the retrieved command, and carry-on with our session:
+In [1]: def square(a):
+    """Return the square of a"""
+    return a ** 2
+
+In [2]: square(2)
+Out[2]: 4
+
+Note that Ctrl-p/Ctrl-n or the up/down arrow keys can also be used to search through history, but only by matching characters at the beginning of the line. That is, if you type def and then press Ctrl-p, it would find the most recent command (if any) in your history that begins with the characters def.
+
+Miscellaneous Shortcuts
+Finally, there are a few miscellaneous shortcuts that don't fit into any of the preceding categories, but are nevertheless useful to know:
+Keystroke
+Action
+Ctrl-l
+Clear terminal screen
+Ctrl-c
+Interrupt current Python command
+Ctrl-d
+Exit IPython session
+The Ctrl-c in particular can be useful when you inadvertently start a very long-running job.

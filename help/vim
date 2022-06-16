@@ -1,0 +1,1622 @@
+Navigation (:help motion.txt has everything):
+or http://vimdoc.sourceforge.net/htmldoc/usr_03.html
+
+(learn { } and % to navigate text objects (a/i with w,s,p) and it will be huge)
+(don't forget C-O and C-I to jump around places when editing, no need to set 
+anything, just use those (see markers below). Can also use `` and marks.
+`] takes you to end of pasted text. 'gp' will select all pasted text)
+`[ takes you to beginning of pasted text.
+
+gq vs = : gq is for text. it indents and breaks lines. = is code formatter
+
+- See note later about using marks
+- w and e go forward, W and E take whitespace and punctuation into account
+- b and ge go backward, B and gE take whitespace and punctuation into account
+- fFtT are used to reach for a particular character on the current line
+  and ;, are used to repeat that motion. f jumps ON the character, and t
+  before the character
+- 0$ are used to jump to the first and last character of the line.
+- _ (with or without a count or ^) and g_ are used to jump to the first and last printable character of 
+  the line (skips white spaces at beginning and end)
+- + (or Enter/Return) and - jump to the first non-whitespace character on the next / previous 
+  line.
+- <C-b> and <C-f> are used to scroll by screen backward and forward.
+- <C-u> and <C-d> are used to scroll by half-screen backward and forward.
+- H, M and L move the cursor to the top, middle, bottom of the viewport, 
+  respectively.
+- zt, zz and zb move the line under the cursor to the top, middle, 
+  bottom of the viewport, respectively.
+- I use { and } a lot, which move up and down to the next blank line 
+  in that direction. % is useful for moving back and forth to a matching
+  bracket (of any kind)
+- A common issue is that after moving down many lines with "j" your cursor is at
+the bottom of the screen.  You would like to see the context of the line with
+the cursor.  That's done with the "zz" command.
+- To search by adding more characters to search string (emacs C-s C-w) use
+  C-r C-w except it does not go over space whitespaces (so type space and then
+  continue). 
+- Use * and # for search
+- = will format 
+
+Using Marks (very important in vim):
+When you make a jump to a position with the "G" command, Vim remembers the
+position from before this jump.  This position is called a mark.  To go back
+where you came from, use this command:
+
+	``
+Generally, every time you do a command that can move the cursor further than
+within the same line, this is called a jump.  This includes the search
+commands "/" and "n" (it doesn't matter how far away the match is).  But not
+the character searches with "fx" and "tx" or the word movements "w" and "e".
+   Also, "j" and "k" are not considered to be a jump.  Even when you use a
+count to make them move the cursor quite a long way away.
+
+The `` command jumps back and forth, between two points.  The CTRL-O command
+jumps to older positions (Hint: O for older).  CTRL-I then jumps back to newer
+positions (Hint: I is just next to O on the keyboard). Tab is same as CTRL-I.
+
+Vim enables you to place your own marks in the text.  The command "ma" marks
+the place under the cursor as mark a.
+   To go to a mark, use the command `{mark}, where {mark} is the mark letter.
+Thus to move to the a mark:
+
+	`a
+
+The marks can be very useful when working on two related parts in a file.
+Suppose you have some text near the start of the file you need to look at,
+while working on some text near the end of the file.
+   Move to the text at the start and place the s (start) mark there:
+
+	ms
+
+Then move to the text you want to work on and put the e (end) mark there:
+
+	me
+
+Now you can move around, and when you want to look at the start of the file,
+you use this to jump there:
+
+	's
+
+Then you can use '' to jump back to where you were, or 'e to jump to the text
+you were working on at the end.
+
+You can use this command to get a list of marks:
+
+	:marks (shows global marks as well, linked to 1,2,3...)
+
+You will notice a few special marks.  These include:
+
+	''	The cursor position before doing a jump
+        ^ Location of last insertion
+	"	The cursor position when last editing the file
+	[	Start of the last change
+	]	End of the last change
+       `< Start of last visual selection
+       `> End of last visual selection
+
+(Map gp to visually select recent pasted text)
+
+Global and local marks: Set them in normal mode with m{a-zA-Z}, and jump to
+them in normal or visual mode with '{a-zA-Z} (single quote) or `{a-zA-Z}
+(backtick). Lowercase letters are for marks within a buffer, and capital
+letters and digits are global. See your currently set marks with :marks, and
+for more info see :help mark.
+
+--
+
+Registers
+
+I was pleased when I discovered the 0 register. If you yank text without
+assigning it to a particular register, then it will be assigned to the 0
+register, as well as being saved in the default " register. The difference
+between the 0 and " registers is that 0 is only populated with yanked text,
+whereas the default register is also populated with text deleted
+
+I find this useful when I want to copy some text, delete something and replace
+it with the copied text. The following steps illustrate an example:
+
+Yank the text you want to copy with y[motion] - this text is saved in " and 0 registers
+Delete the text you want to replace with d[motion] - this text is saved in " register
+Paste the yanked text with "0p
+
+Also:
+Registers in Vim let you run actions or commands on text stored within them. To
+access a register, you type "a before a command, where a is the name of a
+register.
+If you want to copy the current line into register k, you can type
+"kyy
+Or you can append to a register by using a capital letter
+"Kyy
+You can then move through the document and paste it elsewhere using
+"kp
+To paste from system clipboard on Linux
+"+p
+To paste from system clipboard on Windows (or from "mouse highlight" clipboard on Linux)
+"*p
+To access all currently defined registers type
+:reg
+
+--
+
+Changelist
+
+In order to start typing on the last inserting point you can type:
+gi
+
+You can reselect and jump to the last visual selection with
+gv
+Once you have a selection you can use the letter o to jump the selection edges
+and possible increase or decrease how far the selection goes.
+
+to show the "changelist"
+:changes
+g;  ................ goes to the older cursor position on the changlist
+g,  ................ goes to the newer cursor postion on the change list
+
+From book:
+
+It turns out that Vim maintains a list of the modifications we make to each
+buffer during the course of an editing session. It’s called the change list
+(see :h changelist   ), and we can inspect its contents by running the
+following:
+ ➾ :changes
+
+Use g; and g, instead of marks, except for `` mark
+
+If we leave Insert mode and then scroll around the document, we can quickly
+carry on where we left off by pressing gi (:h gi ). In a single move, that uses
+the `^ mark to restore the cursor position and then switches back into Insert
+mode. It’s a great little time saver!
+
+The <C-]> command has a similar role. It also requires a bit of setup (as dis-
+cussed in Tip 103,Configure Vim to Work with ctags, on page 256), but when it’s
+correctly configured, it allows us to jump from any method invocation directly
+to the place where it was defined.
+
+While the jump list and change list are like breadcrumb trails that allow us to
+retrace our steps, the gf and <C-]> commands provide wormholes that transport
+us from one part of our codebase to another.
+
+--
+
+All the commands (cheat sheet):
+http://tnerual.eriogerg.free.fr/vimqrc.html
+
+^N ^P	text completion before, after cursor
+# *	search backward, forward for word under cursor
+I A	insert at beginning, end of line
+s	change one character and insert
+cc or S	change current line
+C	change to the end of line
+~	switch case and advance cursor
+gq(movmnt)      text formatting, specify range (ex. till end of
+	                   paragraph use gq{, or gq$ for EOL, or visual mode )
+gw      gw      text formatting with no cursor movement
+n<< n>>	shift n lines left, right
+<m >m	shift left, right text of movement m (indent)
+%	match of next brace, bracket, comment, #define
+b w	word/token left, right
+ge e	end of word/token left, right
+{  }	beginning of previous, next paragraph
+( )	beginning of previous, next sentence
+0 gM gm	beginning, middle of line, middle of line as in console width
+^  $	first, last character of line
+nG ngg	line n, default the last, first
+gg      first line
+G       last line
+M	middle line of window
+=       format (especially code)
+--
+
+Registers
+
+As the manual will tell you, the " register contains the last inserted text,
+the same stuff you'd see from C-A and C-@ in insert mode.
+
+Vim already maintains a list of numbered registers containing the last 9
+deletes.  These previous deletes can be referenced using [register]p, so "1p
+will paste the last delete, "2p the 2nd last delete.  For more information see
+|quote_number|.
+
+To paste contents of unnamed register in insert mode (or search mode)
+use ctrl-R "
+You can type Ctrl-R to insert a register when in insert mode, or when typing in
+the command (:) or search (/?) line. When you press Ctrl-R you will see " (quote) to
+prompt you to finish the command by entering a register.
+
+--
+
+One may overwrite a visual-block of text with another visual-block of text by:
+Hint: use a register, otherwise delete will overwrite yanked contents
+
+Select the first block, yank to register: ctrl-v move "ay
+Select the second block, paste register: ctrl-v move c ctrl-o "aP <Esc>
+('c' is for 'change', it deletes text into register (if named) and starts 
+ insert mode)
+
+--
+
+use C-o (executes normal commands in insert mode):
+  C-o 80a <char> Esc
+without leaving insert mode:
+  C-o :norm 80i<char> Return
+
+@: repeats last Ex command.
+
+--
+
+Use unix philosophy of doing one thing well (like kakoune editor): do not
+use tabbed windows, split windows, etc in vim. Use tmux or iterm.
+
+--
+
+Autocomplete is very powerful, esp. with C-x C-p together or C-p C-n together,
+and you can complete whole lines, and you can combine these two. 
+
+--
+
+====================================================
+Below is semi-optional read (if you have forgotten vim)
+====================================================
+
+Text objects:
+
+To edit efficiently in Vim, you have to edit beyond individual characters.
+Instead, edit by word, sentence, and paragraph. In Vim, these higher-level
+contexts are called text objects. Vim provides text objects for both plaintext
+and common programming language constructs. You can also define new text
+objects using Vim script. Learning these text objects can take your Vim editing
+to a whole new level of precision and speed.
+
+Structure of an Editing Command
+In Vim, editing commands have the following structure:
+
+  <number><command><text object or motion>
+
+Words
+aw – a word (includes surrounding white space)
+iw – inner word (does not include surrounding white space)
+
+put cursor inside a word and do 'daw'. Advantage: cursor does not
+have to be at beginning of word to delete word
+
+Sentences
+as – a sentence
+is – inner sentence
+
+Try 'cis'. Advantage: Like aw, as offers the same cursor position advantage
+over its motion counterparts ( ), forward and backward a sentence. To operate
+on the entire previous sentence ( requires the cursor to be at the end of the
+sentence; to operate on the entire next sentence ) requires your cursor to be
+at the start of the sentence.
+
+Paragraphs
+ap – a paragraph
+ip – inner paragraph
+
+Programming Language Text Objects
+Vim provides several text objects based on common programming language constructs.
+
+Strings
+a” – a double quoted string
+i” – inner double quoted string
+a’ – a single quoted string
+i’ – inner single quoted string
+a` – a back quoted string
+i` – inner back quoted string
+
+Parentheses
+a) – a parenthesized block
+i) – inner parenthesized block
+
+Brackets
+a] – a bracketed block
+i] – inner bracketed block
+
+Braces
+a} – a brace block
+i} – inner brace block
+
+Markup Language Tags
+at – a tag block
+it – inner tag block
+
+--
+
+the marks that Vim sets for us automatically can be really handy.
+``, `., `^, `>, `<, etc.
+
+After jumping to another file, you can use two predefined marks which are very
+useful:
+
+	`"
+
+This takes you to the position where the cursor was when you left the file.
+Another mark that is remembered is the position where you made the last
+change:
+
+	`.
+
+--
+
+using matchit:
+%	Cycle forward through matching groups, such as "if", "else", "endif",
+	as specified by |b:match_words|.
+
+							*g%* *v_g%* *o_g%*
+g%	Cycle backwards through matching groups, as specified by
+	|b:match_words|.  For example, go from "if" to "endif" to "else".
+
+--
+
+C-a and C-x will change numbers nearest to cursor (add /subtract)
+
+to delete 2 words: use dw. (delete and repeat) instead of 2dw or d2w
+command have more granularity, . will delete one more word.
+
+Table 2—Vim’s Operator Commands
+c Change
+d Delete
+y Yank into register
+g~ Swap case
+gu Make lowercase
+gU Make uppercase
+> Shift right
+< Shift left
+= Autoindent
+! Filter {motion} lines through an external program 
+
+ex. we can invoke gUaw (note: 'aw' is text object) to convert the
+current word to SHOUTY case.
+
+Vim’s grammar has just one more rule: when an operator command is invoked in
+duplicate, it acts upon the current line. So dd deletes the current line, while
+>> indents it. 
+
+If we wanted to autoindent the entire file using the = command, we could run
+gg=G (that is, gg to jump to the top of the file and then =G to autoindent
+everything from the cursor position to the end of the file).
+
+If we make a mistake while composing text in Insert mode, we can fix it imme-
+diately. There’s no need to change modes.
+backsapce
+<C-h> Delete back one character (backspace) 
+<C-w> Delete back one word
+<C-u> Delete back to start of line
+
+Meet Insert Normal Mode:
+<C-o> Switch to Insert Normal mode
+Insert Normal mode is a special version of Normal mode, which gives us one
+bullet. We can fire off a single command, after which we’ll be returned to
+Insert mode immediately. From Insert mode, we can switch to Insert Normal mode
+by pressing <C-o>
+
+zz - move current line to the middle of the screen
+zt - move current line to the top of the screen
+zb - move current line to the bottom of the screen
+I’ll often trigger this from Insert Normal mode by tapping out
+<C-o>zz. That puts me straight back into Insert mode so that I can continue
+typing uninterrupted.
+
+sometimes we might want to paste text into the document without leaving Insert
+mode. Use insert normal mode here.
+yt, (yank to ,)
+jA  (insert mode at end of next line)
+C-r0 (zero is the register, paste from this) (C-r{register} is the format)
+
+Visual mode 
+-----------
+
+(gv = reselect):
+v Enable character-wise Visual mode 
+V Enable line-wise Visual mode
+<C-v> Enable block-wise Visual mode
+gv Reselect the last visual selection
+o  Go to other end of highlighted text
+
+Range: see !{motion} below for shortcut.
+
+The range of a Visual mode selection is marked by two ends: one end is fixed
+and the other moves freely with our cursor. We can use the o key to toggle the
+free end. This is really handy if halfway through defining a selection we
+realize that we started in the wrong place. Rather than leaving Visual mode and
+starting afresh, we can just hit o and redefine the bounds of the selection.
+
+Visual mode (V for lines) is good for selecting lines and then using . to
+repeat commands on them.
+Vj select 2 lines
+>. indent these lines (repeat using . if needed)
+When we use the dot command to repeat a Visual mode command, it acts on the
+same amount of text as was marked by the most recent visual selection.
+
+girish: to flow text (format) use gqis (sentence). gqip needs empty lines at
+both ends of paragraph it is formatting.
+(for meaning of 'is' and 'ip' see 'text objects')
+
+Prefer Operators to Visual Commands Where Possible Visual mode may be more
+intuitive than Vim’s Normal mode of operation, but it has a weakness: it
+doesn’t always play well with the dot command. v does not work well with dot.
+Use visual mode when repetition is not needed, especially with V. 
+
+gUit replace with uppercase inside text object (html tag for example)
+
+rectangular selection and replace:
+p48:
+C-v3j, x...(repeat), gv (select again), r| (replace), yyp, Vr- (replace line
+with - chars).
+
+Sometime you have to hit <esc> to see replacements in all columns.
+
+Ragged block is OK: Visual-Block mode is great for operating on rectangular
+chunks of code such as lines and columns, but it’s not confined to rectangular
+regions of text.
+
+pasting rectangular visual block is tricky:
+You CANNOT just yank. You have to select visual block (C-v) and yank that.
+place cursor where you want rectangular block written, then just 'p'.
+this is like cut paste of rectangular block in emacs.
+
+To put ; at the end of each line
+C-vjj$ (selects), A; (append), <esc> (to see changes)
+
+insert key "i" does not work in visual mode: what about the i and a commands;
+what do they do in Visual mode?  In Visual and Operator-Pending modes the i and
+a keys follow a different convention: they form the first half of a text
+object. These are covered in greater depth in Tip 52,Trace Your Selection with
+Precision Text Objects, on page 126. If you’ve made a selection with
+Visual-Block mode and you wonder why you’re not in Insert mode after pressing
+i, try using I instead.
+
+--
+
+A global mark is a kind of bookmark that allows us to jump between files. Marks
+can be especially useful for snapping back to a file after exploring a
+codebase.
+The m{letter} command allows us to create a mark at the current cursor position
+(:h m   ). Lowercase letters create marks that are local to a buffer, whereas
+uppercase letters create global marks. Having set a mark, we can snap our
+cursor back to it with the `{letter} command (:h `   )
+
+Try this: open up your vimrc file and press mV to set a global mark (mnemonic:
+V for vimrc). Switch to another file and then press `V.
+
+Try to get into a habit of setting a global mark before using any commands that
+interact with the quickfix list, such as :grep, :vimgrep, and :make. The same
+goes for the commands that interact with the buffer and argument lists, such as
+:args {arglist} and :argdo
+
+--
+
+undotree
+Consider using :earlier and :later -- they are awesome and often all the
+average user needs.
+                                                        :ea :earlier
+:earlier {count}        Go to older text state {count} times.
+:earlier {N}s           Go to older text state about {N} seconds before.
+:earlier {N}m           Go to older text state about {N} minutes before.
+:earlier {N}h           Go to older text state about {N} hours before.
+:earlier {N}d           Go to older text state about {N} days before.
+
+--
+
+Numbered Registers
+You also have 10 numbered Registers 0..9.
+	•	"0 is last yank
+	•	"1 is is last delete
+	•	"2 ... "9 are the previous deletes
+
+Normal Mode: "<Register Key>
+
+Insert Mode: <CTRL-r><Register Key>
+
+The unnamed register "" (has latest delete)
+10 numbered registers "0 to "9
+The small delete register "-
+26 named registers "a to "z or "A to "Z
+Three read-only registers ":, "., "%
+Alternate buffer register "#
+The expression register "=
+The selection registers "* and "+
+The black hole register "_
+Last search pattern register "/
+
+
+--
+
+ctrl-^ to jump between 2 files
+
+Ctrl-^ is a nice thing for flipping between a test file and code under test.
+
+--
+
+using matchit:
+%	Cycle forward through matching groups, such as "if", "else", "endif",
+	as specified by |b:match_words|.
+
+							*g%* *v_g%* *o_g%*
+g%	Cycle backwards through matching groups, as specified by
+	|b:match_words|.  For example, go from "if" to "endif" to "else".
+
+--
+
+buffers:
+
+The :b command can also take a substring of the name of the file of the buffer
+which you want to travel to, which is very convenient.
+This can be very useful, because it means instead of
+
+:buffer very/very/long/path/to/a/veryVeryLongFileName.txt
+you can do something like
+
+:b LongFileName
+
+This command can also take a number, if you want to use that:
+
+:b 5
+
+--
+
+Macros:
+https://vim.fandom.com/wiki/Macros
+
+Recording a macro
+Each register is identified by a letter a to z.
+
+To enter a macro, type:
+
+q<letter><commands>q
+To execute the macro <number> times (once by default), type:
+
+<number>@<letter>
+So, the complete process looks like:
+
+qd	start recording to register d
+...	your complex series of commands
+q	stop recording
+@d	execute your macro
+@@	execute your macro again
+
+Running a macro
+Start recording keystrokes by typing qq.
+End recording with q (first press Escape if you are in insert mode).
+Suppose you have a macro which operates on the text in a single line. You can run the macro on each line in a visual selection in a single operation:
+
+Visually select some lines (for example, type vip to select the current paragraph).
+Type :normal @q to run the macro from register q on each line.
+
+Viewing a macro
+You can use the :registers command to view the current contents of any or all register values in Vim. For example, use :reg to view all registers, or :reg a to view only what you have recorded into register a. Typing :reg abx will show the contents of registers a, b, and x.
+
+Editing a macro
+2 methods: https://thoughtbot.com/blog/how-to-edit-an-existing-vim-macro
+1)
+Editing the register visually
+:let @q=' open the q register
+<Cntl-r><Cntl-r>q paste the contents of the q register into the buffer
+(type Ctrl-R twice to insert the register exactly).
+Enter :reg a to view the new value in the register.
+edit it
+' add a closing quote
+<Enter> finish editing the macro
+2)
+Yanking into a register
+"qp paste the contents of the register to the current cursor position
+edit it
+<Escape> 
+"qyy yank this new modified macro back into the q register
+dd delete the pasted register from the file your editing
+
+--
+
+power of gn and gN command (work on chunk of lines as a unit)
+http://vimcasts.org/episodes/operating-on-search-matches-using-gn/
+
+use cgn and then do dots (no need for n) to repeat. you operate on selected
+texts
+
+====================================================
+Below is optional read (consult as reference)
+====================================================
+
+when finding new files to edit:
+:e foo/bar/...  
+press / to dig deeper in that dir (instead of Tab cycling at the same level)
+
+C-c will cancel Ex mode command
+
+==
+
+Use vertical split windows liberally (huge advantage):
+
+to close other split window/viewports:
+C-w o (close others)
+C-w q (close this)
+C-w C-w to switch
+C-w j/k/l/h also works
+:sp or :vsp to split
+:sp filename
+
+to split window: C-w C-v (or C-w v)
+
+But:
+
+Use unix philosophy of doing one thing well (like kakoune editor): do not
+use tabbed windows, split windows, etc in vim. Use tmux or iterm.
+
+==
+paste inside Ex mode:
+
+You can use Ctrl-R to insert the value of a register on the Ex command line. If 
+you've yanked some text into the default register, for example, you can recall 
+it with Ctrl-R".
+
+There are shortcuts for some common cases, too. You can insert the current word 
+under the cursor with Ctrl-RCtrl-W, or the current filename with Ctrl-RCtrl-F.
+==
+
+:args *  (to get all files into args list so you can switch between them). No
+need to search for files using :find
+
+==
+How to replace only within visual block selection?
+%V matches inside the visual area. See :help %V.
+:'<,'>s/\%V\ /\,0x/g
+
+To make sure the whole pattern is
+	inside the Visual area put it at the start and just before the end of
+	the pattern, e.g.: >
+		/\%Vfoo.*ba\%Vr
+<	This also works if only "foo bar" was Visually selected. This: >
+		/\%Vfoo.*bar\%V
+<	would match "foo bar" if the Visual selection continues after the "r".
+	Only works for the current buffer.
+==
+
+can you jump back after say 5j jump? No
+The jumplist is only updated (i.e. the previous cursor position is recorded)
+when you use an actual "jump," which is (I think) any motion command other than
+the i j k l movements. (The complete list, from the help docs, is "'"', "`",
+"G", "/", "?", n", "N", "%", "(", ")", "[[", "]]", "{", "}", ":s", ":tag", "L",
+"M", H" and the commands that start editing a new file.) So no, this won't
+"undo" 2j or similar, but it will work for almost everything else. This makes
+sense because 2j et al. already have simple inversions (2k, etc), while the
+others do not.
+
+https://stackoverflow.com/questions/5052079/vim-move-cursor-to-its-last-position/26204567
+
+==
+movement can be /pattern:
+{motion}	A command that moves the cursor.  These are explained in
+		|motion.txt|.  Examples:
+			w		to start of next word
+			b		to begin of current word
+			4j		four lines down
+			/The<CR>	to next occurrence of "The"
+==
+
+C-[ : does the same as escape key (goes to normal mode)
+
+. (dot): to repeat previous edit command (most useful)
+
+====
+
+How to find what a key is mapped to?
+
+:help w − normal mode mapping for w (case-sensitive);
+:help g8 − normal mode mapping for g8;
+:help v_o − visual mode mapping for o; other modes are c for command-line and i for insert;
+:help CTRL-W − normal mode mapping for <C-w>;
+:help i_CTRL-W − insert mode mapping for <C-w>;
+:help  CTRL-W_CTRL-I − normal mode mapping for <C-w><C-i>;
+:help i_CTRL-G_<Down> − insert mode mapping for <C-g><Down>.
+
+:map - tell you all user defined mappings
+
+====================================================
+
+From the book Practical Vim:
+
+girish: 
+1) chords are bad. C-x requires you keep Ctrl key pressed for a duration.
+It is not like a tap. Hurts hands.
+2) & is the whole match in regexp for Ex commands, < > mark word boundaries, zs
+ze if necessary, ALWAYS test regexp by search first before using s//foo/g since
+pattern is copied by default. Also, /./ matches non-empty lines.
+
+(Autocomplete is very powerful, esp. with C-x C-p together or C-p C-n together,
+and you can complete whole lines, and you can combine these two. Being able to
+autocomplete sequences of words and lines can often let us duplicate text more
+quickly than using copy and paste.)
+
+PART 1: Main idea: use as few keystrokes as possible
+
+Command line mode (the ":"):
+
+Vim traces its ancestry back to vi, which is where the modal
+editing paradigm was conceived. In turn, vi traces its ancestry back to a line
+editor called ex, which is why we have Ex commands. The DNA of these early Unix
+text editors is preserved in modern Vim. For some line-oriented tasks, Ex
+commands are still the best tool for the job.
+
+Command-Line mode prompts us to enter an Ex command, a search pattern, or an
+expression.
+
+
+Table 7—Ex Commands That Operate on the Text in a Buffer
+(read these 10 or so primitives) p54
+delete, yank, put, print, join, copy, move, normal, substitute, global.
+(There is also conVerse which negates pattern:
+https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118)
+
+It can sometimes be quicker to use an Ex command than to get the same job done
+with Vim’s Normal commands. For example, Normal commands tend to act on the
+current character or the current line, whereas an Ex command can be executed
+anywhere.
+
+Range: Many Ex commands can be given a [range] of lines to act upon. We can
+specify the start and end of a range with either a line number, a mark, or a
+pattern.
+
+Use Line Numbers as an Address
+If we enter an Ex command consisting only of a number, then Vim will inter-
+pret that as an address and move our cursor to the specified line. :1 to first
+line, :$ to last line, :3d will delete line 3, :3p will print (echo) line 3 in
+the minibuffer.
+
+Specify a Range of Lines by Address
+:2,5p (use comma separated)
+
+addresses for range can be: line numbers, patterns, marks, and you can also use
+visual selection.
+
+We can use the . symbol as an address to represent the current line. So, we can
+easily compose a range representing everything from here to the end of the
+file:
+➾ :2
+➾ :.,$p
+
+The % symbol also has a special meaning—it stands for all the lines in the
+current file:
+:%p
+now use 'substitute' command on whole file:
+:%s/foo/bar/
+
+equivalent of rsir (replace string in region):
+https://vim.fandom.com/wiki/Search_and_replace_in_a_visual_selection
+1. Use the atom \%V to confine search inside visual selection
+2.  '< and '> marks defining the beginning and end of the block persist even when the selection highlight has been removed, so gv is not necessary to repeat a command.
+also:
+1) use . and relative line numbers:
+:3
+:.,.+5s/foo/bar/
+2) use visual selection:
+3G then VG (say, G is end of file, 3G is goto line 3).
+If we press the : key now, the command-line prompt will be prepopulated with
+the range :'<,'>. It looks cryptic, but you can think of it simply as a range
+standing for the visual selection. You can specify Ex command.
+
+'< is a mark standing for the first line of the visual selection, while '> is
+the last line of the visual selection. These marks persist even when we
+leave Visual mode. If you try running :'<,'>p straight from Normal mode, it
+will always act on the lines that most recently formed a Visual mode selection.
+
+Specify a Range of Lines by Patterns
+Vim also accepts a pattern as an address for an Ex command, such as the one
+shown here:
+:/<html>/,/<\/html>/p
+this will print what is in between those tags (many lines).
+
+Modify an Address Using an Offset
+Suppose that we wanted to run an Ex command on every line inside the
+<html></html> block but not on the lines that contain the <html> and </html>
+tags themselves. We could do so using an offset:
+ :/<html>/+1,/<\/html>/-1p
+
+The general form for an offset goes like this:
+   :{address}+n
+If n is omitted, it defaults to 1. The {address} could be a line number, a
+mark, or a pattern.
+
+:2
+:.,.+3p
+The . symbol stands for the current line, so :.,.+3 is equivalent to :2,5 in
+this case.
+
+We can mix and match line numbers, marks, and patterns, and we can apply an
+offset to any of them.
+
+symbols hat can be used to create addresses and ranges for Ex commands:
+1 First line of the file
+$ Last line of the file
+0 Virtual line above first line of the file 
+. Line where the cursor is placed
+'m Line containing mark m
+'< Start of visual selection
+'> End of visual selection
+% The entire file (shorthand for :1,$)
+
+Line 0 doesn’t really exist, but it can be useful as an address in certain con-
+texts. In particular, it can be used as the final argument in the :copy
+{address} and :move {address} commands when we want to copy or move a range of
+lines to the top of a file.
+
+It’s also possible to execute an Ex command on a set of noncontiguous lines
+using the :global command. (more on this later)
+
+Duplicate or Move Lines Using ‘:t’ and ‘:m’ Commands (t=copy)
+The format of the copy command goes like this :
+:[range]copy {address}
+In our example, the [range] was line 6. For our {address}, we used the .
+symbol, which stands for the current line. So we can read the :6copy. command
+as “Make a copy of line 6 and put it below the current line.”
+
+We could shorten the :copy command to only two letters, as :co. Or we can be
+even more succinct by using the :t command, which is a synonym for :copy. As a
+mnemonic, you can think of it as copy TO.
+
+This table shows a few examples of the :t command in action:
+:6t. Copy line 6 to just below the current line
+:t6 Copy the current line to just below line 6
+:t. Duplicate the current line (similar to Normal mode yyp) 
+:t$ Copy the current line to the end of the file
+:'<,'>t0 Copy the visually selected lines to the start of the file
+
+Move Lines with the ‘:m’ Command
+:[range]move {address}
+We can shorten it to a single letter: :m.
+Having made our visual selection, we simply have to run the command :'<,'>m$.
+
+Repeating:
+Repeating the last Ex command is as easy as pressing @:
+this method is more easily reproducible than using Normal mode commands.
+Note: normal mode commands for move do not repeat when you press dot. Only
+insertions are dot repeatable.
+But
+.normal changes that:
+If we want to run a Normal mode command on a series of consecutive lines, we
+can do so using the :normal command. When used in combination with the dot
+command or a macro, we can perform repetitive tasks with very little effort.
+:'<,'>normal .
+In the above, create a visual range, execute . command on it.
+:norm takes a normal mode command and repeats it over a range.
+
+To put ; at the end of each line in file:
+:%normal A;
+Making this change involves switching into Insert mode, but Vim automatically
+reverts to Normal mode afterward.
+
+comment out range of lines:
+Before executing the specified Normal mode command on each line, Vim moves the
+cursor to the beginning of the line. So we don’t have to worry about where the
+cursor is positioned when we execute the command. This single command could be
+used to comment out an entire JavaScript file: ➾ :%normal i//
+
+ The :normal command allows us to combine the expressive nature of Vim’s Normal
+ mode commands with the range of Ex commands. It’s a powerful combination! Use
+ norm with . and @q (see Macros section at end)
+
+Suppose that we had a dozen or so items in the buffer list, and we wanted to
+take a look at each one of them. We could type this command once:
+➾ :bnext
+Then we use @: to repeat the command.
+Also note that the : register always holds the most recently executed command
+line (see :h quote_:   ). After running @: for the first time, we can
+subsequently repeat it with the @@ command.
+Suppose that we got trigger-happy and fired the @: command too many times,
+overshooting our mark. How would we change direction then? We could exe- cute
+the :bprevious command. But think about what would happen if we were to use the
+@: command again. It would go backward through the buffer list, which is the
+exact opposite of what it did before. That could be confusing.
+In this case, a better option would be to use the <C-o> command
+Each time we run :bnext (or repeat it with the @: command), it adds a record to
+the jump list. The <C-o> command goes back to the previous record in the jump
+list.
+
+Tab completion example (in command mode): Remember C-d, Tab and S-Tab.
+:col<C-d>
+❮ colder colorscheme
+The <C-d> command asks Vim to reveal a list of possible completions (see :h
+c_CTRL-D   ). If we hit the <Tab> key, the prompt will cycle through colder,
+col- orscheme, and then the original col again. We can scroll backward through
+the suggestions by pressing <S-Tab>.
+
+How to rename a varibale?
+Insert the Current Word at the Command Prompt
+At Vim’s command line, the <C-r><C-w> mapping copies the word under the cursor
+and inserts it at the command-line prompt. 
+Suppose that we want to rename the tally variable in this excerpt to counter.
+With our cursor positioned on the word tally, we could use the * command to
+search for each occurrence. (The * command is equivalent to typing the sequence
+/\<<C-r><C-w>\><CR>. 
+When we press the * key, our cursor jumps forward to the next match, but the
+cursor ends up on the same word anyway. Typing cwcounter<Esc> makes the change.
+We’ll carry out the remaining changes using a :substitute command. Since our
+cursor is on the word “counter,” we don’t need to type it out again. We can
+just use the <C-r><C-w> mapping to populate the replacement field:
+:%s//<C-r><C-w>/g
+
+That command doesn’t look very succinct when written down, but two keystrokes
+to insert a word ain’t bad. We didn’t have to type the search pattern either,
+thanks to the * command. Refer to Tip 91,Reuse the Last Search Pat- tern, on
+page 225, to see why we can leave the search field blank like that.
+
+While <C-r><C-w> gets the word under the cursor, we can instead use <C-r><C-a>
+if we want to get the WORD
+
+For another application, try opening your vimrc file, place your cursor on a
+setting, and then type :help <C-r><C-w> to look up the documentation for that
+setting.
+
+Recall Commands from History:
+: and use cursor keys or arrow keys
+you can partially type a command and then type <up><down> arrow keys to recall
+commands.
+Note that history is not recorded just for the current editing session. It
+persists even when we quit and relaunch Vim .
+
+Similarly: If we press / to bring up the search prompt, we can also scroll
+backward and forward through previous searches with the <Up> and <Down> keys.
+
+Meet the Command-Line Window:
+
+:write 
+:!ruby %
+can be done as:
+:write | !ruby %
+(compiles current file)
+
+q/ Open the command-line window with history of searches
+q: Open the command-line window with history of Ex commands 
+ctrl-f Switch from Command-Line mode to the command-line window
+
+In command line window use k and j to move through history.
+
+It’s easy to mix up the q: and :q commands.
+
+The beauty of the command-line window is that it allows us to change histor-
+ical commands using the full modal editing power of Vim.
+
+summon the command-line window by pressing q:
+Also: In Command-Line mode, we can use the <C-f> mapping to switch to the
+command-line window.
+
+Pressing <CR> would then execute the (some command: :update | !ruby % command)
+as though we had typed it into the command line.
+We can close the command-line window by running the :q command (just like any
+ordinary Vim window) or by pressing <CR>.
+
+Run Commands in the Shell
+
+We can easily invoke external programs without leaving Vim. Best of all, we can
+send the contents of a buffer as standard input to a command or use the
+standard output from an external command to populate our buffer.
+
+Use bang symbol to execute shell command: For example, if we want to examine
+the contents of the current directory, we could run the following: 
+➾ :!ls
+
+Note the difference between :!ls and :ls—the former calls the ls command in the
+shell, whereas :ls calls Vim’s built-in command, which shows the contents of
+the buffer list.
+
+% symbol is shorthand for the current file name:
+:!ruby %
+(executes ruby file)
+
+Vim also provides a set of filename modifiers, which allow us to extract
+information from the current filename, such as its path or extension (see :h
+filename-modifiers   ).
+
+what if we want to run several commands in the shell? In that case, we can use
+Vim’s :shell command to start an interactive shell session:
+➾ :shell
+➾ $ pwd
+❮ /Users/drew/books/PracticalVim/code/cmdline_mode 
+➾ $ ls
+...
+➾ $ exit
+
+we can use the :read !{cmd} command, which puts the output from the {cmd} into
+our current buffer.
+
+The :read !{cmd} command lets us direct standard output into a buffer. As you
+might expect, the :write !{cmd} does the inverse: it uses the contents of the
+buffer as standard input for the specified {cmd}.
+
+The bang symbol can take on different meanings depending on where it is placed
+within the command line. Compare these commands:
+➾ :write !sh
+➾ :write ! sh
+➾ :write! sh
+The first two commands pass the contents of the buffer as standard input to the
+external sh command. The last command writes the contents of the buffer to a
+file called sh by calling the :write! command (like :w file).
+
+Filtering the Contents of a Buffer Through an External Command
+
+The :!{cmd} command takes on a different meaning when it’s given a range.
+The lines specified by [range] are passed as standard input for the {cmd}, and
+then the output from {cmd} overwrites the original contents of [range]. Or to
+put it another way, the [range] is filtered through the specified {cmd} (see :h
+:range!   ).
+
+As a demonstration, let’s use the external sort command to rearrange the
+records in this CSV file:
+:2,$!sort -t',' -k2
+the -t',' option to tell the sort command that fields are separated with
+commas, and we can use the -k2 flag to indicate that the second field is to be
+used for the sort.
+
+convenient shortcut for setting the range:
+
+The !{motion} operator command drops us into Command-Line mode and
+prepopulates the [range] with the lines covered by the specified {motion} (see
+:h !   ). For example, if we place our cursor on line 2 and then invoke !G, Vim
+opens a prompt with the :.,$! range set up for us (girish: remove ! at the end
+if you want to run some other non-shell command).
+Example:
+!4j will do :.,.+4!
+
+table:
+:shell               Start a shell (return to Vim by typing exit)                               
+:!{cmd}              Execute {cmd} with the shell                                               
+:read !{cmd}         Execute {cmd} in the shell and insert its standard output below the cursor 
+:[range]write !{cmd} Execute {cmd} in the shell with [range] lines as standard input              
+:[range]!{filter}    Filter the specified [range] through external program {filter}             
+
+Vim gives special treatment to some commands. For example, both make and grep
+have wrapper commands. Not only are they easy to execute from inside Vim, but
+their output is parsed and used to populate the quickfix listo
+Run Multiple Ex Commands as a Batch.
+
+Run Multiple Ex Commands as a Batch
+
+If we need to execute a sequence of Ex commands, we can save ourselves work by
+putting those commands in a script.
+Call this batch.vim and use 'source' command.
+
+Source the Script to Change Multiple Files
+
+$ vim vimcasts/*.html
+➾ :args
+❮ [vimcasts/episodes-1.html] vimcasts/episodes-2.html vimcasts/episodes-3.html
+➾ :first
+➾ :source batch.vim
+➾ :next
+➾ :source batch.vim
+❮ etc.
+Or better still, we could use the :argdo command (:h :argdo   ):
+➾ :argdo source batch.vim
+Boom! With a single command we’ve executed each of the Ex commands in
+batch.vim across each of the files in the argument list.
+
+Final thoughts:
+Vim is very close to shell. Use shell commands liberally when operating on a
+file. Use Ex commands (batch them if needed) across files. Use :norm (normal
+mode commands) from Ex if needed.
+Above methods are 'at a file level' and are big hammers. 
+Otherwise use insert mode and visual mode.
+
+Part 2 and 3 of the book is not repeated here. Read the pdf.
+
+============================================================
+
+Short Tips from the book:
+
+alway use \v (very magic) in regexps (otherwise "()" won't work). Also /C at
+the end means case sensitive.
+
+\r is the newline (line break) within patterns.
+
+Use q/ to bring up full editor for those search commands (up/down for history)
+
+Funda: Say you want to do this: :%s/\v'(([^']|'\w)+)'/“\1”/g. Would you trust
+yourself to type that out correctly in one go? No! Use q/ and up/down to refine
+search using highlighting. Once you got the regexp dialed in, do:
+:%s//“\1”/g
+We can leave the search field blank, and Vim will reuse the last search
+commmand. Remember to capture the group by putting () around.
+
+Interactive search and replace:
+:%s/content/copy/gc
+page 224
+(% means all lines, g is needed at end since we can have multiple matches in a
+line.)
+On the down side, all of the functionality that we’re used to is unavailable to
+us. By contrast, if we use the Dot Formula (as in Tip 5,Find and Replace by
+Hand, on page 9), then we’re in plain old Normal mode throughout. Everything
+works just as we expect it to.
+
+====
+
+" formatting c++ code: clang-format
+" https://clang.llvm.org/docs/ClangFormat.html
+" use !{movement} to prepopulate range, then use tab-completion:
+"  try: !24fcl<tab><cr>
+"  or: :%!clang-format 
+" see Filtering the Contents of a Buffer Through an External Command in book
+
+linting: linter is a tool that shouts out the fishy parts of the code
+use https://github.com/cpplint/cpplint 
+
+====
+
+leader is not some special key, but any key:
+https://www.reddit.com/r/vim/wiki/the_leader_mechanism
+
+==
+
+in operator pending mode: d/pattern<CR> (it highlights, so easy to see)
+visual mode: v /pattern<CR> h (and then you can do d)
+We’re not limited to using the search command in Normal mode. We can use it
+from Visual and Operator-Pending modes just as well to do real work.
+
+==
+
+vi} and then a", etc. This is different from v and movement:
+
+(see 'text objects') What’s happening here is different. When we press vi}, Vim
+initiates Visual mode and then selects all of the characters contained by the
+{} braces. Where the cursor is positioned to begin with doesn’t matter so long
+as it’s located somewhere inside a block of curly braces when the i} text
+object is invoked. We can expand the selection again using another text object.
+For example, a" selects a range of characters delimited by double quotes. i>
+selects everything inside a pair of angle brackets.
+
+==
+Visual selection:
+
+(use \+ insted of + inside patterns)
+
+https://vim.fandom.com/wiki/Search_and_replace_in_a_visual_selection
+
+'<  start line
+`<  start character
+'>  end line
+`>  end character
+
+Substituting in a visual selection
+The substitute command (:s) applies to whole lines, however the \%V atom will restrict a pattern so that it matches only inside the visual selection. This works with characterwise and blockwise selection (and is not needed with linewise selection).
+ex:
+:s/\%Vus/az/g
+
+==
+
+commit `[ `] `` `. `^ to memory
+
+`` Position before the last jump within current file 
+`. Location of last change
+`^ Location of last insertion
+`[ Start of last change or yank
+`] End of last change or yank 
+`< Start of last visual selection 
+`> End of last visual selection
+
+==
+
+https://www.davidbegin.com/10-vim-registers-to-rule-them-all/
+
+Numbered Registers
+You also have 10 numbered Registers 0..9.
+	•	"0 is last yank
+	•	"1 is is last delete
+	•	"2 ... "9 are the previous deletes
+
+Normal Mode: "<Register Key>
+
+Insert Mode: <CTRL-r><Register Key>
+
+The unnamed register "" (has latest delete)
+10 numbered registers "0 to "9
+The small delete register "-
+26 named registers "a to "z or "A to "Z
+Three read-only registers ":, "., "%
+Alternate buffer register "#
+The expression register "=
+The selection registers "* and "+
+The black hole register "_
+Last search pattern register "/
+
+see This is an example of editing a macro saved under a, so it adds a , at the
+end of the line.
+
+The 3 Read Only Registers
+. Last insert mode
+% Current File
+: Last command
+
+Examples:
+
+%:p -> Make file name a full path
+
+%:h -> Head of the Filename
+
+%:t -> Tail of the Filename
+
+%:r -> Root
+
+%:e -> Extension
+
+Ctrl-^ is a nice thing for flipping between a test file and code under test.
+
+Expression Register "=
+You can write and run quick expressions and have the result be pastable. This
+is a simple way to do some quick math,  "=108*420 press p and 45360 will be
+inserted.
+
+==
+
+possible to map meta key in terminal:
+https://github.com/tpope/vim-rsi/blob/master/plugin/rsi.vim#L68-L94
+
+==
+Undo tree : https://vimhelp.org/usr_32.txt.html#usr_32.txt
+
+g+ g- :earlier 1f :later 1f :undolist :earlier 10s :echo undotree()
+
+==
+
+g&			Synonym for ":%s//~/&" (repeat last substitute on all
+			lines with the same flags).
+
+==
+
+meaning of :1,5g/^/m1
+m=move
+:3,4 g/^/ > | m1
+We're only interested in the range, but :g also wants a pattern. So in this case we'll just use /^/ which will always match in a line.
+This however moves each line in sequence which reverses the order of the moved lines.
+
+==
+
+increment / decrease number
+C-a and C-x will seek next digit and add (1 by default) or subtract
+You can prefix a number for addittion
+
+Create numbered list:
+(giri:
+:%s/^-/100.<CR>V*g<C-A>:%s/1<CR>ZZ
+you can visual select lines with numbers and text, and g C-A will
+only increment numbers line by line
+
+or
+:%s/^-/10.<CR>VHg<C-A><C-V>G<C-X>ZZ
+)
+(giri: easy way: type '1', start macro, yyp, C-a, j, q, replay macro)
+(book p 178)
+Use variable, expression register and macro
+:let i=1
+:echo i
+qa (macro)
+I<C-r>=i<CR>
+esc
+:let i+=1
+q
+
+We can insert the value stored in variable i just by running <C-r>=i<CR> in Insert mode.
+
+The expression register is different. It can evaluate a piece of Vim script code and return the result.
+The expression register is addressed by the = symbol. From Insert mode we can access it by typing <C-r>=
+
+This opens a prompt at the bottom of the screen where we can type the expression that we want to evaluate. When done, we hit <CR>, and Vim inserts the result at our current position in the document.
+ex.
+<C-r>=6*35<CR>  from insert mode
+
+
+Incrementing numbers
+You can increment columns of numbers with Ctrl-a/Ctrl-x in vim. Here's how you can apply it to multiple lines.
+
+Suppose you have a text:
+<div id="app-1"></div>
+<div id="app-1"></div>
+<div id="app-1"></div>
+<div id="app-1"></div>
+<div id="app-1"></div>
+It's not a good practice to have multiple ids with same name. Let's increment them. Put your cursor on the second line, on number "1" on "app-1" text:
+
+Start block-wise visual mode, go down 3 more lines (Ctrl-v 3j). You should be selecting all the remaining "1"'s.
+Type g Ctrl-a.
+That's it! Now everything is incremented:
+<div id="app-1"></div>
+<div id="app-2"></div>
+<div id="app-3"></div>
+<div id="app-4"></div>
+<div id="app-5"></div>
+Extra: Ctrl-x/Ctrl-a can increments letters too, with:
+:set nrformats+=alpha
+So if you have:
+<div id="app-a"></div>
+<div id="app-a"></div>
+<div id="app-a"></div>
+<div id="app-a"></div>
+<div id="app-a"></div>
+Using the same technique as above (Ctrl-v 3j g Ctrl-a) to increment the "id"'s:
+<div id="app-a"></div>
+<div id="app-b"></div>
+<div id="app-c"></div>
+<div id="app-d"></div>
+<div id="app-e"></div>
+
+==
+
+line number:
+:echo line('.')
+  . is the current line
+
+==
+
+\= in Ex mode evaluates arithmatic:
+:h sub-replace-expression
+
+can do: :'<,'>s/$/\=','.i.','.(j+1)/
+if you set 'let i=1' etc
+or
+2,$s@\n@\=','.(((line('.')-2)%100)/10+1).','.(((line('.')-2)%10)+1)."\r"@
+==
+
+to clear a register:
+We’ll use the a register. First we’ll need to clear it by running qaq. Let’s break that down: qa tells Vim to start recording a macro into the a register, and then q stops the recording.
+
+to append to a macro or register:
+(see below about using upper case A instead of a)
+
+==
+Combining the :global and :yank commands allows us to collect all lines that match a {pattern} in a register.
+
+:g/TODO
+Remember, :print is the default [cmd] for the :global command. This simply echoes each line containing the word “TODO.” It’s not a great deal of use though, because the messages disappear as soon as we execute another command.
+
+Now we can go ahead and yank the TODO comments into the register:
+➾ :g/TODO/yank A
+➾ :reg a
+The trick here is that we’ve addressed our register with an uppercase A. That tells Vim to append to the specified register, whereas a lowercase a would overwrite the register’s contents. We can read the global command as “For each line that matches the pattern /TODO/, append the entire line into register a.”
+Paste by doing "ap
+
+==
+
+Sort lines alphabetically:
+visally select and do :sort
+
+==
+
+Nature of :global 
+The standard form looks like this:
+   :g/{pattern}/[cmd]
+Remember: cmd is a Ex command. Ex commands can usually accept a range themselves
+
+This is still true for the [cmd] in the context of a :global command. So we could expand the template as follows:
+   :g/{pattern}/[range][cmd]
+(page 248) 
+==
+
+to print numbers 1 to n
+1
+esc
+qq
+yyp
+Ctral-A
+q
+10@q (replay macro)
+==
+
+see http://vimcasts.org/episodes/vimgolf-prime-numbers/
+for
+:s/\v(<Tab><Tab>+)\1+<
+< at end is beginning of word boundary
+
+==
+ word boundaries:
+
+the problem with these new recruits ...
+to match only 'the' not 'the'se, use /\v<the>/...
+==
+
+" visually select recent pasted text (or changed text)
+" A simple procedure would be to press `[ to jump to the start of the text you
+" last changed. For example, you may use ciw to change inner word, or p to
+" paste, then scroll elsewhere. Typing `[ would jump to the start of the word
+" you just changed
+nnoremap gp `[v`]
+
+==
+Search register is / (access using C-r/ in Ex mode or insert mode or "/ in
+normal mode)
+
+https://stackoverflow.com/questions/19369467/vim-paste-search-register-in-command-line-without-brackets
+
+As you found out, \< and \> are added if you used * or # in order to limit the search to whole words. Use g* and g# to not search whole words and thus avoid the \<\>
+
+==
+pattern search hints:
+
+use s// instead if s/ (gives better highlighting, latter misses some)
+using + requires a \ when used without \v, but using * does not
+
+==
+
+Navigation:
+with <CR> + - and _ :
++               or                                      +
+<CR>                    [count] lines downward, on the first non-blank
+                        character linewise.
+-                       upward
+_  <underscore>         [count] - 1 lines downward, on the first non-blank
+                        character linewise.
+
+with s, cl, S, cc:
+instead of dd o do cc
+instead of x a do s
+["x]s			Delete [count] characters [into register x] and start
+			insert (s stands for Substitute).  Synonym for "cl"
+			(not |linewise|).
+
+							*S*
+["x]S			Delete [count] lines [into register x] and start
+			insert.  Synonym for "cc" |linewise|.
+
+==
+
+:s is very typing inefficient and hard to get regex right the first time
+much easier to use << < >> > to indent instead of using s://\t (tab)
+
+==
+:let i=1|g/^-/s/-/\=printf("%02d.",i)/|let i=i+1<CR>ZZ
+
+==
+
+use of g C-A
+
+<C-V>Hlg<C-A>
+
+https://dev.to/iggredible/mastering-visual-mode-in-vim-15pl
+
+can do 
+from 
+00
+00
+00
+to
+00
+01
+02
+
+or a a a to a b c
+
+You can change the your cursor location with o or O while in visual selection.
+
+Repeating visual mode
+Vim's dot command (.) repeats the last change. When you repeat a visual mode operation, the same operation will be applied to the same text block.
+
+Suppose you deleted these two lines with line-wise visual mode (Vjd).
+const one = "one";
+const two = "two";
+The next time you use dot command, it will also delete the next two lines.
+
+Inserting multiple texts:
+
+I and A only work in C-V mode.
+PROTIP: if you're not in block-wise visual mode and want to append (A) or insert (I) texts, remember you can switch to block-wise visual mode with Ctrl-v from whatever other visual mode you are in right now.
+
+if you want to insert using v or V:
+Here's how you can insert ; with character-wise visual mode:
+
+select all 3 lines (v2j)
+type :normal! A;
+
+Selecting the last visual mode area
+You learned that gv can select the last visual mode selection. But did you know that you can go to the location of the start and the end cursor of last visual mode?
+`<        " go to the last place of last visual mode selection
+`>        " go to the first place of last visual mode selection
+
+Entering visual mode from insert mode
+Normal mode is not the only mode you can enter visual mode from. You can enter visual mode from insert mode.
+
+While you're in insert mode, do:
+Ctrl-o v
+In insert mode, you can execute a normal mode command with Ctrl-o.
+While you are in this normal-mode-ready, run visual mode key v.
+If you notice, on the bottom left, it will say --(insert) VISUAL--.
+This works with any visual mode key: v/V/Ctrl-v.
+
+SLELECT MODE:
+Extra: Select mode
+In addition to visual mode, vim has a select mode. Like visual mode, select mode has three modes:
+gh        " character-wise select mode
+gH        " line-wise select mode
+gCtrl-h   " block-wise select mode
+Select mode emulates regular editor's text highlighting behavior closer than visual mode. In regular editor, after you highlight a block of text, if you type letter "a", it will delete and replace the highlighted block of text with letter "a". Select mode does that: after you made your selection in select mode, if you type letter "a", it will immediately replace your selection with letter "a".
+
+I personally never used it, but it's good to know it exists.
+
+==
+replace a word with something:
+delete a word, use viw to select 2nd word, p to replace it
+(do NOT use ciw C-R p. much easier is viw p)
+
+==
+gp			Just like "p", but leave the cursor just after the new
+			text.
+gP			Just like "P", but leave the cursor just after the new
+			text.
+
+==
+
+you can delete using movements, like, dw, dW, de, dE, db etc
+
+==
+cursor's relation to character: before, under, after
+[count]x - under and after cursor
+X - before cursor
+i - before
+a - after
+p - after
+P - before
+==
+power of % (when you are on [, you can jump to next ] and back to [)
+
+%			Find the next item in this line after or under the
+			cursor and jump to its match. |inclusive| motion.
+			Items can be:
+			([{}])		parenthesis or (curly/square) brackets
+			/* */		start or end of C-style comment
+			#if, #ifdef, #else, #elif, #endif
+					C preprocessor conditionals (when the
+					cursor is on the # or no ([{
+					is following)
+			For other items the matchit plugin can be used, see
+			|matchit-install|.
+			
+==
+@: will execute previous Ex command (stored in ':' register)
+so you don't need to type :s//... again
+
+==
+Y is same as yy (yank whole line), Y is not y$ (yank to end of line)
+
+==
+C-R C-W in Ex mode will paste word under cursor:
+You can use <C-R><C-W> on the ':' command line to paste the word under cursor. So, to open a file in a vertically split window:
+:vs <C-R><C-W><CR>
+
+==
+
+unnamed register "
+- contains what you deleted and what you replaced
+  using cw (change) command (whatever was deleted)
+- but it does not store what you overwrote from
+  visual mode (in visual mode 'r' will overwrite
+  the whole selection with a character)
+If you are in R replace mode (overwrite) and you want
+to paste what you deleted, use unnamed register as 
+C-R "
+
+vim has a unnamed (or default) register that can be accessed with "". Any text that you delete (with d, c, s or x) or yank (with y) will be placed there, and that’s what vim uses to paste, when no explicit register is given. A simple p is the same thing as doing ""p.
+
+==
+
+/<CR> (search) automatically substitutes previous search
+Search not needed when highlighting stays on.
+Ex. can do y/<CR> and it yanks to next search result
+
+==
+
+Aligh text in vertical rows:
+https://vim.fandom.com/wiki/Simple_text_alignment
+or
+Gky/AS c<CR>2Gqqc/<CR><C-R>0<Esc>v0r R<C-R>"<Esc><CR>q9@qZZ
+- pick the longest row
+- yank the longest text to which every other row should align
+- above text is only to conver to spaces
+- use c to replace sth with yanked text, use visual mode
+  and r to overwrite with spaces, use C-R " to overwrite
+  the spaces with text you removed using c (use R here)
+
+==
+
+open a line but remove indent:
+o C-U
+or
+o write something, esc, <<
+==
+

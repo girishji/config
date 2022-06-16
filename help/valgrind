@@ -1,0 +1,1 @@
+run it as:valgrind --leak-check=yes name_of_executable options

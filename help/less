@@ -1,0 +1,42 @@
+- toggle line number, inside less type '-N <return>'
+- 'g 100' goes to line 100
+- ng: Jump to line number n. Default is the start of the file.
+- use 'lesskey' command to customize bindings, see ~/.lesskey (mapped ctrl-n for search of |<> etc)
+- -I in command line or inside less will make search case insensitive
+
+====
+
+Jumping commands:
+
+  g  <  ESC-<       *  Go to first line in file (or line N).
+  G  >  ESC->       *  Go to last line in file (or line N).
+  p  %              *  Go to beginning of file (or N percent into file).
+  {  (  [           *  Find close bracket } ) ].
+  }  )  ]           *  Find open bracket { ( [.
+  ESC-^F    *  Find close bracket .
+  ESC-^B    *  Find open bracket  
+        ---------------------------------------------------
+        Each "find close bracket" command goes forward to the close bracket 
+          matching the (N-th) open bracket in the top line.
+        Each "find open bracket" command goes backward to the open bracket 
+          matching the (N-th) close bracket in the bottom line.
+
+  m            Mark the current position with .
+  '            Go to a previously marked position.
+  ''                   Go to the previous position.
+  ^X^X                 Same as '.
+        ---------------------------------------------------
+        A mark is any upper-case or lower-case letter.
+        Certain marks are predefined:
+             ^  means  beginning of the file
+             $  means  end of the file
+ ---------------------------------------------------------------------------
+
+OPTIONS:
+Most options may be changed either on the command line, or from within less by using the - or -- command.
+Options may be given in one of two forms: either a single character preceded by a -, or a name preceeded by --.
+
+ -i  ........  --ignore-case
+                  Ignore case in searches.
+ -I  ........  --IGNORE-CASE
+                  Ignore case in searches and in search patterns. 

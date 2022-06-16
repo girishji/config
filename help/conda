@@ -1,0 +1,5 @@
+conda deactivate
+will remove 'base' from prompt. what happens is that conda
+activates its base environment, where you start using python from conda
+when you start jupyter notebook (which does conda init).
+

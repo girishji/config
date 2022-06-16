@@ -1,0 +1,4 @@
+control-pageup/down  to scroll correctly through emails without changing the highlighted email. Otherwise with just pageup/down you'll miss emails at the
+bottom while scrolling
+
+====

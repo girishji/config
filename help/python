@@ -1,0 +1,1175 @@
+=====================================
+
+Python
+
+=====================================
+
+functools.reduce(function, iterable[, initializer])
+Apply function of two arguments cumulatively to the items of iterable, from
+left to right, so as to reduce the iterable to a single value. For example,
+reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates ((((1+2)+3)+4)+5).
+
+https://docs.python.org/3/library/functools.html
+--
+https://docs.python.org/3/library/itertools.html#itertools.tee
+
+itertools.tee(iterable, n=2)
+Return n independent iterators from a single iterable.
+
+itertools.islice(iterable, stop)
+itertools.islice(iterable, start, stop[, step])
+Make an iterator that returns selected elements from the iterable. If start is
+non-zero, then elements from the iterable are skipped until start is reached.
+Afterward, elements are returned consecutively unless step is set higher than
+one which results in items being skipped.
+
+itertools.pairwise(iterable)
+Return successive overlapping pairs taken from the input iterable.
+
+itertools.zip_longest(*iterables, fillvalue=None)
+Make an iterator that aggregates elements from each of the iterables.
+
+itertools.takewhile(predicate, iterable)
+Make an iterator that returns elements from the iterable as long as the predicate is true.
+
+itertools.starmap(function, iterable)
+Make an iterator that computes the function using arguments obtained from the iterable.
+
+itertools.repeat(object[, times])
+Make an iterator that returns object over and over again. Runs indefinitely unless the times argument is specified.
+
+itertools.product(*iterables, repeat=1)
+Cartesian product of input iterables.
+
+itertools.permutations(iterable, r=None)
+Return successive r length permutations of elements in the iterable.
+
+itertools.groupby(iterable, key=None)
+Make an iterator that returns consecutive keys and groups from the iterable.
+The operation of groupby() is similar to the uniq filter in Unix. It generates
+a break or new group every time the value of the key function changes (which is
+why it is usually necessary to have sorted the data using the same key
+function). That behavior differs from SQL’s GROUP BY which aggregates common
+elements regardless of their input order.
+
+itertools.filterfalse(predicate, iterable)
+Make an iterator that filters elements from iterable returning only those for
+which the predicate is False
+
+itertools.dropwhile(predicate, iterable)
+Make an iterator that drops elements from the iterable as long as the predicate is true;
+
+itertools.cycle(iterable)
+Make an iterator returning elements from the iterable and saving a copy of
+each. When the iterable is exhausted, return elements from the saved copy.
+Repeats indefinitely.
+
+itertools.count(start=0, step=1)
+Make an iterator that returns evenly spaced values starting with number start.
+
+itertools.compress(data, selectors)
+Make an iterator that filters elements from data returning only those that have
+a corresponding element in selectors that evaluates to True. 
+
+itertools.accumulate(iterable[, func, *, initial=None])
+Make an iterator that returns accumulated sums, or accumulated results of other
+binary functions (specified via the optional func argument).
+
+itertools.chain(*iterables)
+Make an iterator that returns elements from the first iterable until it is
+exhausted, then proceeds to the next iterable, until all of the iterables are
+exhausted.
+
+itertools.combinations(iterable, r)
+itertools.combinations_with_replacement(iterable, r)
+
+
+---
+https://docs.python.org/3/library/functools.html
+
+@functools.cache(user_function)
+Simple lightweight unbounded function cache. Sometimes called “memoize”.
+
+Returns the same as lru_cache(maxsize=None), creating a thin wrapper around a
+dictionary lookup for the function arguments. Because it never needs to evict
+old values, this is smaller and faster than lru_cache() with a size limit.
+
+For example:
+@cache
+def factorial(n):
+    return n * factorial(n-1) if n else 1
+
+>>> factorial(10)      # no previously cached result, makes 11 recursive calls
+3628800
+>>> factorial(5)       # just looks up cached value result
+120
+>>> factorial(12)      # makes two new recursive calls, the other 10 are cached
+479001600
+
+
+@functools.lru_cache(user_function)
+@functools.lru_cache(maxsize=128, typed=False)
+Decorator to wrap a function with a memoizing callable that saves up to the
+maxsize most recent calls. It can save time when an expensive or I/O bound
+function is periodically called with the same arguments.
+
+Since a dictionary is used to cache results, the positional and keyword arguments to the function must be hashable.
+In general, the LRU cache should only be used when you want to reuse previously computed values.
+
+---
+
+enumeration:
+INCREASING, DECREASING = range(2)
+will give 0 and 1 to above 
+--
+for min int use float('-inf')
+  even though float, it renders comparison with int
+  same with float('inf')
+
+iterator can only be run/iterated once:
+def fn(sequence: Iterator[int]...
+
+if you want to get first k elements do:
+  for x in itertools. islice(sequence, k):
+
+  notice that islice leaves the iterator after k-th element.
+  if you do for x in sequence:, it will resume
+
+--
+
+to reverse sorting order in heap, you can simply use a tuple of (-distance, star)
+no need to subclass star to override __lt__() or replace method using monkey patching.
+--
+
+candidate-bucket = next(i for i, c in enunerate(counter) if c < BUCKET-CAPACITY)
+is same as
+  for i, c in enum....
+     if c < BU...
+        coandidate-b... = i
+        break
+
+next() is for iterator. it gets next item from generator (looks like list comprehension)
+--
+to copy a stream for two time iteration:
+
+stream, stream-copy = itertools, tee(strean)
+
+Once tee() has made a split, the original iterable should not be used anywhere
+else; otherwise, the iterable could get advanced without the tee objects being
+  informed.
+
+bitmasks:
+(1 << 16) - 1 is same as 0xffff
+
+print binary using bin(number)
+---
+heapq.nlargest() removes n elements and gives you in sorted order
+--
+
+override method without creating derived class: monkey pathcing:
+
+https://stackoverflow.com/questions/41633831/python-override-a-method-without-creating-a-derived-class-and-call-the-original
+also
+https://stackoverflow.com/questions/6575279/overwriting-class-methods-without-inheritance-python
+--
+using def __call__(self,x) will turn any object into a function.
+
+def sort-k-increasing-decreasing-array-pythonic (A) :
+  class monotonic:
+    def __init__(self):
+      self ._last = float('-inf ')
+    def __call__ ( self , curr ) :
+        res=curr < self._last 
+      self._last = curr
+      return rest
+--
+
+can do:
+[sum(x0[i]<=x[j]<x1[i] and y0[i]<=y[j]<y1[i] for j in range(n)) for k in range(k)]
+
+and
+x = sth.x and sth.y
+assume sth.x and sth.y can return None or some object. x gets assigned  to 
+  object returned by sth.y, or None if sth.x fails or sth.y returns None
+ex. 5 & 9 returns 9
+
+and
+
+print(*['https://en.wikipedia.org' + tag['href'] for tag in tags], sep='\n')
+
+--
+
+re (regex) match vs search (use search)
+
+Python offers two different primitive operations based on regular expressions: match
+checks for a match only at the beginning of the string, while search checks for a
+match anywhere in the string (this is what Perl does by default).
+
+pat = re.compile(r'xxx')
+pat.search(string)
+
+--
+To check the data type of variable in Python, use type() method. Python type() is an inbuilt method that returns the class type of the argument(object) passed as a parameter.
+--
+using ( and ) to 'chain' things:
+1) if you have long string spanning multiple lines,
+   you can use ("foo" "bar") which will be "foobar" (other option is using triple " or ' (equivalent))
+2) for piping:
+(df['miner']
+    .value_counts(normalize=True)
+    .sort_values(ascending=False)
+    .reset_index(name='proportion')
+    .pipe((sns.barplot, 'data'), x = 'index', y = 'proportion') 
+    .set(xticklabels=[], xlabel='miners')
+ );
+--
+
+--
+use of _ :
+self.clusters = [[] for _ in range(self.K)]
+
+for _ in range(self.max_iters):
+...
+
+----
+
+* is the unpacking operator: (READ the *args and **kwargs section in the end)
+x = (2, 5)
+[1, x] gives you [1, (2, 5)]
+but [1, *x] gives you [1, 2, 5]
+You can use * in zip(*foo) and in plt.scatter(*zip(*foo))
+if foo is like [(1, 2), (8, 4), ...]
+
+----
+
+Generators:
+x = range(10)  # gives a generator that will make a list
+or
+x = list(range(10))  # if you want a real list
+
+----
+To get help:
+>>> import sys
+>>> dir(sys)
+>>> help(sys)
+>>> help(sys.exit)
+or do google search
+----
+map(), filter(), reduce() (note: these are discouraged as holdovers from 
+functional programming) and 'list comprehension':
+map(f, iterable)
+is basically equivalent to:
+[f(x) for x in iterable]
+
+reduce() is to output one value from a list
+list comprehension is to output a list of values
+
+reduce() is discouraged. just use a for loop.
+https://stackoverflow.com/questions/9474412/python-alternative-to-reduce
+
+----
+
+__name__ and how it is set in main program vs modules:
+
+https://stackoverflow.com/questions/419163/what-does-if-name-main-do
+
+----
+None (is like null, since python has no null) is a singleton object.
+----
+number 0 and empty string count as False
+----
+no need for () in if statements
+----
+Interpreter just starts interpreting lines without checking for errors in later lines. It checks lines only when it runs that lines. Code may have errors but will not be discovered if those lines don't get executed (like there is else before which gets kicked in for your test case).
+----
+====================================================
+Strings
+====================================================
+a='asdf' and a="aasd" are same.
+Can use a='asd"asdf' or a="asdd'asdf" are fine
+----
+a='HEllo'
+a.lower() #works, lower() is a string method
+a.find('l')
+----
+r"foo" is a raw string. Use this in URLs , regexps etc
+
+--
+strings are immutable
+----
+String formatting:
+>>> year = 2016
+>>> event = 'Referendum'
+>>> f'Results of the {year} {event}'
+'Results of the 2016 Referendum'
+
+or
+
+>>> yes_votes = 42_572_654
+>>> no_votes = 43_132_495
+>>> percentage = yes_votes / (yes_votes + no_votes)
+>>> '{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage)
+' 42572654 YES votes  49.67%'
+
+old method:
+'Hi %s I have %d donuts' % ('Alice', 42) 
+or
+'Hi ' + 'Alice' + ...so on
+----
+>>> a='hello'
+>>> a[1:3]
+>>> el
+>>> a[3:]
+>>> 'lo'
+ can use -ve numbers (-1 is right most character, -2 is one left of it etc.)
+>>> a[-3:-1]
+>>> 'll'
+----
+f'...' is the latest. using xxx.format() is old school.
+"f"-string (f for formatting?) is new since Python 3.6. Embed values using { }
+print(f'{print} (print a function)')
+print(f'{type(229)} (print a type)')
+<built-in function print> (print a function)
+<class 'int'> (print a type)
+
+---
+ In Python, both single ' and double " (as well as triple single, ''' 
+or triple double """ (same as triple single), for multiple lines) may 
+be used to create strings.
+
+====
+
+pprint is your friend
+import pprint as pp
+
+pp.pprint([list_1] * 5 + list_2)
+pp.pprint([list_1] * 2 + [list_2] * 3)
+
+====================================================
+List
+====================================================
+
+print list one element per line:
+print("\n".join(some_list))
+
+a = [1, 2, 3]
+b = a
+both b and a point to same list in memory (no copy made)
+
+to make a copy:
+b = a[:] # b is a copy of a now
+or
+b = list(a)
+or
+b = []
+for s in a: b.append(s)
+or
+b = a.copy()
+
+Lists are mutable unlike strings
+a[0] = 13 # works
+
+a == b # true if a and b are pointing to same thing OR if they are elementwise equal
+a is b # is will return True only when the objects being compared are the same object, which means they point to the same location in memory. 
+   python has no === operator like js
+----
+# You can append an element to the end of the list in two ways
+colors[len(colors):] =["yellow"]
+print(colors)
+# or use an existing method of a list object.
+colors.append("black")
+
+# You can also insert an element to the inside of the list
+colors.insert(2, "black")
+
+# Count how many times an element occurs:
+print("Count 'black':", colors.count("black"))
+# Does an element exist in the list?
+print("Is 'black' in the colors list?:", "black" in colors)
+print("Is 'black' not in the colors list?:", "black" not in colors)
+
+# There are two ways of deleting elements
+numbers = [4, 5, 6]
+# Delete the first element equal to a given value
+numbers.remove(5)
+
+numbers = [4, 5, 6]
+# Delete element using an index
+numbers.pop(1)
+
+----
+
+Slicing works for lists
+a[1:3] works
+----
+a = [1, 2, 'hello'] is ok
+----
+for VAR in LIST:
+do not modify list when iterating over
+----
+VALUE in LIST # checks if value is in list LIST, return true/false
+----
+None is the null value in python (None is a singleton object)
+----
+a.append(8) # modifies list a, return None
+a.pop(0) removes from list
+----
+del a # removes definition of a, works on lists as well
+del a[1] removes second element only
+----
+sorting list: sorted(a) makes a new sorted list, for strings it does textual comparison
+sort text elements by length, use len function (on each element, called key function) using sorted
+
+print(sorted(random_list_2, key=lambda x: x[1]))
+
+sort() will sort in place vs sorted(list) will return a sorted list:
+>>> m
+[2, 999, 4, 56]
+>>> sorted(m)
+[2, 4, 56, 999]
+>>> m.sort()
+>>> m
+[2, 4, 56, 999]
+--
+
+list1 + list2 works
+
+----
+dot join
+>>> a=['as','ee','asd']
+>>> ':'.join(a)
+'as:ee:asd'
+can do a.split(':')
+
+----
+range(20) you get a list of [0, 1 to 19]
+this is a generator, use list(range(20))
+
+--
+
+do deepcopy a list:
+
+import copy
+
+orig_list = [[1, 2], [3, 4]]
+dup_list = copy.deepcopy(orig_list)
+
+=============================================================
+Tuple
+=============================================================
+
+tuple is immutable, good for fixed number of items, can be of any length
+(1, 2, 3) is a tuple, so is (1, 'df', 4)
+len(a), a[0] works
+a = [(1, 'a'), (2, 'b')] is a list of tuples.
+----
+(x, y) = (1, 2) means x is 1 and y is 2
+----
++= works but no ++ operator
+----
+
+=============================================================
+Set
+=============================================================
+
+NOTICE: by typing "var={}" we create a dictionary and not a set, see more below.
+
+sets are lists (many operations work the same)
+
+=============================================================
+dictionary
+=============================================================
+
+d = {} # dictionary
+
+d['a'] returns error if nothing is stored there
+d.get('a') return None if a has no value
+
+'a' in d # way to check a is in dictionary d, returns True/False
+
+d.keys() # in some random order
+
+dictionary is same as hash table
+
+d.values() 
+
+for k in d.keys(): 
+for k in sorted(d.keys()): 
+d.items() # pulls out key and value tuples
+
+for k, v in mydict.itmes():
+	...
+
+list comprehension for dict/set:
+
+my_set = {i ** 2 % 3 for i in range(10)}
+my_dict = {(5 - i): i ** 2 for i in range(10)}
+
+print(my_set)
+print(my_dict)
+
+=============================================================
+
+----
+print(x,)  # trailing comma (,) inhibits newline
+----
+efficient (small ram) file reading:
+f = open(fname, "rU") $ U to say ignore dos/unix line ending
+for l in f:
+  print f,
+f.close()
+----
+to read entire list into memory use f.readlines(). Each line is read as python list element.
+----
+f.read() reads entire file into one string
+----
+split() # with no arguments splits splits based on whitespace
+----
+match = re.search(pat, string) returns match object or a none pointing match pointer. So you do:
+If match: match.group()
+Group() prints matched string.
+Import re
+Search matches first occurance only
+. Matches everything except newline
+r'pattern' matches raw pattern, backslash is not interpreted as special char
+\w matches word char, char or number or underscore.
+\s whitespace
+\S non whitespace
+\d digit
+Above get interpreted correctly inside raw pattern
+[] is a set of characters inside, order does not matter, . is treated as character dot
+() used for extracting parts of the pattern. Can use group(1) etc. Can be nested. Number inside group function refers to number of left parentheses.
+re.findall finds all matches instead of stopping after first match
+----
+import os (has mkdir etc)
+dir(os)
+help(os.listdir)
+os.path.join(dir, file)
+os.path.abspath(path)
+----
+import shutil
+shutil.copy(...) # file copying
+----
+launch external process, and wait for it to finish
+import commands
+(status, output) = commands.getstatusouput(cmd) # stdout and stderr captured, return tuple length 2 (exit code, string output of stderr and stdout), block till finished
+if status: # if status is non-zero (means error)
+  sys.stderr.write('there was error')
+  sys.exit(1)
+----
+handle exception
+try:
+  blah
+  blah
+except IOError:
+  blah
+finally:
+  blah
+
+try:
+    f = b / a
+except Exception as e:
+    print (e.__doc__)
+    raise
+
+----
+module is synonymous with .py file
+----
+def xxx:
+  """
+  help doc for the function
+  """
+----
+import urllib
+uf = urllib.urlopen('http://google.com') # makes url look like a file
+uf.read()
+uf.urlretrieve() # downloads url/gif etc
+you can set cookies etc
+----
+list comprehension (advanced feature)
+a = ['ss', 'rr', 'eee']
+now make a list of lengths of above strings in list
+[ len(s)   for s in a   ]
+you get: [2, 2, 3]
+a = [1, 2, 3, 4]
+[ num*num   for num in a   if num > 2  ]
+get: [9, 16]
+
+List comprehension for running total:
+use function.
+A list comprehension has no good (clean, portable) way to refer to the very list it's building. One good and elegant approach might be to do the job in a generator
+https://stackoverflow.com/questions/3432830/list-comprehension-for-running-total
+
+----
+# comprehensions create a new list object
+filtered_values = [value for value in sequence if value != x]
+
+# generators don't create another list
+filtered_values = (value for value in sequence if value != x)
+
+----
+python is a large language. above represents the core.
+----
+The special syntax, *args and **kwargs in function definitions is used to pass a variable number of arguments to a function. The single asterisk form (*args) is used to pass a non-keyworded, variable-length argument list, and the double asterisk form is used to pass a keyworded, variable-length argument list. Here is an example of how to use the non-keyworded form. This example passes one formal (positional) argument, and two more variable length arguments.
+
+def test_var_args(farg, *args):
+    print "formal arg:", farg
+    for arg in args:
+        print "another arg:", arg
+
+test_var_args(1, "two", 3)
+Results:
+formal arg: 1
+another arg: two
+another arg: 3
+
+Here is an example of how to use the keyworded form. Again, one formal argument and two keyworded variable arguments are passed.
+
+def test_var_kwargs(farg, **kwargs):
+    print "formal arg:", farg
+    for key in kwargs:
+        print "another keyword arg: %s: %s" % (key, kwargs[key])
+
+test_var_kwargs(farg=1, myarg2="two", myarg3=3)
+Results:
+formal arg: 1
+another keyword arg: myarg2: two
+another keyword arg: myarg3: 3
+
+Using *args and **kwargs when calling a function:
+
+This special syntax can be used, not only in function definitions, but also when calling a function.
+
+def test_var_args_call(arg1, arg2, arg3):
+    print "arg1:", arg1
+    print "arg2:", arg2
+    print "arg3:", arg3
+
+args = ("two", 3)
+test_var_args_call(1, *args)
+Results:
+arg1: 1
+arg2: two
+arg3: 3
+
+Here is an example using the keyworded form when calling a function:
+
+def test_var_args_call(arg1, arg2, arg3):
+    print "arg1:", arg1
+    print "arg2:", arg2
+    print "arg3:", arg3
+
+kwargs = {"arg3": 3, "arg2": "two"} # this is a dictionary
+test_var_args_call(1, **kwargs)
+Results:
+arg1: 1
+arg2: two
+arg3: 3
+
+
+Further:
+-------
+
+In the line:
+
+def wrapper(func, *args):
+
+The * next to args means "take the rest of the parameters given and put them in a list called args". (or a tuple of args if args is defined as a tuple)
+
+In the line:
+
+    func(*args)
+The * next to args here means "take this list called args and 'unwrap' it into the rest of the parameters.
+
+So you can do the following:
+
+def wrapper1(func, *args): # with star
+    func(*args)
+
+def wrapper2(func, args): # without star
+    func(*args)
+
+def func2(x, y, z):
+    print x+y+z
+
+wrapper1(func2, 1, 2, 3)
+wrapper2(func2, [1, 2, 3])
+In wrapper2, the list is passed explicitly, but in both wrappers args contains the list [1,2,3].
+
+----
+lambda represents anonymous function (google for more)
+----
+Built in Sequence Types are str, unicode, list, tuple, bytearray, buffer, xrange. For other containers see the built in dict, set and tuple classes and collections module
+----
+
+9.10. Generators
+
+read in the online doc. Also read iterator (quite easy)
+
+----
+
+=========================================================
+Functions
+=========================================================
+
+Function may also return another function. In this case using lambda function 
+is convenient and makes code more readable.
+
+def switchBMI(sex = "M"):
+    if sex == "M":
+        return lambda weight, height: weight / height ** 2
+    else:
+        return lambda weight, height: (weight - 2) / height ** 2
+BMI = switchBMI("M")
+print(BMI(75, 1.90))
+BMI = switchBMI("F")
+print(BMI(75, 1.90))
+
+--
+=========================================================
+class
+=========================================================
+class SimpleClass:
+    # Class attribute
+    i = 3
+    def __init__(self):
+        # Attribute of an instance of class
+        self.j = 7
+
+a = SimpleClass()
+b = SimpleClass()
+print(a.i, b.i)
+a.j = 8
+print(a.i, b.i, a.j, b.j)
+3 3
+3 3 8 7
+
+However, if you try to assign a value to the same variable name 
+(as attribute of an instance), "i" will become an instance attribute 
+for object "a", but for other objects it will still be a class attribute.
+
+a.i = 1
+SimpleClass.i = 17
+d = SimpleClass()
+print(a.i, b.i, c.i, d.i)
+1 17 17 17
+
+To assign to class variable use SimpleClass.i = 11
+
+========================================
+
+except basic type like int, float, etc, everything else like tuple, 
+list, dictionary, set, object etc
+are copied by reference
+
+--
+for i in range(0, -11, -3):
+    print(i)
+0
+-3
+-6
+-9
+
+Enumerate
+---------
+In some cases you may not only need information about 
+list's elements' content, but also about their indices. enumerate(), 
+a counting iterator, is used for this purpose:
+
+for i, color in enumerate(colors):
+    print(i, color)
+0 red
+1 blue
+2 green
+
+Zip
+---
+Sometimes you may have two lists, over which you want to iterate simultaneously. zip() joins the lists and retuns their elements as a tuple. Number of elements returned by zip() is equal to length of the shortest list.
+
+colors = ["red", "blue", "green"]
+numbers = [4, 5, 6, 7]
+​
+for color, number in zip(colors,numbers):
+    print(color, number)
+​
+List Comprehensions
+--------------------
+
+[what_to_do(x) for x in some_list optional_logical_condition]
+
+[x**2 for x in list1 if x % 2 == 0]
+
+long_list = [i for i in range(9)]
+long_long_list = [(i, j) for i in range(3) for j in range(5)]
+long_list_list = [[i for i in range(3)] for _ in range(5)]
+
+
+==
+
+str() vs repr() in Python
+
+Example of str():
+
+s = 'Hello, Geeks.'
+print (str(s)) 
+print (str(2.0/11.0)) 
+Output:
+
+Hello, Geeks.
+0.181818181818
+
+Example of repr():
+
+s = 'Hello, Geeks.'
+print (repr(s)) 
+print (repr(2.0/11.0)) 
+Output:
+
+'Hello, Geeks.'
+0.18181818181818182
+
+From above output, we can see if we print string using repr() function then it prints with a pair of quotes and if we calculate a value we get more precise value than str() function.
+
+str() is used for creating output for end user while repr() is mainly used for debugging and development. repr’s goal is to be unambiguous and str’s is to be readable. For example, if we suspect a float has a small rounding error, repr will show us while str may not.
+
+========
+
+Variable scope only applies at the function, module, and class levels. If you are in the same function/module/class, all variables defined will be available within that function/module/class, regardless of whether it was defined within a with, for, if, etc. block.
+
+For example, this:
+
+for x in range(1):
+    y = 1
+print(y)
+is just as valid (although pointless) as your example using the with statement.
+
+However, you must be careful since the variable defined within your code block might not actually be defined if the block is never entered
+
+following is OK:
+with open(fname, 'r') as file:
+    pass
+print(file.mode)
+
+==
+
+yield explained:
+
+https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do
+
+To understand what yield does, you must understand what generators are. And before you can understand generators, you must understand iterables.
+
+Iterables
+When you create a list, you can read its items one by one. Reading its items one by one is called iteration:
+
+>>> mylist = [1, 2, 3]
+>>> for i in mylist:
+...    print(i)
+1
+2
+3
+mylist is an iterable. When you use a list comprehension, you create a list, and so an iterable:
+
+>>> mylist = [x*x for x in range(3)]
+>>> for i in mylist:
+...    print(i)
+0
+1
+4
+Everything you can use "for... in..." on is an iterable; lists, strings, files...
+
+These iterables are handy because you can read them as much as you wish, but you store all the values in memory and this is not always what you want when you have a lot of values.
+
+Generators
+Generators are iterators, a kind of iterable you can only iterate over once. Generators do not store all the values in memory, they generate the values on the fly:
+
+>>> mygenerator = (x*x for x in range(3))
+>>> for i in mygenerator:
+...    print(i)
+0
+1
+4
+It is just the same except you used () instead of []. BUT, you cannot perform for i in mygenerator a second time since generators can only be used once: they calculate 0, then forget about it and calculate 1, and end calculating 4, one by one.
+
+Yield
+yield is a keyword that is used like return, except the function will return a generator.
+
+>>> def create_generator():
+...    mylist = range(3)
+...    for i in mylist:
+...        yield i*i
+...
+>>> mygenerator = create_generator() # create a generator
+>>> print(mygenerator) # mygenerator is an object!
+<generator object create_generator at 0xb7555c34>
+>>> for i in mygenerator:
+...     print(i)
+0
+1
+4
+Here it's a useless example, but it's handy when you know your function will return a huge set of values that you will only need to read once.
+
+To master yield, you must understand that when you call the function, the code you have written in the function body does not run. The function only returns the generator object, this is a bit tricky.
+
+Then, your code will continue from where it left off each time for uses the generator.
+
+Now the hard part:
+
+The first time the for calls the generator object created from your function, it will run the code in your function from the beginning until it hits yield, then it'll return the first value of the loop. Then, each subsequent call will run another iteration of the loop you have written in the function and return the next value. This will continue until the generator is considered empty, which happens when the function runs without hitting yield. That can be because the loop has come to an end, or because you no longer satisfy an "if/else".
+
+=========
+
+==========================================
+==========================================
+==========================================
+======================================
+======================================
+Pandas: DataFrame and Series
+======================================
+======================================
+
+Get the number of rows: len(df)
+Get the number of columns: len(df.columns)
+Get the number of rows and columns: df.shape
+
+Pandas: has Index, Series, DataFrame.
+Only guide you need: https://pandas.pydata.org/pandas-docs/stable/user_guide/basics.html
+
+series has 1-axis (called index) and DataFrame has
+2 axis (row=index (or 1), columns=columns (or 0))
+
+series.array will return array, and series.to_numpy() will return ndarray backing the series.
+
+df.loc[row_indexer,column_indexer] is like data.table in R
+use ":" to refer to all rows, or all columns, etc.
+
+[] only indexes columns in dataframe. you can pass a list to it,
+like df[['col1', 'col2']] 
+Also, you can slice rows with it using ":".
+[:3] is same as [0:3]
+
+can use df.colname as long as 'colname' is a valid 
+python identifier (cannot use names starting with integer, for ex.)
+
+.loc, .iloc, and also [] indexing can accept a callable as indexer.
+
+Boolean indexing: df[df['A'] > 0]
+df2[[x.startswith('t') for x in df2['a']]]
+(df['A'] > 2) & (df['B'] < 3).
+
+can use query() to avoid '':
+# pure python
+In [218]: df[(df['a'] < df['b']) & (df['b'] < df['c'])]
+# query
+In [219]: df.query('(a < b) & (b < c)')
+
+Queries
+In practice repeating dataframe's name may be inconvenient if you want to select a part of a dataframe. This is why "query" interface has been created. Query is an method which passes a result to .loc, but has a clear and more readable syntax.
+
+Additionally, query allows inserting dynamic values to our queries. Operator @ refers to variables in Python (in the environment), not dataframe columns.
+
+ageLimit = 30
+display(marr.query('age <= @ageLimit').head(5))
+
+--
+
+Evaluation
+Pandas allows evaluating variables in a way similar to "query". In some cases (but not always) using eval is faster than solving directly.
+
+%timeit -n 5 marr["age2"] = marr["age"]*marr["educ"]
+%timeit -n 5 marr.eval('age2 = age*educ', inplace=True)
+​
+--
+Every DataFrame (df) has column names and indices (row names). If an index is generated automatically, it takes consecutive integer values, from. Index can take any form including strings. In most cases it is not useful and you should keep integers as indices.
+
+--
+
+By using column names you can easily create new views of existing DataFrame or create copies of its part.
+
+# Create a reference
+c1marr = marr[:]
+# Create a copy
+c2marr = marr.copy()
+print(c1marr._is_view, c2marr._is_view)
+True False
+
+# Both lines create a copy, even though it is not explicit in the first case.
+c4marr = marr[['age', 'children', 'rate_marriage']]
+c5marr = marr[['age', 'children', 'educ']].copy()
+print(c4marr._is_view, c5marr._is_view)
+False False
+
+
+You can easily show and change column names.
+
+
+marr.columns = ['rate', 'age', 'yrs_married', 'children', 'religious', 'educ',
+       'occupation', 'occupation_husb']
+marr.columns.values[2] = "years"
+--
+
+use .values to get underlying ndArray (numpy vector)
+.values method returns contents of a given index or series. It is convenient if you need data in a simple format (usually for numpy). You can access a series using dot operator or column name in square brackets.
+
+print(marr["age"].head())
+print(marr.age.head())
+print(marr.age.values[0:5])
+print(type(marr.age.values))
+
+--
+Usually exploratory data analysis is the first step in data analysis. Obviously you may want to draw a histogram (charts will be shown later in the course), but you can also print numerical descriptions of data. All functions which are implemented in numpy are also available in pandas.
+
+print("Basic descriptions: \n", marr.age.describe())
+print("\nNumber of levels: \n", marr.age.nunique())
+print("\nCounts of levels: \n", marr.age.value_counts())
+print("\nSome other descriptive measurement (mode): \n", marr.age.mode())
+
+--
+Modifying contents
+The contents of our series or df can be modified in multiple ways. Let's begin by creating a new column: age squared. The final result of all ways presented below is the same. Note that you have to use column name operator when assigning value to a variable (you must not use dot and column name).
+
+marr["age2"] = marr["age"]*marr["age"]
+marr["age2"] = marr.age*marr.age
+marr["age2"] = marr["age"]**2
+marr["age2"] = marr["age"].apply(lambda x: x**2)
+marr["age2"] = np.power(marr["age"].values, 2)
+marr["age2"] = [x**2 for x in marr["age"].values]
+
+and
+
+import random
+rainbow = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+marr["favColor"] = "col"
+# List comprehension is used only to create a list of length equal to the number of dataframe's rows.
+marr["favColor"] = [random.choice(rainbow) for x in marr.index.values]
+
+--
+
+Indexing
+There are two basic ways of indexing and selecting data in pandas: integer-position-based (.iloc) and label-based (.loc). The first is analogous to any two-dimensional matrix in numpy. The second refers to the label (index) of a dataframe, which may have any form - it does not have to be sorted, monotonic, numerical etc.
+
+marr.iloc[3:5, 2:4] (rows 3 and 4, columns 2 and 3)
+
+# You cannot use "and" instead of "&" in this case
+display(marr.loc[(marr.favColor=="red") & (marr.age<=25)].head(5))
+display(marr[(marr.favColor=="red") & (marr.age<=25)].head(5))
+%timeit -n 10 marr.loc[(marr.favColor=="red") & (marr.age<=25)]
+%timeit -n 10 marr[(marr.favColor=="red") & (marr.age<=25)]
+
+Indexing to modify
+As you can see in the last example, .loc is not necessary, if you choose rows to display. Hovewer it is required when you modify rows.
+
+marr.loc[marr.favColor=="red", "favColor"]="reddish"
+
+--
+
+Creating dataframes and series
+data = {'idUser': ids, 'sex': sex, 'age': age} # ids, sex, age are lists
+
+Often you will need to create variables dynamically (API, webscraping etc.). It is convenient to create a list of lists (as consecutive rows) and then create a dataframe.
+
+rows = []
+for k in range(10):
+    row = [
+        np.random.randint(0,k+1),
+        np.random.randint(k,2*k+1),
+        np.random.randint(2*k,3*k+1)
+    ]
+    rows.append(row)
+display(pd.DataFrame(rows, columns=["var1", "var2", "var3"]))
+
+--
+
+apply and map: (can use rows or columns as input)
+
+When modifying contents of a df you may sometimes want to use own, more complicated functions. One of possible solutions is writing a function in such a way that it takes a numpy vector as an argument and passing values of a series (e.g. marr["age2"] = np.power(marr["age"].values, 2). Sometimes you may want to perform operations on rows/columns/dataframes, and not only on a series. You can use apply, map and applymap methods for this purpose. They are very similar to each other. Simplified description below:
+
+apply - works on vectors, on a series, or on dataframe rows/columns.
+map - applies a function (including a dictionary) on each element of a series
+applymap - as above, but on each element of a dataframe
+
+# Perform operation on each element of a series
+marr["binRel"] = marr.religious.map(lambda x: 0 if x<3 else 1)
+# Perform operation on each element of a series, but in a slightly different way. 
+marr["binRel"] = marr.religious.apply(lambda x: 0 if x<3 else 1)
+see:
+https://stackoverflow.com/questions/19798153/difference-between-map-applymap-and-apply-methods-in-pandas/27368948#27368948
+
+Applymap allows you to perform any function for each element. In practice, because arrays or dataframes usually have columns of different types, applymap is not often used.
+
+marr.iloc[0:3].applymap(lambda x: print(type(x), x))
+
+You will probably use apply on a whole dataframe quite often, e.g. for checking the maximum value in each column.
+
+marr.apply(np.max)
+
+When you use apply, every column/row is regarded as a series. This is why iterating over rows and addressing by columns may be convenient.
+
+marr.iloc[0:5].apply(lambda x: "long happy marriage" if (x['age'] > 35 and x['years']>20) else "no", axis=1)
+997                      no
+6231                     no
+4351    long happy marriage
+2278    long happy marriage
+4975                     no
+
+--
+
+Grouping
+Operations on a grouped dataset are very often used. Popularity of pivot tables in excel is a proof of that. This operation is immensely useful for statistical description of a dataset. Look at the following examples.
+
+In pandas, groupby method is used for this purpose. It creates groups of row indices by a given way. It allows you to avoid creating unnecessary copies of a whole dataframe. It is a particularly huge memory-saver when you already have a large datasets with a lot of columns.
+
+# You can save grouped rows as a separate variable,
+colorGroups = marr.groupby(['favColor'])
+# you can display or use one of the groups...
+display(colorGroups.get_group("blue").head(5))
+display(colorGroups.get_group("blue")['educ'].head(5))
+# ...or perform a function on grouped values
+display(colorGroups.count())
+display(colorGroups.mean())
+
+Aggregating
+
+When you have groups, you want to use them for some purpose, like descriptive statistics for every group. When using agg() function you have much greater control over tables than when performing a function directly on grouped elements. You may freely choose which columns and functions should be used.
+
+print("Basic aggregating")
+display(colorGroups.agg({'educ':'sum', 'years': 'mean'}))
+​
+print("Aggregating using numpy/lambda functions")
+display(colorGroups.agg({'educ':np.mean, 'years': lambda x: np.sqrt(x).sum()}))
+​
+print("Aggregating with many statistical functions for a single column")
+marr.groupby(['favColor']).agg({'educ':[np.mean, 'sum', np.std], 'years': 'mean'})
+
+The last example shows MultiIndex in pandas. In practice you may have several columns where a single column is also a whole dataframe
+...
+You may group by more than one variable. Let's define a binary variable which groups people by age: 1 if they are older than 35, 0 otherwise
+...
+
+--
+
+Transforming and apply
+
+Grouping may be useful not only for aggregating, but also for performing operations on columns inside groups. You may need to merge the results with our initial dataframe. .transform() function is used for this purpose, as it allows you to operate on a particular column. The cells below compute mean age of people in a group and broadcasts the values into original df shape.
+
+marr["meanAgePerColor"] = marr.groupby(['favColor'])["age"].transform(np.mean)
+
+Apply function gives us even more possibilities, because it can perform operations on a whole dataframe inside of a group. It makes operations on multiple columns easy.
+
+print(marr.groupby(['favColor']).apply(lambda x: x["age"]-x["educ"]).shape)
+display(marr.groupby(['favColor']).apply(lambda x: x["age"]-x["educ"]))
+marr["nonEducYears2"]=marr.groupby(['favColor']).apply(lambda x: x["age"]-x["educ"])
+
+--
+
+Group filtering
+
+Filter function returns these rows which meet some criteria inside a group. For example, if you choose groups with mean age over 29, an incomplete set is returned,
+
+print(marr.groupby(['favColor']).filter(lambda x: x["age"].mean() >29).shape)
+temp = marr.groupby(['favColor']).filter(lambda x: x["age"].mean() >29)
+print(temp.favColor.unique())
+--
+
+=================================================================
+End of Dataframe
+==========================================

@@ -1,0 +1,89 @@
+Key bindings for command-line
+The install script will setup the following key bindings for bash, zsh, and fish.
+
+CTRL-T - Paste the selected files and directories onto the command-line
+  Set FZF_CTRL_T_COMMAND to override the default command
+  Set FZF_CTRL_T_OPTS to pass additional options
+CTRL-R - Paste the selected command from history onto the command-line
+  If you want to see the commands in chronological order, press 
+    CTRL-R again which toggles sorting by relevance
+  Set FZF_CTRL_R_OPTS to pass additional options
+ALT-C - cd into the selected directory
+  Set FZF_ALT_C_COMMAND to override the default command
+  Set FZF_ALT_C_OPTS to pass additional options
+
+
+https://www.freecodecamp.org/news/fzf-a-command-line-fuzzy-finder-missing-demo-a7de312403ff/
+https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
+
+In simple terms, fzf is just another Unix filter. It reads lines from stdin,
+launches an interactive finder dialogue, and finally writes selected items to
+stdout. The key point and difference from tools like GNU find, is its
+interactive finder dialogue that filters items instantly as you type.
+
+fzf supports fuzzy matching so you can just type several characters in a row
+and it will match lines with those characters scattered across the string.
+Alternatively, prefix a search term with a single quote, like 'string, to opt
+for exact matches only, or run as fzf --exact.
+
+It does not support regular expressions or glob patterns, so *.sh pattern would
+not work. But keep it simple — productivity and speed is your goal today. You
+don’t have spare time to compose and type correct regular expressions. Instead
+just type several words, or even parts of the words, delimited by a space, and
+that would cover >90% of the use cases. For the remaining 10%, use ^ and $ to
+match the start and end of the string respectively, and use ! to negate
+matching.
+
+# Print info for each selected file
+fzf | xargs ls -l
+
+Fuzzy completion for bash and zsh
+To make it more convenient, fuzzy completion can be triggered if the word
+before the cursor ends with the trigger sequence which is by default **. For
+example, type vim ~/path/** and press TAB.
+
+Format is as follows, where FUZZY_PATTERN is optional.
+
+COMMAND [DIRECTORY/][FUZZY_PATTERN]**<TAB>
+
+# Files under the current directory
+# - You can select multiple items with TAB key
+vim **<TAB>
+
+# Files under parent directory
+vim ../**<TAB>
+
+# Files under parent directory that match `fzf`
+vim ../fzf**<TAB>
+
+# Files under your home directory
+vim ~/**<TAB>
+
+
+# Directories under current directory (single-selection)
+cd **<TAB>
+
+# Directories under ~/github that match `fzf`
+cd ~/github/fzf**<TAB>
+
+If you don’t like the ** sequence, you can use keyboard shortcuts. CTRL+T
+triggers fzf and pastes the selected file onto the command line, whereas ALT+C
+changes into the selected directory.
+
+Process IDs
+Fuzzy completion for PIDs is provided for kill command. In this case, there is
+no trigger sequence; just press the tab key after the kill command.
+# Can select multiple processes with <TAB> or <Shift-TAB> keys
+kill -9 <TAB>
+
+Host names
+For ssh and telnet commands, fuzzy completion for hostnames is provided. The
+names are extracted from /etc/hosts and ~/.ssh/config.
+ssh **<TAB>
+telnet **<TAB>
+
+Environment variables / Aliases
+unset **<TAB>
+export **<TAB>
+unalias **<TAB>
+

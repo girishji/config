@@ -1,0 +1,14 @@
+to invite everyone from list: https://www.facebook.com/this.is.how.you.promote
+above he does to everyone, but you can select a list
+javascript:var inputs = document.getElementsByClassName('_1pu2'); 
+for(var i=0;i<inputs.length;i++) 
+{ inputs[i].click(); }
+
+--
+How to tag people as a page?
+see joanna edelman post in https://www.facebook.com/help/community/question/?id=10201550585509075
+
+--
+Videos (like vimeo) not embedding correctly? Use this debug tool: https://developers.facebook.com/tools/debug/sharing/
+
+--

@@ -1,0 +1,12 @@
+To export text annotations (your comments) use skim:
+
+On OS X, I've downloaded Skim. I can open an copy of a pdf annotated in Preview or GoodReader, then convert the annotations to .skim format by selecting file>convert notes. Having done this, I can select file>export and there's an option to export notes as a txt file.
+
+https://apple.stackexchange.com/questions/70088/export-pdf-annotations-only-using-preview
+
+==
+
+
+To change any PDF:
+1) open it in Nuance pdf tool in parallels
+2) export to Word, make changes, then save as pdf.

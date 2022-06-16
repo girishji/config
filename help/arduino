@@ -1,0 +1,3 @@
+In arduino IDE there are 2 identical submenus under Tools. Choose "sparcfun boards in sketchbook", not "sparcfun avr boards". Select 5v under processor. Select usbmodem... under ports to connect to for debugging.
+
+

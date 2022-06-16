@@ -1,0 +1,16 @@
+IMPORTANT: awk is a superset of grep and sed is an editor you would use to substitute pattern etc.
+====
+awk '/xxx/' file // same as grep xxx file
+awk '/regexp/ {print}' // same as above
+----
+git status |gr src |awk '{print $2}'
+--
+
+sed -e '...' -e '...'
+----
+to print a matching string:
+example:
+cat foo |sed -n '/.*\.o/ s/.* \(.*\.o\) .*/\1/p'
+prints word xxx/yyy/sss.o contained in a line. .*\.o\ is the pattern I am after.
+The \( , \) and \1 are the key. The \1 represents and print that what is found between the \( and \) in the searchstring.
+----

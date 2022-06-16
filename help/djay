@@ -1,0 +1,104 @@
+djay pro
+
+Precue:
+0) you don’t need 4 decks, next to each song is a small 3 bar icon, click it and it plays only through headphones; then click cmd-enter to add to que
+1) configure audio device by Window->Pre-Cuing
+2) have 4 decks (click on 4 vertical bars on right top corner)
+3) load song on deck 4 (decks 2 and 3 are for automix). play it. click on headphone icon just below deck
+4) 2nd icon on top left corner is precue. use it to control volume.
+5) reduce volume of precue deck to 0, so you only hear from headphone. volume slider is next to waveform 
+6) can precue using bluetooth headphones (bose sound link works also)
+
+Automix:
+1) left hand bottom corner is automix button. select playlist first, then click on this icon and start.
+2) to have a list for automix, click on que icon (2nd from end) on right bottom corner. to this load songs. (cmd+return to add, backspace to delete). Click on auto mix icon (2nd one left bottom corner), select “none” to point to the que (and not from any iTunes playlist). 
+3) See how serato pyro (iPhone) mixes; it looks at the waveform and it matches waveform ups and downs (intensity) by advancing next track a little and then it transitions. You do this by clicking on next song’s waveform at the top (below the title of song), and then hit arrow picture (dulled out even though it is functional) next to the slider in the middle that switches from one deck to another. Key is not to give pause between songs so people keep dancing for a while. With this you have power to transition whenever you want.
+4) Set end point of song: Deck 1 ->cue points->set end point (alt-T for left deck, alt-Y for right one); this way song transitions out leaving ‘gap’ between songs. This is equal to ‘fade out’ cue point in tractor. To remove end point, choose ‘reset cue points’ from above menu. You cannot set start point but you can move the cursor on the passive deck to wherever you want next song to start.
+
+- to enable microphone (it is broken in this release though) click on top left corner microphone icon (3rd from left, all the way at top). Enable by clicking on button inside the dropdown.
+
+- Master volume is at top left corner, all the way at the top; Deck volume buttons are to the left of left deck and right of right deck
+
+- Expand library: click on icon at right bottom corner (last icon)
+
+
+- Effects:
+In waveform mode, you see a small rectangular box with arrow on left side of waveform. slide the slider to right to reveal Fx. Once this is revealed, center icon is ‘repeat’. ‘In’ and “out” (when “manual” is selected)refers to selecting the segment to repeat.
+There is also “cue” icon next to “repeat”. If you click on a button to set cue point (there are 8 cue point options), click again to start the cue.
+Under “FX” you’ll see predefined effects (some need to be paid). Click “ON” next to them to start them. “Flanger” is good.
+
+- More Effects: click on the grid like button in the top middle, just below red record button
+
+- Simplest way to set cue is to use “Set” and point looking buttons below waveform. 
+
+- can’t pause b/w songs. go to automix settings, set to 0 sec when transition starts.
+
+
+- Help->keyboard shortcuts
+
+- Bluetooth headphones: Pair it and djay should it. Otherwise, for microphone, open microphone icon (top left) and select ‘configure audio devices’. Set microphone to SBH50 (sony) there. When you need to you the microphone 1) step away to avoid echo, 2) turn on slider inside microphone dropdown window (top left), and talk. If audio sounds bad (for precuing), open microphone window, and select ‘configure audio devices’, switch microphone back to built-in microphone. When you are done, turn off bluetooth headset, and always carry a USB stick charger. To pair the device, turn on bluetooth on laptop, hold power button on SBH50 for many seconds until bluetooth icon appears, now it is discoverable.
+
+
+====
+===============================================
+old djay help:
+====
+
+
+
+click on headphone icon to send output to headphone. Also, there is volume slider under it. reduce to 0. otherwise sound will go both to headphone and external speakers
+====
+
+automix: click on the bottom right corner (right arrow), it brings up a window on right and you can load songs, then click LIbrary->automix.
+To add to automatix que do ‘return’, to remove ‘backspace’.
+——
+To send audio output to USB there is a round headphone icon to the right of left disc and to the left of right disc. click it. volume is adjusted by clicking on headphone icon on the bottom right corner and sliding pre-cue volume.
+bug: sends output to both places!??? Ans: no, reduce volume slider to 0 on the side u selected headphone output
+——
+
+Using keyboard shortcuts to load a song
+When a song is selected in the integrated iTunes library, you can also load it with the following keyboard shortcuts.
+Load on Turntable 1: ⌘ ⇠
+Load on Turntable 2: ⌘ ⇢
+Double clicking on a song in djay's music library will load the selected song on the turntable that is "less" active than the other.
+
+====
+
+Using Automix
+Click the "Automix" button in the center of the bottom bar to enable Automix.
+By default, djay will automix the tracks of the currently selected playlist.
+Using the Automix Queue
+djay allows you to create a playlist to add songs to be used in Automix on the fly and specify their order using the Automix Queue. To use the Automix Queue:
+Open the Automix Queue by pressing the  button (⌘K) in the lower right corner of the screen.
+Drag and drop songs from the tracks table into the Automix Queue
+You can change the order of the songs by drag and drop, and delete a song by selecting it and pressing Backspace.
+Automix Preferences
+You can adjust the behavior of Automix in the Automix tab in the djay preferences.
+Transition style
+Choose the transition style you want djay to use when fading from one song to the next. Choose "Random" if you would like djay to alternate between all styles or pick an arbitrary style.
+Transition duration
+How long it takes to crossfade from one song to the next.
+Start transition x seconds before reaching end of song
+Adjust how many seconds before the end of a song the transition to the next song is triggered. Set to 0.0 if you want the songs entirely played till their end without being iterrupted by a transition.
+Use start and end point of song if available
+Uses the start and end points if you set them for the song previously or if available through iTunes.
+Note: To set the start or end point of a song:
+Open the Skipping tool using the respective button below the Mixer.
+Use the the "Set" buttons to set the start and/or end point of a song.
+Select Cue Points > Save Cue Points from the Table-1 or Table-2 menu to save the start/stop points.
+Automatically sync tempo of songs if possible
+Matches the tempo (BPM) of the two songs if they are within a reasonable range.
+Maximum play duration
+djay will play a song until a few seconds before the end. If you want to limit the play duration to a fixed value, select the check box and specify your preferred limit. For example, if you choose the song duration limit to be 30 seconds, djay will start a transition to the next song after 30 seconds.
+====
+
+Using the Live Microphone
+
+Put your own voice into your mix, live! Use the Live Microphone to speak into your mix or sing to the music, and use djay’s real-time effects to transform your own voice.
+How to use the Live Microphone
+Press the Mic button in the TOP LEFT bar to open the Mic popover (⇧M).
+Turn the Mic switch on.
+Change the input volume of the microphone by moving the volume slider (be aware of feedback loops if you use the built-in microphone and speakers).
+To get rid of echo, you have to mute the built in speakers.
+By moving the other two sliders you can add an echo or change the pitch of your voice.
+====

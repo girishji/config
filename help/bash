@@ -1,0 +1,1344 @@
+ctrl-x ctrl-e: to open a editor to put commands and execute (from shell prompt)
+----
+to debug:
+bash -x script.sh // to debug
+----
+ctrl-x ctrl-e to edit command
+----
+to debug/call individual functions in script:
+source script.sh; funcname
+You can pass env variables into script by doing export var=foo; script.sh
+----
+http://mywiki.wooledge.org/HereDocument
+here document (<<) and here string (<<<)
+also
+http://mywiki.wooledge.org/BashFAQ/006#Indirection
+
+more from above:
+Breaking up a string is what IFS is used for:
+$ IFS=. read -a ip_elements <<< "127.0.0.1"
+Here we use IFS with the value . to cut the given IP address into array elements wherever there's a ., resulting in an array with the elements 127, 0, 0 and 1.
+
+File names cannot contain NUL (\0) bytes:
+Filenames can have newline (\n). So, is there any way to get a list of elements from an external program (like find) into a Bash array? In general, the answer is yes, provided there is a reliable way to delimit the elements.
+
+In the specific case of filenames, the answer to this problem is NUL bytes. A NUL byte is a byte which is just all zeros: 00000000. Bash strings can't contain NUL bytes, because of an artifact of the "C" programming language: NUL bytes are used in C to mark the end of a string. Since Bash is written in C and uses C's native strings, it inherits that behavior.
+
+A data stream (like the output of a command, or a file) can contain NUL bytes. Streams are like strings with three big differences: they are read sequentially (you usually can't jump around); they're unidirectional (you can read from them, or write to them, but typically not both); and they can contain NUL bytes.
+
+File names cannot contain NUL bytes (since they're implemented as C strings by Unix), and neither can the vast majority of human-readable things we would want to store in a script (people's names, IP addresses, etc.). That makes NUL a great candidate for separating elements in a stream. Quite often, the command whose output you want to read will have an option that makes it output its data separated by NUL bytes rather than newlines or something else. find (on GNU and BSD, anyway) has the option -print0, which we'll use in this example:
+
+
+files=()
+while read -r -d $'\0'; do
+    files+=("$REPLY")
+done < <(find /foo -print0)
+This is a safe way of parsing a command's output into strings. Understandably, it looks a little confusing and convoluted at first. So let's take it apart:
+
+The first line files=() creates an empty array named files.
+
+We're using a while loop that runs a read command each time. The read command uses the -d $'\0' option, which means that instead of reading a line at a time (up to a newline), we're reading up to a NUL byte (\0). It also uses -r to prevent it from treating backslashes specially.
+
+Once read has read some data and encountered a NUL byte, the while loop's body is executed. We put what we read (which is in the parameter REPLY) into our array.
+
+To do this, we use the +=() syntax. This syntax adds one or more element(s) to the end of our array.
+
+Finally, the < <(..) syntax is a combination of File Redirection (<) and Process Substitution (<(..)). Omitting the technical details for now, we'll simply say that this is how we send the output of the find command into our while loop.
+
+
+----
+http://mywiki.wooledge.org/BashGuide/InputAndOutput
+
+Heredocs and Herestrings:
+
+Sometimes storing data in a file is overkill. We might only have a tiny bit of it -- enough to fit conveniently in the script itself. Or we might want to redirect the contents of a variable into a command, without having to write it to a file first.
+
+
+$ grep proud <<END
+> I am a proud sentence.
+> END
+I am a proud sentence.
+This is a Heredoc (or Here Document). Heredocs are useful if you're trying to embed short blocks of multi-line data inside your script. (Embedding larger blocks is bad practice. You should keep your logic (your code) and your input (your data) separated, preferably in different files, unless it's a small data set.)
+
+In a Heredoc, we choose a word to act as a sentinel. It can be any word; we used END in this example. Choose one that won't appear in your data set. All the lines that follow the first instance of the sentinel, up to the second instance, become the stdin for the command. The second instance of the sentinel word has to be a line all by itself.
+
+There are a few different options with Heredocs. Normally, you can't indent them -- any spaces you use for indenting your script will appear in the stdin. The terminator string (in our case END) must be at the beginning of the line.
+
+
+echo "Let's test abc:"
+if [[ abc = a* ]]; then
+    cat <<END
+        abc seems to start with an a!
+END
+fi
+Will result in:
+
+Let's test abc:
+        abc seems to start with an a!
+You can avoid this by temporarily removing the indentation for the lines of your Heredocs. However, that distorts your pretty and consistent indentation. There is an alternative. If you use <<-END instead of <<END as your Heredoc operator, Bash removes any tab characters in the beginning of each line of your Heredoc content before sending it to the command. That way you can still use tabs (but not spaces) to indent your Heredoc content with the rest of your code. Those tabs will not be sent to the command that receives your Heredoc. You can also use tabs to indent your sentinel string.
+
+Bash substitutions are performed on the contents of the Heredoc by default. However, if you quote the word that you're using to delimit your Heredoc, Bash won't perform any substitutions on the contents. Try this example with and without the quote characters, to see the difference:
+
+$ cat <<'XYZ'
+> My home directory is $HOME
+> XYZ
+My home directory is $HOME
+The most common use of Heredocs is dumping documentation to the user:
+
+usage() {
+    cat <<EOF
+usage: foobar [-x] [-v] [-z] [file ...]
+A short explanation of the operation goes here.
+It might be a few lines long, but shouldn't be excessive.
+EOF
+}
+Now let's check out the very similar but more compact Herestring:
+
+
+$ grep proud <<<"I am a proud sentence"
+I am a proud sentence.
+This time, stdin reads its information straight from the string you put after the <<< operator. This is very convenient to send data that's in variables into processes:
+
+
+$ grep proud <<<"$USER sits proudly on his throne in $HOSTNAME."
+lhunath sits proudly on his throne in Lyndir.
+Herestrings are shorter, less intrusive and overall more convenient than their bulky Heredoc counterpart. However, they are not portable to the Bourne shell.
+
+Later on, you will learn about pipes and how they can be used to send the output of a command into another command's stdin. Many people use pipes to send the output of a variable as stdin into a command. However, for this purpose, Herestrings should be preferred. They do not create a subshell and are lighter both to the shell and to the style of your shell script:
+
+
+$ echo 'Wrap this silly sentence.' | fmt -t -w 20
+Wrap this silly
+   sentence.
+$ fmt -t -w 20 <<< 'Wrap this silly sentence.'
+Wrap this silly
+   sentence.
+Technically, Heredocs and Herestrings are themselves redirects just like any other. As such, additional redirections can occur on the same line, all evaluated in the usual order.
+
+$ cat <<EOF > file
+> My home dir is $HOME
+> EOF
+$ cat file
+My home dir is /home/greg
+
+----
+http://mywiki.wooledge.org/BashGuide/InputAndOutput
+
+Process Substitution: use of <() and >() :
+A cousin of the pipe is the process substitution operator, which comes in two forms: <() and >(). It's a convenient way to use named pipes without having to create temporary files. Whenever you think you need a temporary file to do something, process substitution might be a better way to handle things.
+
+What it does, is basically run the command inside the parentheses. With the <() operator, the command's output is put in a named pipe (or something similar) that's created by bash. The operator itself in your command is replaced by the filename of that file. After your whole command finishes, the file is cleaned up.
+
+Here's how we can put that into action: Imagine a situation where you want to see the difference between the output of two commands. Ordinarily, you'd have to put the two outputs in two files and diff those:
+
+
+$ head -n 1 .dictionary > file1
+$ tail -n 1 .dictionary > file2
+$ diff -y file1 file2
+Aachen                                                        | zymurgy
+$ rm file1 file2
+Using the Process Substitution operator, we can do all that with a one-liner and no need for manual cleanup:
+
+
+$ diff -y <(head -n 1 .dictionary) <(tail -n 1 .dictionary)
+Aachen                                                        | zymurgy
+The <(..) part is replaced by the temporary FIFO created by bash, so diff actually sees something like this:
+
+
+$ diff -y /dev/fd/63 /dev/fd/62
+Here we see how bash runs diff when we use process substitution. It runs our head and tail commands, redirecting their respective outputs to the "files" /dev/fd/63 and /dev/fd/62. Then it runs the diff command, passing those filenames where originally we had put the process substitution operators.
+
+The actual implementation of the temporary files differs from system to system. In fact, you can see what the above would actually look like to diff on your box by putting an echo in front of our command:
+
+
+$ echo diff -y <(head -n 1 .dictionary) <(tail -n 1 .dictionary)
+diff -y /dev/fd/63 /dev/fd/62
+The >(..) operator is much like the <(..) operator, but instead of redirecting the command's output to a file, we redirect the file to the command's input. It's used for cases where you're running a command that writes to a file, but you want it to write to another command instead:
+
+
+$ tar -cf >(ssh host tar xf -) .
+
+
+
+----
+
+eval and ${!}
+
+xx="foo bar"
+m=xx
+c=$(eval echo \$$m) // don't use ``
+echo $c // foo bar
+
+OR
+
+c=${!m}
+echo $c // foo bar
+----
+bash regex match: use [[ =~ ]] like perl
+
+The =~ Regular Expression matching operator within a double brackets test expression. (Perl has a similar operator.)
+
+#!/bin/bash
+
+variable="This is a fine mess."
+
+# Regex matching with =~ operator within [[ double brackets ]].
+if [[ "$variable" =~ T.........fin*es* ]]
+# NOTE: As of version 3.2 of Bash, expression to match no longer quoted (quoting will not cause error though).
+then
+  echo "match found"
+      # match found
+fi
+
+----
+A new, more generalized {a..z} brace expansion operator.
+
+for i in {1..10}
+#  Simpler and more straightforward than
+#+ for i in $(seq 10)
+do
+  echo -n "$i "
+done
+
+echo
+
+# 1 2 3 4 5 6 7 8 9 10
+
+# Or just . . .
+
+echo {a..z}    #  a b c d e f g h i j k l m n o p q r s t u v w x y z
+echo {z..a}    #  z y x w v u t s r q p o n m l k j i h g f e d c b a
+               #  Works backwards, too.
+echo {25..30}  #  25 26 27 28 29 30
+echo {3..-2}   #  3 2 1 0 -1 -2
+
+# You can nest brace-expansion sets.
+echo {{a..c},{1..3}}
+     # a b c 1 2 3
+     # The "comma operator" splices together strings.
+----
+The ${!array[@]} operator, which expands to all the indices of a given array.
+
+#!/bin/bash
+
+Array=(element-zero element-one element-two element-three)
+
+echo ${Array[0]}   # element-zero
+                   # First element of array.
+
+echo ${!Array[@]}  # 0 1 2 3
+                   # All the indices of Array.
+
+for i in ${!Array[@]}
+do
+  echo ${Array[$i]} # element-zero
+                   # element-one
+                   # element-two
+                   # element-three
+                   #
+                   # All the elements in Array.
+done
+----
+The += operator is now permitted in in places where previously only the = assignment operator was recognized.
+
+a=1
+echo $a        # 1
+a+=5           # Won't work under versions of Bash earlier than 3.1.
+echo $a        # 15
+a+=Hello
+echo $a        # 15Hello
+Here, += functions as a string concatenation operator. Note that its behavior in this particular context is different than within a let construct.
+
+a=1
+echo $a        # 1
+let a+=5       # Integer arithmetic, rather than string concatenation.
+echo $a        # 6
+
+----
+[ ] is an abbreviation for 'test' command!
+
+if statement:        [] vs. [[]]
+        
+Contrary to [, [[ prevents word splitting of variable values. So, if VAR="var with spaces", you do not need to double quote $VAR in a test - eventhough using quotes remains a good habit. Also, [[ prevents pathname expansion, so literal strings with wildcards do not try to expand to filenames. Using [[, == and != interpret strings to the right as shell glob patterns to be matched against the value to the left, for instance: [[ "value" == val* ]].
+----
+Sometimes, there are several different ways that a particular comparison can be made. For example, the following two snippets of code function identically:
+if [ "$myvar" -eq 3 ]
+then 
+    echo "myvar equals 3"
+fi
+
+
+if [ "$myvar" = "3" ]
+then
+    echo "myvar equals 3"
+fi
+
+In the above two comparisons do exactly the same thing, but the first uses arithmetic comparison operators, while the second uses string comparison operators.
+----
+Shell arithmetic
+Before looking at a second type of looping construct, it's a good idea to become familiar with performing shell arithmetic. Yes, it's true: You can perform simple integer math using shell constructs. Simply enclose the particular arithmetic expression between a "$((" and a "))", and bash will evaluate the expression. Here are some examples:
+$ echo $(( 100 / 3 ))
+33
+$ myvar="56"
+$ echo $(( $myvar + 12 ))
+68
+$ echo $(( $myvar - $myvar ))
+0
+$ myvar=$(( $myvar + 1 ))
+----
+
+Shell variables cannot contain newline, a pain. this causes x=`ls -l`
+to be all in same line. not good for scripting. to avoid this use:
+(IFS="$(echo)"; x=`ls -l`) # or IFS="\n"
+IFS is input field separator, you are forcing it to be output of
+$(echo) which is a newline (could use \n also). () around the
+expression is to prevent clobbering of global IFS (not good).
+
+you can use pipes to redirect output from subshell (anyting inside ()), into main shell
+while read x; do
+        echo $x
+done < <(hawk_parse_stats_file) # declare /bin/bash at the top, not /bin/sh
+
+you can have ARRAYS in bash (see below), which may alleviate above problem.
+----
+
+I/O redirection
+
+note: 2>&1 will redirect err
+
+   : > filename
+      # The > truncates file "filename" to zero length.
+      # If file not present, creates zero-length file (same effect as 'touch').
+      # The : serves as a dummy placeholder, producing no output.
+
+   > filename    
+      # The > truncates file "filename" to zero length.
+      # If file not present, creates zero-length file (same effect as 'touch').
+      # (Same result as ": >", above, but this does not work with some shells.)
+
+   COMMAND_OUTPUT >>
+      # Redirect stdout to a file.
+      # Creates the file if not present, otherwise appends to it.
+
+
+      # Single-line redirection commands (affect only the line they are on):
+      # --------------------------------------------------------------------
+
+   1>filename
+      # Redirect stdout to file "filename."
+   1>>filename
+      # Redirect and append stdout to file "filename."
+   2>filename
+      # Redirect stderr to file "filename."
+   2>>filename
+      # Redirect and append stderr to file "filename."
+   &>filename
+      # Redirect both stdout and stderr to file "filename."
+      # This operator is now functional, as of Bash 4, final release.
+
+   M>N
+     # "M" is a file descriptor, which defaults to 1, if not explicitly set.
+     # "N" is a filename.
+     # File descriptor "M" is redirect to file "N."
+   M>&N
+     # "M" is a file descriptor, which defaults to 1, if not set.
+     # "N" is another file descriptor.
+
+      #==============================================================================
+
+      # Redirecting stdout, one line at a time.
+      LOGFILE=script.log
+
+      echo "This statement is sent to the log file, \"$LOGFILE\"." 1>$LOGFILE
+      echo "This statement is appended to \"$LOGFILE\"." 1>>$LOGFILE
+      echo "This statement is also appended to \"$LOGFILE\"." 1>>$LOGFILE
+      echo "This statement is echoed to stdout, and will not appear in \"$LOGFILE\"."
+      # These redirection commands automatically "reset" after each line.
+
+
+
+      # Redirecting stderr, one line at a time.
+      ERRORFILE=script.errors
+
+      bad_command1 2>$ERRORFILE       #  Error message sent to $ERRORFILE.
+      bad_command2 2>>$ERRORFILE      #  Error message appended to $ERRORFILE.
+      bad_command3                    #  Error message echoed to stderr,
+                                      #+ and does not appear in $ERRORFILE.
+      # These redirection commands also automatically "reset" after each line.
+      #=======================================================================
+
+   2>&1
+      # Redirects stderr to stdout.
+      # Error messages get sent to same place as standard output.
+        >>filename 2>&1
+            bad_command >>filename 2>&1
+            # Appends both stdout and stderr to the file "filename" ...
+        2>&1 | [command(s)]
+            bad_command 2>&1 | awk '{print $5}'   # found
+            # Sends stderr through a pipe.
+            # |& was added to Bash 4 as an abbreviation for 2>&.
+
+   i>&j
+      # Redirects file descriptor i to j.
+      # All output of file pointed to by i gets sent to file pointed to by j.
+
+   >&j
+      # Redirects, by default, file descriptor 1 (stdout) to j.
+      # All stdout gets sent to file pointed to by j.
+
+   0< FILENAME
+    < FILENAME
+      # Accept input from a file.
+      # Companion command to ">", and often used in combination with it.
+      #
+      # grep search-word <filename
+
+
+   [j]<>filename
+      #  Open file "filename" for reading and writing,
+      #+ and assign file descriptor "j" to it.
+      #  If "filename" does not exist, create it.
+      #  If file descriptor "j" is not specified, default to fd 0, stdin.
+      #
+      #  An application of this is writing at a specified place in a file. 
+      echo 1234567890 > File    # Write string to "File".
+      exec 3<> File             # Open "File" and assign fd 3 to it.
+      read -n 4 <&3             # Read only 4 characters.
+      echo -n . >&3             # Write a decimal point there.
+      exec 3>&-                 # Close fd 3.
+      cat File                  # ==> 1234.67890
+      #  Random access, by golly.
+
+====
+
+String comparison caveats
+Most of the time, while you can omit the use of double quotes surrounding strings and string variables, it's not a good idea. Why? Because your code will work perfectly, unless an environment variable happens to have a space or a tab in it, in which case bash will get confused. Here's an example of a fouled-up comparison:
+if [ $myvar = "foo bar oni" ]
+then
+    echo "yes"
+fi
+
+In the above example, if myvar equals "foo", the code will work as expected and not print anything. However, if myvar equals "foo bar oni", the code will fail with the following error:
+[: too many arguments
+
+In this case, the spaces in "$myvar" (which equals "foo bar oni") end up confusing bash. After bash expands "$myvar", it ends up with the following comparison:
+[ foo bar oni = "foo bar oni" ]
+
+Because the environment variable wasn't placed inside double quotes, bash thinks that you stuffed too many arguments in-between the square brackets. You can easily eliminate this problem by surrounding the string arguments with double-quotes. Remember, if you get into the habit of surrounding all string arguments and environment variables with double-quotes, you'll eliminate many similar programming errors. Here's how the "foo bar oni" comparison should have been written:
+if [ "$myvar" = "foo bar oni" ]
+then
+    echo "yes"
+fi
+
+More quoting specifics
+If you want your environment variables to be expanded, you must enclose them in double quotes, rather than single quotes. Single quotes disable variable (as well as history) expansion.
+The above code will work as expected and will not create any unpleasant surprises.
+----
+
+Chopping strings like a pro
+
+While basename and dirname are great tools, there are times where we may need to perform more advanced string "chopping" operations than just standard pathname manipulations. When we need more punch, we can take advantage of bash's advanced built-in variable expansion functionality. We've already used the standard kind of variable expansion, which looks like this: ${MYVAR}. But bash can also perform some handy string chopping on its own. Take a look at these examples:
+$ MYVAR=foodforthought.jpg
+$ echo ${MYVAR##*fo}
+rthought.jpg
+$ echo ${MYVAR#*fo}
+odforthought.jpg
+
+In the first example, we typed ${MYVAR##*fo}. What exactly does this mean? Basically, inside the ${ }, we typed the name of the environment variable, two ##s, and a wildcard ("*fo"). Then, bash took MYVAR, found the longest substring from the beginning of the string "foodforthought.jpg" that matched the wildcard "*fo", and chopped it off the beginning of the string. That's a bit hard to grasp at first, so to get a feel for how this special "##" option works, let's step through how bash completed this expansion. First, it began searching for substrings at the beginning of "foodforthought.jpg" that matched the "*fo" wildcard. Here are the substrings that it checked:
+f       
+fo              MATCHES *fo
+foo     
+food
+foodf           
+foodfo          MATCHES *fo
+foodfor
+foodfort        
+foodforth
+foodfortho      
+foodforthou
+foodforthoug
+foodforthought
+foodforthought.j
+foodforthought.jp
+foodforthought.jpg
+
+After searching the string for matches, you can see that bash found two. It selects the longest match, removes it from the beginning of the original string, and returns the result.
+The second form of variable expansion shown above appears identical to the first, except it uses only one "#" -- and bash performs an almost identical process. It checks the same set of substrings as our first example did, except that bash removes the shortest match from our original string, and returns the result. So, as soon as it checks the "fo" substring, it removes "fo" from our string and returns "odforthought.jpg".
+This may seem extremely cryptic, so I'll show you an easy way to remember this functionality. When searching for the longest match, use ## (because ## is longer than #). When searching for the shortest match, use #. See, not that hard to remember at all! Wait, how do you remember that we are supposed to use the '#' character to remove from the *beginning* of a string? Simple! You will notice that on a US keyboard, shift-4 is "$", which is the bash variable expansion character. On the keyboard, immediately to the left of "$" is "#". So, you can see that "#" is "at the beginning" of "$", and thus (according to our mnemonic), "#" removes characters from the beginning of the string. You may wonder how we remove characters from the end of the string. If you guessed that we use the character immediately to the right of "$" on the US keyboard ("%"), you're right! Here are some quick examples of how to chop off trailing portions of strings:
+$ MYFOO="chickensoup.tar.gz"
+$ echo ${MYFOO%%.*}
+chickensoup
+$ echo ${MYFOO%.*}
+chickensoup.tar
+
+As you can see, the % and %% variable expansion options work identically to # and ##, except they remove the matching wildcard from the end of the string. Note that you don't have to use the "*" character if you wish to remove a specific substring from the end:
+MYFOOD="chickensoup"
+$ echo ${MYFOOD%%soup}
+chicken
+
+In this example, it doesn't matter whether we use "%%" or "%", since only one match is possible. And remember, if you forget whether to use "#" or "%", look at the 3, 4, and 5 keys on your keyboard and figure it out.
+We can use another form of variable expansion to select a specific substring, based on a specific character offset and length. Try typing in the following lines under bash:
+$ EXCLAIM=cowabunga
+$ echo ${EXCLAIM:0:3}
+cow
+$ echo ${EXCLAIM:3:7}
+abunga
+
+This form of string chopping can come in quite handy; simply specify the character to start from and the length of the substring, all separated by colons.
+------------------------------------------------------------------------
+
+how to read from file: (break long lines using \ )
+
+cat filename | (
+   while read X Y Z; do  # can use while read line; do
+      if [ "X" = "something" ]; then
+         # do something
+      fi
+   done )
+
+-------------------------------------------------------------------------
+Scripting improvements
+
+The last area in which bash provides some considerable improvement is
+in the scripting functionality. One of the commonly quoted limitations
+of most shells is that they have loose variable typing, no support for
+arrays of data, and no built-in functionality to perform basic math or
+expressions. All of these have been resolved within bash to different
+degrees.
+
+Variables within bash can be declared before they are used, and the
+declaration can include a type. For example, to declare a variable as
+an integer type (and therefore to always be identified as a valid
+number), use: $ declare -i myint. To set a value at the same time,
+use: $ declare -i myint=235.
+
+To perform basic arithmetic, you can embed the expression into $(( ))
+(see Listing 13).
+
+Listing 13. Embedding the expression to perform basic arithmetic
+
+$ echo $((4+3*12))
+40
+----
+Use set -u
+How often have you written a script that broke because a variable wasn't set? I know I have, many times.
+
+chroot=$1
+...
+rm -rf $chroot/usr/share/doc 
+If you ran the script above and accidentally forgot to give a parameter, you would have just deleted all of your system documentation rather than making a smaller chroot. So what can you do about it? Fortunately bash provides you with set -u, which will exit your script if you try to use an uninitialised variable. You can also use the slightly more readable set -o nounset.
+
+david% bash /tmp/shrink-chroot.sh
+$chroot=
+david% bash -u /tmp/shrink-chroot.sh
+/tmp/shrink-chroot.sh: line 3: $1: unbound variable
+david% 
+Use set -e
+Every script you write should include set -e at the top. This tells bash that it should exit the script if any statement returns a non-true return value. The benefit of using -e is that it prevents errors snowballing into serious issues when they could have been caught earlier. Again, for readability you may want to use set -o errexit.
+
+Using -e gives you error checking for free. If you forget to check something, bash will do it or you. Unfortunately it means you can't check $? as bash will never get to the checking code if it isn't zero. There are other constructs you could use:
+
+command
+if [ "$?"-ne 0]; then echo "command failed"; exit 1; fi 
+could be replaced with
+
+command || { echo "command failed"; exit 1; } 
+or
+
+if ! command; then echo "command failed"; exit 1; fi 
+What if you have a command that returns non-zero or you are not interested in its return value? You can use command || true, or if you have a longer section of code, you can turn off the error checking, but I recommend you use this sparingly.
+
+set +e
+command1
+command2
+set -e 
+On a slightly related note, by default bash takes the error status of the last item in a pipeline, which may not be what you want. For example, false | true will be considered to have succeeded. If you would like this to fail, then you can use set -o pipefail to make it fail.
+----
+Be prepared for spaces in filenames
+Someone will always use spaces in filenames or command line arguments and you should keep this in mind when writing shell scripts. In particular you should use quotes around variables.
+
+if [ $filename = "foo" ]; 
+will fail if $filename contains a space. This can be fixed by using:
+
+if [ "$filename" = "foo" ]; 
+When using $@ variable, you should always quote it or any arguments containing a space will be expanded in to separate words.
+
+david% foo() { for i in $@; do echo $i; done }; foo bar "baz quux"
+bar
+baz
+quux
+david% foo() { for i in "$@"; do echo $i; done }; foo bar "baz quux"
+bar
+baz quux 
+I can not think of a single place where you shouldn't use "$@" over $@, so when in doubt, use quotes.
+
+If you use find and xargs together, you should use -print0 to separate filenames with a null character rather than new lines. You then need to use -0 with xargs.
+
+david% touch "foo bar"
+david% find | xargs ls
+ls: ./foo: No such file or directory
+ls: bar: No such file or directory
+david% find -print0 | xargs -0 ls
+./foo bar 
+----
+
+----
+You can also include variables (see Listing 14).
+
+Listing 14. Including variables
+
+$ echo $((myint+3*12))
+63
+
+To declare a variable as an array type, use $ declare -a myarray.
+
+You can add values by specifying a parenthesized list of values: $
+declare -a myarray=(tom dick harry).
+
+To get a value out of the array, specify the array reference (see
+Listing 15).
+
+Listing 15. Specifying the array reference
+
+$ echo ${myarray[1]} 
+dick
+
+You can use the same system to populate the array, for example, from a
+list of files (see Listing 16).
+
+Listing 16. Populating the array from a list of files
+
+$ declare -a files=`ls`
+$ echo $files
+back/ build/ calc/ cheffyhack/ cvs/ dbdumps/ edin/ install/ \
+    logs/ logstomerge/ lost+found/ my.
+cnf mysql-binlogs/ mysqlsizer statmon/ svn/ vmware/ webs/
+
+And you can use the entire contents of the array by using the @ symbol
+as the element specification (see Listing 17).
+
+Listing 17. Using the @ symbol as the element specification
+
+for file in ${files[@]}
+do
+    echo $file
+done
+
+This manipulation and variable support makes many aspects of
+programming with a shell script significantly easier.
+
+---------------------------------------------------------------------
+The [[ ]] form is generally safer than [ ] and should be used in all new code.
+
+This is because [[ ]] is a bash syntax construct, whereas [ ] is a
+program which happens to be implemented as an internal. [ could also a
+symbolic link to 'test' command.
+----------------------------------------------------------------------
+
+put all your commands into a file and execute them by
+$ bash filename
+$ ./filename  if it is executable
+----------------------------------------------------------------------
+
+$ ./configure; make; make install
+  OR
+$ ./configure && make && make install 
+
+With the first if the ./configure fails the other two commands will
+continue to execute. With the second the commands following the &&
+will only execute if the command previous finishes without
+error. Thus, the second would be most useful for this example because
+there is no reason to run 'make' or 'make install' if the
+configuration fails.
+----------------------------------------------------------------------
+
+if defined XX(=xx) then use 'lpr -Pxx' or use 'lpr'
+> lpr ${XX:+'-P'}${XX}
+----------------------------------------------------------------------
+
+for i in {1..10}; do
+...
+done
+
+for (( i = 1 ; i <= 10 ; i++ )) ; do
+  ...
+done
+
+for i in `seq 1 10`
+do
+ echo $i
+done
+
+for i in hc-{1,2,3}; do
+ ...
+done
+
+for i in $( ls ); do
+  ...
+done
+
+This is most commonly used to iterate over lines in a file:
+while read myline ; do
+    echo "It says ${myline}"
+done < some_file
+
+COUNTER=0
+while [  $COUNTER -lt 10 ]; do
+  echo The counter is $COUNTER
+  let COUNTER=COUNTER+1 
+done
+
+if [ condition ] || [ condn ]; then
+,,,
+fi
+
+if [ $# -eq 2 ]; then
+fi
+
+##
+## IF YOU leave out [] then it executes the condition as a command
+##
+
+if grep $w1 $file1 || grep $w2 $file2
+then
+fi
+Can use && above
+
+if [ $x == "hello" ]; then
+fi
+
+if [ -z $filename ]; then
+...
+fi
+
+if [ ! -z $str ]; then
+...
+fi
+
+while [ 1 ]; do
+  ...
+done
+
+if ...; then
+elif ...; then
+fi
+
+## Grouping complex expressions: use -o (or) and -a (and), and, if necessary, use
+escaped (). You cannot group within []. if [ [ cond ] && [ cond2 ] ] does NOT 
+work.
+if [ $x == "hi -o $x == "ha" ]; then 
+...
+fi
+if [ -n $dirname ] && [ \( -d "dirname \) -a \( -x $dirname \) ]; then
+...
+fi
+
+----------------------------------------------------------------------
+Operator       True if...
+-------        -------
+-n str         str is not null (length > 0)
+-z str         str is null (length == 0)
+str1 = (or ==) str2    str1 matches str2
+str1 != str2   yep
+str1 < str2    yep
+str1 > str2    yep
+
+-d file        file exists and is a dir
+-h file            file is a symbolic link
+-e file        file exists
+-f file        file exists and is a regular file (not dir)
+-r file        you have read permission
+-w file        you have write permission
+-x file        you have execute permission
+-s file        file exists and not empty
+-O file        you own file
+-G file        group id matches yours
+file1 -nt file2   file1 newer than...
+file1 -ot file2   older than...
+
+Integers
+-lt
+-le    less than or equal
+-eq
+-ge
+-gt
+-ne
+
+
+let "x = $y * 10 / $z", need "" in command line to replace $y with its
+value. From inside a script you can do without "".
+(( y= $x * 10/$z)), will work
+a=2334                   # Integer.
+b=`expr $a + 2`
+let "a += 1"
+(( $a++ ))               same as above
+echo "a = $a "           # a = 2335
+DELTIME=`expr $SS \* 60 / $NUMSIZES`, need spaces and escapes (\)
+when you use expr. From the manpages of expr:
+OPERANDS
+      The argument operand (of expr) is evaluated as an expression. Terms of
+      the  expression must be separated by blanks. Characters spe-
+      cial to the shell must be escaped (see sh(1)). 
+
+x=`ls |wc-w` can make x behave weird, since wc inserts spaces in front
+of the number. echo $x works, let "y=$x+10" works, but let y=$x+10
+does not work. So chop off spaces using x=`ls |wc-w|awk '{print $1}'`
+
+----------------------------------------------------------------------
+$* is a single string of all positional parameters
+$@ is the N double quoted strings of positional parameters
+     if there are no parameters $@ expands to nothing
+$# number of positional parameters
+$1, $2 are positioanal parameters
+
+----------------------------------------------------------------------
+String replacement:
+
+There are three basic string replacement forms available:
+${var#pattern}, ${var%pattern} and ${var/pattern/replacement}. The
+first two are used for deleting content from the start and end of a
+string respectively. The third is used to replace a match with
+different content.
+
+The ${var/pattern/replacement} construct expands to the value of var
+with the first match of pattern replaced with replacement. To replace
+all matches, ${var//pattern/replacement} can be used.
+
+${varname:-word} If varname exists and isn't null, return its value;
+                 otherwise return word. (used for default vale of
+                 variable)
+${varname:=word} If varname exists and isn't null, return its value;
+                 otherwise set it to word and and return its
+                 value. (used for setting variable to default value if
+                 its is undefined)
+${varname:?message} If varname exists and isn't null, return its value;
+                 otherwise print varname followed by message and abort
+                 script.
+${varname:+word} If varname exists and isn't null, return word;
+                 otherwise return null.
+${varname:offset:length} return substring of varname. both offset and
+                 length can be -ve.
+
+----------------------------------------------------------------------
+pattern matching
+
+b=${a/23/BB}             # Substitute "BB" for "23" in string a and
+                         # assign to b.
+[set]   any character in set
+[!set]  any character not in set
+?  single character
+*  string of chars
+
+[abc]  a, b, or c
+[a-c]  a, b, or c
+[!0-9] all non digits
+[a-zA-Z] you know
+
+To compare 2 strings use
+if grep "pattern"  file; then
+...
+fi
+
+Could use egrep
+
+grep -i to ignore case
+
+${variable#pattern}  If the pattern matches the beginning of variable,
+                     delete the shortest part that matches and return
+                     the rest. 
+${variable##pattern}  If the pattern matches the beginning of variable,
+                     delete the longest part that matches and return
+                     the rest. 
+${variable%pattern}  If the pattern matches the end of variable,
+                     delete the shortest part that matches and return
+                     the rest. 
+${variable%%pattern}  If the pattern matches the end of variable,
+                     delete the longest part that matches and return
+                     the rest. 
+${variable/pattern/string}  The longest match to pattern is replaced
+                     by string. Only the first match is replaced. If the
+                     pattern begins with #, must match the start of
+                     variable, if % then match the end of variable. If
+                     string is null then delete matches.
+${variable//pattern/string}  The longest match to pattern is replaced
+                     by string. All matches are replaced. If the
+                     pattern begins with #, must match the start of
+                     variable, if % then match the end of variable. If
+                     string is null then delete matches.
+
+$path                /home/cam/book/long.file.name
+${path#/*/}               /cam/book/long.file.name
+${path##/*/}                        long.file.name
+${path%.*}           /home/cam/book/long.file
+${path%%.*}          /home/cam/book/long
+
+----------------------------------------------------------------------
+brace expansion
+b{ar{d,n,k},ed}s  expand to bards, barns, barks, beds etc.
+
+----------------------------------------------------------------------
+bash Arithmetic Expansion
+
+To check if variable is a number:
+echo $X | grep [^0-9] > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  ...
+fi
+
+The $(( expression )) construct can be used for integer arithmetic
+evaluation. expression is a C-like arithmetic expression.
+var++, var--
+++var, --var
+-, + 	Unary minus and plus
+!, ~ 	Logical negation, bitwise negation
+** 	Exponentiation
+*, /, % 	Multiplication, division, remainder
++, - 	Addition, subtraction
+<<, >> 	Left, right bitwise shifts
+<=, >=, <, > 	Comparison
+==, != 	Equality, inequality
+& 	Bitwise AND
+^ 	Bitwise exclusive OR
+| 	Bitwise OR
+&& 	Logical AND
+|| 	Logical OR
+expr ? expr : expr 	Conditional operator
+=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |= 	Assignment
+
+let node++  //works, notice no $ before node
+----------------------------------------------------------------------
+You could add like this
+node=12
+ssh hcb$[100+$node] ...
+
+Hashes
+PIDS[$node]=$pid
+pid=${PIDS[$node]}
+----------------------------------------------------------------------
+
+A function declaration must precede the call to it, there is no
+way to 'declare' it in advance and provide definition later.
+----------------------------------------------------------------------
+
+summary: " and ' can escape each other. " cannot escape ` which makes 
+  execution of commands (inside $var) like "`echo -e $var`" possible.
+  ' escapes `. \ is like ' except it applies to one character. ``
+  executes a command but not when it is inside '' since it gets escaped.
+ 
+- double quote (") escapes everything except itself and `
+  (backtick). Example, " will cause shell to expand $var and ` will
+  cause shell to execute a command, as in "`echo -e $var`".(-e will
+  make echo print newlines if \n is present in $var). Double quote can
+  escape single quote (').
+
+- single quote (') escapes everything
+  (including backtick and double quote) except itself. Use \ or "" to
+  escape a '.
+
+- backslash \ is same as single quote except it escapes only one
+  character next to it. 
+
+- backquote `` executes command, but not inside '' since it gets
+escaped.
+
+- \  use it to continue command line (long line)
+----------------------------------------------------------------------
+
+To print formatted string, of what is in variable $CD_LIST:
+awk '{printf("%-4d%-14s -> %s\n", NR, $1, $2)}' $CD_LIST
+CD_LIST has lines, NR is the line number, $1 is field 1 in each line.
+----------------------------------------------------------------------
+
+BASH
+=================================================================
+        
+        
+Command-line editing and key bindings
+
+The main command prompt within bash provides both the ability to edit
+the command line and a history function, remembering individual
+command lines so that you can execute them again.
+
+The editing functionality means that you can go forward and backward
+through the command line currently displayed to make changes and
+correct typos. In bash's standard form, you can use the cursor keys
+for basic movement. More extensive commands, such as going backward
+and forward by words, are controlled by the Readline library that
+supports both vi and emacs bindings by default. To set the editing
+mode, specify your preferred mode either on the command line or in a
+bootstrap file: $ set editing-mode emacs.
+
+For example, using the emacs editing mode, the following key bindings
+are in effect:
+
+    * Control-A -- This key binding takes you to the beginning of the line.
+    * Control-E -- This key binding takes you to the end of the line.
+    * Control-K -- This key binding deletes everything to the end of the line.
+    * Meta-B -- This key binding goes back by one word.
+    * Meta-F -- This key binding goes forward by one word.
+    * Meta-D -- This key binding deletes the current word.
+
+You can in fact bind any key or combination you like to a particular
+operation using the internal bind bash command. To start, you can get
+a list of the available commands by using the -P option (see Listing
+1).
+
+Listing 1. Using the -P option to get a list of available commands
+
+$ bind -P 
+
+abort can be found on "\C-g", "\C-x\C-g", "\M-\C-g".
+accept-line can be found on "\C-j", "\C-m".
+alias-expand-line is not bound to any keys
+arrow-key-prefix is not bound to any keys
+backward-byte is not bound to any keys
+...
+yank can be found on "\C-y".
+yank-last-arg can be found on "\M-.", "\M-_".
+yank-nth-arg can be found on "\M-\C-y".
+yank-pop can be found on "\M-y".
+
+
+The \C refers to the control key. The \M sequence refers to the 'meta'
+key (special on some keyboards, or usually the Alt key or the Escape
+key).
+
+To set a binding, you must specify the key sequence and the command to
+be executed, separated by a colon, with the key sequence escaped by a
+double quote (in extreme circumstances, you might need to escape this
+again with a single quote). For example, to change Control-B to go
+backwards word by word, use $ bind "\C-b":backward-word.
+
+You can even use the binding to execute a shell command (for example,
+to run an application). To do this, you must add the -x option, and
+this is an example of where the escaping of both is required. For
+example, to set Control-E to run emacs, you would use the following: $
+bind -x '"\C-e"':emacs.
+
+To have key bindings in bash enabled every time, you can either set
+the information in the .inputrc file (which then affects all
+Readline-enable d applications), or you can place specific bash
+bindings in your startup scripts, which will be covered later in this
+article.
+
+================================================================================
+To find out what keycode is produced by, say, pressing arrow key, do
+c-v then type the key: now bind this to the function you want using
+bind command.
+or, see /usr/share/doc/bash/inputrc.arrows for key definition of arrows
+for default key binddings, see /etc/inputrc.
+Finally, the function 'readline' is the one that parses the command
+line. see man pages. 'forward-word' function, for example, is a function
+in readline. It is the one that reads inputrc file.
+================================================================================
+I find ctrl+u is most helpful if you are typing in a password field at
+login and you want to start again because you have made a mistake.
+
+Eg: (this is a login prompt at tty1)
+
+hostname login: USERNAME
+Password: PASSWRO ctrl+u PASSWORD
+================================================================================
+to enable vi style key mappings do: set -o vi, to revert to
+emacs style key mappings for command line editor, do: set -o emacs
+================================================================================
+Bash uses named pipes in a really neat way. Recall that when you enclose a command in parenthesis, the command is actually run in ; that is, the shell clones itself and the clone interprets the command(s) within the parenthesis. Since the outer shell is running only a , the output of a complete set of commands can be redirected as a unit. For example, the command:
+
+(ls -l; ls -l) >ls.out
+writes two copies of the current directory listing to the file ls.out.
+
+Command substitution occurs when you put a < or > in front of the left parenthesis. For instance, typing the command:
+
+cat <(ls -l)
+results in the command ls -l executing in a subshell as usual, but redirects the output to a temporary named pipe, which bash creates, names and later deletes. Therefore, cat has a valid file name to read from, and we see the output of ls -l, taking one more step than usual to do so. Similarly, giving >(commands) results in Bash naming a temporary pipe, which the commands inside the parenthesis read for input.
+
+If you want to see whether two directories contain the same file names, run the single command:
+
+cmp <(ls /dir1) <(ls /dir2)
+The compare program cmp will see the names of two files which it will read and compare.
+
+Command substitution also makes the tee command (used to view and save the output of a command) much more useful in that you can cause a single stream of input to be read by multiple readers without resorting to temporary ou. The command:
+
+ls | tee >(grep foo | wc >foo.count) \
+         >(grep bar | wc >bar.count) \
+         | grep baz | wc >baz.count
+counts the number of occurrences of foo, bar and baz in the output of ls and writes this information to three separate files.files
+================================================================================
+Bash sockets
+Here's a neat trick with the Bash shell that I learned today: Bash can open and read sockets natively.
+
+When I say "natively" I mean, having been compiled with the `--enable-net-redirections` flag. But if that part is true (and it's at least true in Xubuntu 10.10) then you can read and write to sockets this way:
+exec 3<>/dev/tcp/host/port
+
+# Write to the socket as with any file descriptor
+echo "Write this to the socket" >&3
+
+# Read from the socket as with any file descriptor
+cat <&3 So you could do something like pull down Google's home page like so:
+exec 3<>/dev/tcp/www.google.com/80
+echo -e "GET / HTTP/1.1\n\n" >&3
+cat <&3
+
+For my team's project, we have some scripts that need to pull down logging and monitoring data and then push it to the monitoring server's daemon. We set up each script to output its data in the right format, then call the whole thing from a wrapper script that redirects the output to the monitoring daemon. Here's what it looks like:
+#!/bin/bash
+#
+# Takes a command and pipes the output to graphite server
+# running on the local machine
+#
+# Usage: ./graphite-push.sh 
+#
+
+CMD=$@
+OUTFILE=/dev/tcp/localhost/2003
+
+exec 3>$OUTFILE
+$CMD >&3
+And it's called like so:
+graphite-push.sh php ./collect-stats.php --flag --arg valueThe neat part is that `collect-stats.php` can be run on its own and will output to stdout. The `graphite-push.sh` script just runs whatever command it is given and redirects stdout to the monitoring daemon.
+
+============================================================
+IO redirection using exec
+Advanced Bash-Scripting Guide:
+Prev	 Chapter 20. I/O Redirection	Next
+20.1. Using exec
+
+
+An exec <filename command redirects stdin to a file. From that point on, all stdin comes from that file, rather than its normal source (usually keyboard input). This provides a method of reading a file line by line and possibly parsing each line of input using sed and/or awk.
+
+Example 20-1. Redirecting stdin using exec
+
+#!/bin/bash
+# Redirecting stdin using 'exec'.
+
+
+exec 6<&0          # Link file descriptor #6 with stdin.
+                   # Saves stdin.
+
+exec < data-file   # stdin replaced by file "data-file"
+
+read a1            # Reads first line of file "data-file".
+read a2            # Reads second line of file "data-file."
+
+echo
+echo "Following lines read from file."
+echo "-------------------------------"
+echo $a1
+echo $a2
+
+echo; echo; echo
+
+exec 0<&6 6<&-
+#  Now restore stdin from fd #6, where it had been saved,
+#+ and close fd #6 ( 6<&- ) to free it for other processes to use.
+#
+# <&6 6<&-    also works.
+
+echo -n "Enter data  "
+read b1  # Now "read" functions as expected, reading from normal stdin.
+echo "Input read from stdin."
+echo "----------------------"
+echo "b1 = $b1"
+
+echo
+
+exit 0
+Similarly, an exec >filename command redirects stdout to a designated file. This sends all command output that would normally go to stdout to that file.
+
+		   
+exec N > filename affects the entire script or current shell. Redirection in the PID of the script or shell from that point on has changed. However . . .
+
+N > filename affects only the newly-forked process, not the entire script or shell.
+
+Thank you, Ahmed Darwish, for pointing this out.
+
+Example 20-2. Redirecting stdout using exec
+
+#!/bin/bash
+# reassign-stdout.sh
+
+LOGFILE=logfile.txt
+
+exec 6>&1           # Link file descriptor #6 with stdout.
+                    # Saves stdout.
+
+exec > $LOGFILE     # stdout replaced with file "logfile.txt".
+
+# ----------------------------------------------------------- #
+# All output from commands in this block sent to file $LOGFILE.
+
+echo -n "Logfile: "
+date
+echo "-------------------------------------"
+echo
+
+echo "Output of \"ls -al\" command"
+echo
+ls -al
+echo; echo
+echo "Output of \"df\" command"
+echo
+df
+
+# ----------------------------------------------------------- #
+
+exec 1>&6 6>&-      # Restore stdout and close file descriptor #6.
+
+echo
+echo "== stdout now restored to default == "
+echo
+ls -al
+echo
+
+exit 0
+Example 20-3. Redirecting both stdin and stdout in the same script with exec
+
+#!/bin/bash
+# upperconv.sh
+# Converts a specified input file to uppercase.
+
+E_FILE_ACCESS=70
+E_WRONG_ARGS=71
+
+if [ ! -r "$1" ]     # Is specified input file readable?
+then
+  echo "Can't read from input file!"
+  echo "Usage: $0 input-file output-file"
+  exit $E_FILE_ACCESS
+fi                   #  Will exit with same error
+                     #+ even if input file ($1) not specified (why?).
+
+if [ -z "$2" ]
+then
+  echo "Need to specify output file."
+  echo "Usage: $0 input-file output-file"
+  exit $E_WRONG_ARGS
+fi
+
+
+exec 4<&0
+exec < $1            # Will read from input file.
+
+exec 7>&1
+exec > $2            # Will write to output file.
+                     # Assumes output file writable (add check?).
+
+# -----------------------------------------------
+    cat - | tr a-z A-Z   # Uppercase conversion.
+#   ^^^^^                # Reads from stdin.
+#           ^^^^^^^^^^   # Writes to stdout.
+# However, both stdin and stdout were redirected.
+# Note that the 'cat' can be omitted.
+# -----------------------------------------------
+
+exec 1>&7 7>&-       # Restore stout.
+exec 0<&4 4<&-       # Restore stdin.
+
+# After restoration, the following line prints to stdout as expected.
+echo "File \"$1\" written to \"$2\" as uppercase conversion."
+
+exit 0
+I/O redirection is a clever way of avoiding the dreaded inaccessible variables within a subshell problem.
+
+Example 20-4. Avoiding a subshell
+
+#!/bin/bash
+# avoid-subshell.sh
+# Suggested by Matthew Walker.
+
+Lines=0
+
+echo
+
+cat myfile.txt | while read line;
+                 do {
+                   echo $line
+                   (( Lines++ ));  #  Incremented values of this variable
+                                   #+ inaccessible outside loop.
+                                   #  Subshell problem.
+                 }
+                 done
+
+echo "Number of lines read = $Lines"     # 0
+                                         # Wrong!
+
+echo "------------------------"
+
+
+exec 3<> myfile.txt
+while read line <&3
+do {
+  echo "$line"
+  (( Lines++ ));                   #  Incremented values of this variable
+                                   #+ accessible outside loop.
+                                   #  No subshell, no problem.
+}
+done
+exec 3>&-
+
+echo "Number of lines read = $Lines"     # 8
+
+echo
+
+exit 0
+
+# Lines below not seen by script.
+
+$ cat myfile.txt
+
+Line 1.
+Line 2.
+Line 3.
+Line 4.
+Line 5.
+Line 6.
+Line 7.
+Line 8.
+======================================================================
+The easiest way of course, is to capture the output directly in the parent
+
+data_from_subshell=$(echo "This is the data I want to pass to the parent shell")
+You can use a named pipe as an alternative way to read data from a child
+
+mkfifo /tmp/fifo
+now you can redirect the child to /tmp/fifo
+
+(
+    echo "This should go to STDOUT"
+    echo "This is the data I want to pass to the parent shell" >/tmp/fifo
+) &
+and the parent can read from there
+
+read data_from_subshell </tmp/fifo
+Another way is to use coproc to start a child process. This creates a child with a bidirectional pipe and redirects the child's stdin and stdout to the pipe descriptors. To use both the pipe and stdout in the child, you must duplicate stdout in the parent first
+
+exec 4>&1 # duplicate stdout for usage in client
+
+coproc SUBSHELL (
+    exec 3>&1 1>&4- # redirect fd 3 to pipe, redirect fd 1 to stdout
+    (
+    echo "This should go to STDOUT"
+    echo "This is the data I want to pass to the parent shell" >&3
+    )
+)
+
+exec 4>&- # close fd 4 in parent
+read data <&${SUBSHELL[0]}
+echo "Parent: $data"
+====================================================================
+Remove leading zeroes from shell variables:
+remove leading zeroes, shell arithmetic is iffy since 08 is interprete as octal, could 
+specify base but '-' sign causes issues;
+best way (add 0 through awk):
+pport=$(awk '{print $1+=0}' <<< $pport) 
+=====
+
+To terminate a loop started at bash shell like this:
+cat somefile |while read x;do something;done
+
+do:
+press Ctrl-Z to suspend the script
+kill %%
+
+There are other ways: http://unix.stackexchange.com/questions/48425/how-to-stop-the-loop-bash-script-in-terminal
+
+====

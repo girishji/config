@@ -1,0 +1,5 @@
+curl httpbin.org | tidy -iq
+to pretty print
+
+curl httpbin.org | tidy -iq|less
+to search

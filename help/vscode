@@ -1,0 +1,66 @@
+
+VS code and Jupyter
+===================
+
+Command palette:
+shift+cmd+P to open command palette (it uses F12 for intellisense to go to definition of fn)
+
+Terminal:
+ctrl ` : this will bring up shell console (terminal) 
+related: Cmd+shift+C will open a Terminal window at the directory
+
+File choosing:
+Cmd+p to open files quickly within the opened folder or project
+
+REPL:
+In command palette, PYthon: start REPL -> to run line by line (shift+enter)
+
+
+https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_editing-hacks
+
+--
+
+VS code:
+fn-page up work, but not 'page up'.
+
+jupyter multiple outputs:
+from IPython.core.interactiveshell import InteractiveShell
+InteractiveShell.ast_node_interactivity = "all"
+or
+use display(foo) multiple times
+
+Cmd-C to copy full line when no word is selected. Since ctrl-y does not work, you can use this
+
+Control+enter to stay inside but execute jupyter cell. otherwise shift+enter.
+
+--
+
+jupyter:
+
+Shit+tab+tab to get documentataion drop down window (very useful)
+
+control shift - => to split cell
+
+In jupyter, put a ";" at end of last line if you
+want to display picture without extra line (that prints the object)
+otherwise you have to do a plt.show() or something.
+
+--
+
+intellisense:
+
+Press Ctrl-Space will dismiss the popup
+Pressing Tab or Enter will insert the selected member.
+
+ctrl space: for widget that suggests in intellisense.
+to get more info, scroll down to the function it displays
+and press ctrl+space again
+
+--
+
+like emacs rectangle, you can use multiple cursors
+
+https://code.visualstudio.com/docs/editor/codebasics#:~:text=VS%20Code%20supports%20multiple%20cursors,insert%20cursors%20below%20or%20above.
+
+--
+

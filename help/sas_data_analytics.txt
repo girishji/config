@@ -1,0 +1,278 @@
+Coursera: https://www.coursera.org/learn/machine-learning-sas/home/welcome
+
+model:
+high bias => underfitting => many data points are missed by the (say) regression curve
+high variance => overfitting => regression curve catches all noise
+--
+
+Essential data tasks:
+- Gather the data
+- Explore the data
+- Divide the data (partition into training/validation/test)
+- Address rare events (sampling)
+- Manage missing values 
+- Replace incorrect values (value of min -ve or 0 may be a problem)
+- Add unstructured data (data mining, if some variables have text paragraphs)
+- Extract features (PCA/SVD/etc if necessary)
+- Manage extreme or unusual values (transform skewed distributions)
+- Select useful inputs
+
+
+==
+Partitioning:
+divide data into 3 parts:
+training data set
+holdount set: 1) validation data set (to assess performance of your model and optimize. to find sweet spot between bias and variance), 2) test data set (optional) - to get unbiased model performance
+
+all transformations on data are done only on training set (to avoid information leakage from holdout data to training data, like taking mean on all data and then using it to replace missing values in training data - in this case training data has information about holdout data)
+--
+Sampling:
+sometimes dependent variable is a rare event, like credit card fraudulent transaction. It may be 1 in 1000. there has to be enough of these events in the data set. It it is too imbalanced, we do sampling to make the proportion more balanced. (event based sampling - where we may discard non-event cases)
+--
+Complete case analysis: where model rejects rows with missing values in any column
+
+Missing values: can be predictive  or not. some techniques used to handel missing values: naive bayes, decision trees, missing indicators, imputation, binning
+
+In Model Studio, the naïve Bayes technique and decision tree models do not use complete case analysis; these modeling approaches can incorporate missingness. Missing indicators are new inputs that indicate whether a value of the related variable is missing. Imputation refers to replacing a missing value with information that is derived from nonmissing values in the training data. This is the approach that we'll use in this course. Binning is helpful for handling interval input variables. In binning, the original numeric values are grouped into discrete categories called bins. The missing values are assigned to their own bin. The interval variable then becomes a categorical variable
+--
+Global Metadata
+In Model Studio, metadata is defined as the set of variable roles, measurement levels, and other configurations that apply to your data set. When creating multiple projects using similar data sets (or when using a single data set), you might find it useful to store the metadata configurations for usage across projects. Model Studio enables you to do this by collecting the variables in a repository named Global Metadata. Metadata configurations that are stored as global metadata apply to new data sets that contain variables with the same name.  
+--
+After you run the model, click on 3 dots on the node to see "Results".
+KS statistic is used for model comparison (you can change this)
+
+--
+Model building:
+You can also create models and save them as templates in the Exchange, where they become accessible to other users. In the Exchange, you can find all available nodes (along with descriptions) and all available pipeline templates (both pre-built and user created). 
+
+ A large portion of the model-building process is taken up by experiments to identify the optimal set of parameters for the model algorithm. As algorithms get more complex (neural networks to deep neural networks, decision trees to forests and gradient boosting), the amount of time required to identify these parameters grows. There are several ways to support you in this cumbersome work of tuning machine learning model parameters. These approaches are called hyperparameter optimization and are discussed later in the course.
+
+ A template is a special type of pipeline that is pre-populated with configurations that can be used to create a model. Pipeline templates can be pre-built (included with Model Studio) or user created.
+
+--
+
+Caslibs
+All data is available to the CAS server through caslibs, and all operations in the CAS server that use data are performed using caslibs. A caslib provides access to files in a data source, such as a database or a file system directory, and to in-memory tables. Access controls are associated with caslibs to manage access to data. You can think of a caslib as a container with two areas where data is referenced: a physical space that includes the source data or files, and an in-memory space that makes the data available for CAS action processing.
+
+Data Types
+The CAS server supports the VARCHAR, INT32, INT64, and IMAGE data types in addition to the CHARACTER and NUMERIC data types, which are traditionally supported by SAS.
+
+Variables that are created using the VARCHAR data type are vary in width and use character semantics, rather than being fixed width and using the byte semantics of the traditional CHARACTER data type.
+
+Variables that are created or loaded using the INT32 or INT64 data types support more digits of precision than the traditional NUMERIC data type. All calculations that occur on the CAS engine maintain the INT32 or INT64 data type. Calculations in DATA steps or procedures that run on the SAS®9 engine are converted to NUMERIC values.
+
+The CHARACTER and NUMERIC data types continue to be the supported data types for processing on the SAS Workspace Server.
+
+--
+
+SAS Visual Text Analytics	
+Leverages powerful natural language processing, machine learning, and linguistic rules to reveal insights in data.
+
+SAS Visual Data Mining and Machine Learning	
+Surfaces in-memory machine-learning techniques such as gradient boosting, factorization machines, neural networks, and much more, through SAS Studio tasks, procedures, and a Python client. The visual interface is Model Studio, which provides integration between common analytical processes from data preparation, to exploration, to model development and deployment.
+--
+
+Data exploration
+(graphical: using plots; numerical: mean/sd/etc, central tendency (kurtosis), bivariate (correlation))
+
+add data exploration node to data node:
+'m going to explore the data in Pipeline 1. So select the tab for Pipeline 1. There's multiple ways to bring a node into a pipeline. I'll show you some other methods later on. For now, I'll right-click on the Data node, select Add below, and then Miscellaneous, and then Data Exploration. Model Studio automatically adds the Data Exploration node and automatically connects the Data node to the Data Exploration node. We'll keep the properties of the Data Exploration node at their default. The Variable Selection criterion specifies whether to display the most important inputs or suspicious variables. We want to see the most important inputs, so we keep the current setting, Importance. By default, a maximum of 50 of the most important variables will be selected. To see the most suspicious variables, we would change the setting to Screening. You can control the selection of suspicious variables by specifying screening criteria, like cutoff for flagging variables with a high percentage of missing values, high-cardinality class variables, class variables with dominant levels, class variables with rare modes, skewed interval variables, peaky interval variables, and interval variables with thick tails. Right-click the Data Exploration node and click Run. When the run is complete, right-click the Data Exploration node and select Results.
+
+After you run the above, look at "relative importance" box and maximize it. You'll see important variables.
+y-axis is relative importance, calculated by RSS:
+
+The Relative Variable importance metric is a number between zero and 1, which is calculated in two steps. First it finds the maximum residual sum of squares, or RSS, based variable importance. This method measures variable importance based on the change of residual sum of square when a split is found at a node. Second, for each variable, it calculates the relative variable importance as the RSS based Importance of this variable, divided by the maximum RSS based importance, among all the variables. The RSS and Relative importance are calculated from the validation data. If no validation data exists, these two statistics are calculated, instead, from the training data.
+
+Interval variable moments table:
+This table displays the interval variables with their associated statistics, which include Minimum, Maximum, Mean, Standard Deviation, Skewness, Kurtosis, Relative Variability, and the Mean plus or minus 2 Standard Deviations.
+Address -ve Min values (done later).
+
+Interval variable summaries table:
+right hand top corner are suspect (high kurtosis and high skewness)
+The scatter plot plots skewness against kurtosis for all the input variables. Notice that we've got a few input variables in the upper right-hand corner that are suspect based on high kurtosis and high skewness values. 
+
+Missing values table:
+check it.
+
+--
+
+Replacing Incorrect Values
+
+In the Demo project, we're going to return to the Data tab. Click Data next to Pipelines in the upper-left corner. To find our subset of variables, first we're going to sort by the Role column. I'm going to right-click on the Role column and select Sort, Sort (ascending). All the input variables are grouped together after the ID variable and before the Rejected variables.
+
+Nested sorting:
+I'm going to now add a second sort to the current sort on Role. This will help me group together the input variables with negative values. Scroll to the right until you see the Minimum column. Right-click on the Minimum column and select Sort, Add to sort (ascending). Input variables with negative minimum values are now grouped together. Add to sort means the initial sorting done by Role still holds. So the sort on minimum values takes place within each sorted Role group. 
+
+Addressing -ve min values:
+With the 22 interval input variables selected, in the right pane I'll enter 0.0 into the Lower limit field. This specifies the lower limit to be used in the Filtering and Replacement nodes with the metadata limits method. Recall that this is customer billing data, and negative values often imply that there is a credit applied to the customer's account. So it is not outside the realm of possibility that there are negative numbers in these columns. However, there is a general practice to convert negative values to zeros in telecom data.
+...
+Notice that we did not edit any variable values. Instead, we have just set a metadata property that can be invoked using the Replacement node.
+...
+Select the Basic Template pipeline. Notice that because of the change in metadata, the green check marks in the nodes in the pipeline have been changed to gray circles. This indicates that the nodes need to be rerun to reflect the change in metadata. The nodes will show a green check mark, again, when the pipeline is rerun. I'm going to put a Replacement node in the pipeline, but I'm going to show an alternate way to do so. In the left-hand column, I'll expand Nodes. Then I'll expand Data Mining Preprocessing. Then I'll click and drag the Replacement node and drop it between the Data node and the Imputation node. And I'll restore the pane on the left. The Replacement node can be used to replace outliers and unknown class levels with specified values. This is where you invoke the metadata property of the lower limit that we set before. In the Properties pane of the Replacement node, set the Default limits method to Metadata limits. Change Alternate limits method to None. And keep the Replacement value property set to the default Computed limits. Right-click the Replacement node and select Run. The Replacement node has run successfully, so I'll right-click to look at the results. Let's look at the Interval Variables table. I'll maximize. The Interval Variables table shows which variables now have a lower limit of zero.
+...
+
+There is an alternate way to assign metadata properties. This can also be done through the Manage Variables node. I'll show you that node, but not make use of it at this time. In the left pane, I'll expand the nodes. Then I'll expand Data Mining Preprocessing. And under Data Mining Preprocessing contains the Manage Variables node. I'd have to make use of that node within a current pipeline.
+
+--
+
+Feature creation:
+
+Feature creation means creating new input variables based on inputs that are already in the data. To add unstructured data, we convert unstructured text variables to usable numeric inputs. This involves text mining.
+ In text mining, data are processed in two phases: text parsing and transformation. Text parsing processes textual data into a term-by-document frequency matrix. Transformations such as singular value decomposition (or SVD) change this matrix into a data set that is suitable for data mining purposes. As a result of text mining, a document collection with thousands of documents and terms can be represented in a compact and efficient form.
+
+--
+
+Text mining:
+
+there were 5 "text" variables (as roles, not type of variable, which was still "character"). He rejected all but one, which had a paragraph of text per row.
+
+I'll return to the Starter Template by first clicking the Pipelines tab and then select Starter Template. I'll use the Nodes pane on the left to drag and drop a Text Mining node between the Imputation node and the Logistic Regression node. In the Nodes pane, Text Mining is found under Data Mining Preprocessing.
+And I'll restore the Nodes pane. We'll keep all the properties of the Text Mining node in their default. I'll right-click and run the Text Mining node. When the run is complete, I'll open the results of the Text Mining node. 
+
+results:
+Role under "kept terms" tab is the part of speech (N for noun, etc)
+plus sign:
+Notice in the Kept Terms table several of the terms have a plus sign included. The plus side next to a word indicates stemming. For example, plus service represents service, services, serviced, and so on.
+
+15 new topics discovered (SVD):
+Scroll down and expand the Topics table. These 15 topics were created based on groups of terms that occur together in several documents. Each term-document pair is assigned a score for every topic. Thresholds are then used to determine whether the association is strong enough to consider whether the document or term belongs in the topic. Because of this, terms and documents can belong to multiple topics. Because 15 topics were discovered, 15 new columns of inputs are created. The output columns contain SVD, or singular value decomposition. scores that can be used as inputs for the downstream nodes. 
+
+New variables created after SVD:
+Score for "+..." is the sVD score for each topic per eachdocument in the dataset. It is either U or V matrix multiplied by each row of word-frequency matrix. He wants to pass these values to subsequent nodes.
+...
+In the top of the Results window, click the tab for Output Data. Let's visually take a look at the attributes that we have created. Click View Output Data. The current step allows you to take a sample of the data, which we will not do at this time. Click View Output Data again. I need to rearrange the columns to see the attributes that were just created. I'll click the Options shortcut button in the upper right-hand corner of the table and then select Manage columns. In the left pane, I'll select all Score variables and then click the arrow pointing to the right that contains the plus sign. I'll select the first hidden column with a prefix score. Then I'll scroll to find the last variable with the prefix score to press the Shift key and click the last variable. Using the Shift-click method selects multiple variables simultaneously. I'll click the arrow pointing to the right with the plus sign. And now for ease of visualization, I'll remove some of the variables with replacement. In the right-hand column for Displayed columns, I'll select the first variable with a prefix Replacement, then I'll hold down the Shift key and select the final variable with a prefix Replacement. I'll add these variables to the Hidden columns table. I'll click the arrow pointing to the left with the minus sign. Click OK.
+The SVD coefficients or scores are shown for the 15 topics discovered for each observation in the data set. Notice that the coefficients have an interval measurement level. The Text Mining node converts textual data into numeric variables, specifically interval variables. These columns will be passed along to subsequent nodes.
+
+Managed variables:
+Before we rerun the model, let's make use of the Manage Variables node to take a second look at the columns that had been created. Right-click on the Text Mining node and select Add Below, Data Mining Preprocessing, Manage Variables.
+You see that Model Studio splits the pipeline path after the Text Mining node. Run the Manage Variables node and view the results when it's complete. Right-click the Manage Variables node and select Results.
+Expand the Output window.
+At the top of the Incoming Variables table are the 15 new columns representing the dimensions of the SVD calculations based on the 15 topics discovered by the Text Mining node. These 15 columns, COL1 through COL15, serve as new interval inputs for subsequent models.
+
+Recompute:
+I'll rerun the entire pipeline by clicking the Run Pipeline shortcut button.
+When the pipeline run is complete, we can assess the performance of the model by looking at the results of the Model Comparison node. I'll right-click the Model Comparison node and select Results.
+And I'll expand the Model Comparison table. Adding these text features does not necessarily guarantee improving the performance of the model.
+
+Did the new variables make it into logistic regression?
+they use SBC (like AIC/BIC) to assess how many variables to include into the model. Lower SBC is best. Local minima for SBC is found and later variables are discarded.
+...
+We'll see if any of the new attributes made it into the final model by looking at the results of the Logistic Regression node. Restore the Model Comparison table and close the results. I'll open the results of the Logistic Regression Model node.
+Let's scroll down to see the Output window, and I'll maximize the Output window. And scroll down until we see the table for Selection Summary. We see that one of the new attributes, COL2, came into the model selection process. However, the final model is trained in Step 19. So when the complexity of the model was optimized, the COL2 input variable was removed.
+
+==
+
+Manage extreme and unusual values:
+Using Transformations to Handle Extreme or Unusual Values:
+Extreme or unusual values might be outliers or they might occur in variables whose distributions are highly skewed (that is, not symmetric). Such values can lead to biased predictions from machine learning models, so it is a common practice to manage these values during data preparation. The solution is to apply transformations to the input variables. Transformations can minimize bias in model predictions in various ways. Transformations are most commonly used to change the shape of the distribution of a variable by stretching or compressing it, reduce the effect of outliers or heavy tails, and standardize inputs to be on the same range or scale. When preparing data for modeling, it is common to use transformations based on mathematical functions and transformations based on binning. Examples of mathematical functions are centering, exponential, inverse, log, range, square, square root, and standardize. A distribution that is symmetric, or nearly so, is often easier to handle and interpret than a skewed distribution. In the distribution shown here, the variable is skewed to the right, meaning the right-hand tail is stretched out. Applying a log transformation to the input can reduce the skewness, thus making the shape more symmetric. Another method for handling extreme distributions is to use a mathematical function to standardize the inputs. A statistical Z-standardization removes the scale of an input so that it is centered at zero and has a variance of 1. A range standardization transforms an input so that the values range from zero to 1. Binning is a method of transformation that converts numeric inputs to categories or groups the levels of a high-cardinality input (that is, a categorical input with many levels). In the example shown here, Age is a variable that might theoretically range from zero to infinity. A binning transformation converts Age to an ordinal variable that has only four values, which are represented by bins one through four (age 0-20, 20-40, etc). There are many types of binning transformations. In bucketing, the bins themselves are of equal width but the frequency count within each bin varies. Quantile binning creates bins of different widths, but the frequency count of observations is consistent, or at least similar, across the bins. Binning can even be done using a decision tree. You can use binning to classify missing values, reduce the effect of outliers on a model, or illustrate nonlinear relationships. A binned version of a variable also has a smaller variance than the original numeric variable.
+...
+
+we'll use the Transformations node to apply a numerical transformation to input variables. In an earlier demonstration, we explored inputs and saw that a few had a high measure of skewness. Let's revisit the results of that data exploration. Click Pipeline 1. Notice that Pipeline 1 requires a rerun since metadata properties have been defined. I'll right-click and run the Data Exploration node.
+(We only selected "important" variables for analysis:)
+Right-click and view the results of Data Exploration. Expand the Interval Variable Moments table. Note that three of the MB_Data_Usg variables have a high degree of skewness. Only three of the six MB_Data_Usg variables are shown because of the Variable Selection property being set to Importance. Restore the Interval Variable Moments table. Expand the Important Inputs chart. Notice that the same MB_Data_Usg variables have been selected as being important variables that we saw with high degrees of skewness. Only three of the six MB_Data_Usg variables are listed on the Interval Variable Moments table because, by default, only the variables found to be important are summarized in the results of the Data Exploration node. Importance is defined by a decision tree using PROC TREESPLIT We will transform the MB variables that have been seen as suspect in this exploration.
+...
+Setting these rules does not perform the transformation. It only defines the metadata property. We'll need to make use of the Transformations node to actually apply the transformations: 
+...
+We could define metadata transformations using the Manage Variables node, but we'll do so using the Data tab. Click the Data tab next to Pipelines. It may be helpful to sort by the variable name. I'll right-click on the Variable Name column, select Sort and Sort (ascending). I'm going to scroll down until I find the MB variables that were shown to have high degrees of skewness in the results of the Data Exploration node. Three of the variables were shown before, but I'll select all six of the variables at this time. They are the variables that have a capital MB prefix. With these six variables selected, in the right-hand pane under Transform, I'll select Log. We could visually see that the transformation rules have been applied to these variables. But we need to add the Transform column. It does not appear by default. I'll click the Options shortcut button in the upper right corner of the table, and select Manage columns. Under Hidden columns, select Transform. And then click the single right arrow. Click OK. And scrolling to the far right reveals the Transform column and shows that only the six selected variables will have the Log transform applied. Setting these rules does not perform the transformation. It only defines the metadata property. We'll need to make use of the Transformations node to actually apply the transformations.
+...
+Default interval input option is overrided by metadata rule:
+...
+We'll need to make use of the Transformations node to actually apply the transformations. Return to the Starter Template pipeline. I'll add a Transformations node between the Replacement node and Imputation node. I'll expand the Nodes pane on the left. I'll expand Data Mining Preprocessing. And I'll drag a Transformations node and place it between Replacement and Imputation. I'll restore the Nodes pane.
+I can zoom into the pipeline by using the wheel on my mouse. Do not make changes to the properties of the Transformations node. Although the Default interval inputs method property indicates None, the metadata rules assigned to the variables under the Data tab override this default setting. 
+...
+The idea is, you first change metadata in the Data tab, or using the Manage Variables node, to specify what you want to do with the variables. Then you need to add a node to make those changes to the data. The subsequent node actually performs the changes you encoded in metadata. Right-click the Transformations node and select Run.
+...
+New variables created, old ones rejected:
+...
+When the run is complete, let's look at the results of the Transformations node. I'll expand the Transformed Variables Summary table. This table displays information about the transformed variables, including how they were transformed, the corresponding input variable, the formula applied, the variable level, type, and variable label. Notice that new variables LOG underscore original variable name have been created. The original versions of these variables are now rejected. In the Formula column, notice that the formula for the log transformations includes an offset of 1 to avoid the case of log zero.
+...
+To assess the performance of the Logistic Regression model, I'll rerun the entire pipeline. I'll look at the results of the Model Comparison node and expand the Model Comparison table. Performance of the Logistic Regression model can be assessed.
+...
+Aside: Finding the Best Transformation in Model Studio
+In the Transformations node, one of the methods available for the Default interval inputs method property is Best. Best is not really a transformation, but a method or process to select the best transformation for an interval input. When specified, the Best method is applied to all interval inputs coming into the node, unless overridden by specific variable transformations identified in metadata via the Data tab or Manage Variables node.
+
+
+==
+
+Feature selection: selecting useful inputs
+
+Too many columns (dimensions) and nt enough rows (observations) leads to 'curse of dimensionality' where there is not enough data to establish relationships.
+
+How to reduce number of variables:
+Redundant input (variable). (an unsupervised method) If X1 and X2 input variables are highly correlated (think points along 45-deg line of X1 vs X2 plot), then remove one of them.
+Irrelevant input (a supervised method): if value of output variable (dependent var) does not change when input X changes, remove X.
+
+
+==
+
+Reduce the number of inputs (variables) using Variable Selection node:
+Place it b/w text mining node and loginstic regression node. Highlight it and look into properties panel.
+Keep combination criterion at "selected by at least 1". Means any input selected by at least 1 criterion is passed on to next node.
+Turn on "unsupervised selection" and "linear regr". Leave "fast supervised sel..." and "create validation...(inactive)" checked.
+Leave defaults.
+Now you see "create validation..." become active. It specifies whether validation sample should be created from incoming training data. It is recommended to create this validation set, so only training partition is used for variable selection and original validation partition can be used for modeling.
+Run the node.
+In the results , see 'variable selection'. shows output roles for input vars after the node processing. A whole bunch of vars are 'rejected'. see under 'reason'.
+
+Note: If you choose the unsupervised selection method, you can specify in the Selection process property whether this method is run prior to the supervised methods (sequential selection). If you choose to perform a sequential selection, which is the default, any variable rejected by the unsupervised method is not used by the subsequent supervised methods. If you are not performing a sequential selection, the results from the unsupervised method are combined with the chosen supervised methods.
+
+See 'variable selection combination summary'. Shows which criterion affected which variable. If 'input' is 2 and var is selected then this var was selected by 2 criteria (fast selection and linear regression). If one of the criteria selects and other rejects, var is selected since you set 'combination creterion = selected by at least 1".
+Run the pipeline.
+
+see: https://www.coursera.org/learn/machine-learning-sas/supplement/LEw8w/feature-selection-and-the-variable-selection-node-in-model-studio-details
+
+Aside:
+Feature Selection and the Variable Selection Node in Model Studio: Details
+Many data mining databases have hundreds of potential model inputs (independent or explanatory variables) that can be used to predict the target (dependent or response variable). The Variable Selection node assists you in reducing the number of inputs by rejecting input variables based on the selection results. This node finds and selects the best variables for analysis by using unsupervised and supervised selection methods. You can choose among one or more of the available selection methods in the variable selection process.
+
+
+If you choose the unsupervised selection method, you can specify in the Selection process property whether this method is run prior to the supervised methods (sequential selection). If you choose to perform a sequential selection, which is the default, any variable rejected by the unsupervised method is not used by the subsequent supervised methods. If you are not performing a sequential selection, the results from the unsupervised method are combined with the chosen supervised methods.
+
+If you choose multiple methods, the results from the individual methods are combined to generate the final selection result. This is done with the combination criterion. This is a "voting" method such that each selection method gets a vote on whether a variable is selected. In the Combination criterion property, you choose at what voting level (combination criterion) a variable is selected. Voting levels range from the least restrictive option (at least one chosen method selects the variable) to the most restrictive option (all chosen methods select the variable). Any variable that is not selected in the final outcome is rejected, and subsequent nodes in the pipeline do not use that variable.
+
+You also have the option to accomplish pre-screening of the input variables before running the chosen variable selection methods. In pre-screening, if a variable exceeds the maximum number of class levels threshold or the maximum missing percent threshold, that variable is rejected and not processed by the subsequent variable selection methods.
+
+Note: The Advisor options also accomplish variable pre-screening when the project is created, so this option can be used to increase the level of pre-screening over what is done at the project level.
+
+The following variable selection methods are available in the Variable Selection node:
+
+Unsupervised Selection: Identifies the set of input variables that jointly explains the maximum amount of data variance. The target variable is not considered with this method. Unsupervised Selection specifies the VARREDUCE procedure to perform unsupervised variable selection by identifying a set of variables that jointly explain the maximum amount of data variance. Variable selection is based on covariance analysis.
+
+Fast Supervised Selection: Identifies the set of input variables that jointly explain the maximum amount of variance contained in the target. Fast Supervised Selection specifies the VARREDUCE procedure to perform supervised variable selection by identifying a set of variables that jointly explain the maximum amount of variance contained in the response variables. Supervised selection is essentially based on AIC, AICC, and BIC stop criterion.
+
+Linear Regression Selection: Fits and performs variable selection on an ordinary least squares regression predictive model. This is valid for an interval target and a binary target. In the case of a character binary target (or a binary target with a user-defined format), a temporary numeric variable with values of 0 or 1 is created, which is then substituted for the target. Linear Regression Selection specifies the REGSELECT procedure to perform linear regression selection based on ordinary least square regression. It offers many effect-selection methods, including Backward, Forward, Forward-swap, Stepwise methods, and modern LASSO and Adaptive LASSO methods. It also offers extensive capabilities for customizing the model selection by using a wide variety of selection and stopping criteria, from computationally efficient significance level-based criteria to modern, computationally intensive validation-based criteria.
+
+Decision Tree Selection: Trains a decision tree predictive model. The residual sum of squares variable importance is calculated for each predictor variable, and the relative variable importance threshold that you specify is used to select the most useful predictor variables. Decision Tree Selection specifies the TREESPLIT procedure to perform decision tree selection based on CHAID, Chi-square, Entropy, Gini, Information gain ratio, F test, and Variance target criterion. It produces a classification tree, which models a categorical response, or a regression tree, which models a continuous response. Both types of trees are called decision trees because the model is expressed as a series of IF-THEN statements.
+
+Forest Selection: Trains a forest predictive model by fitting multiple decision trees. The residual sum of squares variable importance is calculated for each predictor variable, averaged across all the trees, and the relative variable importance threshold that you specify is used to select the most useful predictor variables. Forest Selection specifies the FOREST procedure to create a predictive model that consists of multiple decision trees.
+Gradient Boosting Selection: Trains a gradient boosting predictive model by fitting a set of additive decision trees. The residual sum of squares variable importance is calculated for each predictor variable, averaged across all the trees, and the relative variable importance threshold that you specify is used to select the most useful predictor variables. Gradient Boosting Selection specifies the GRADBOOST procedure to create a predictive model that consists of multiple decision trees.
+C
+reate Validation Sample from Training Data: Specifies whether a validation sample should be created from the incoming training data. This is recommended even if the data have already been partitioned so that only the training partition is used for variable selection, and the validation partition can be used for modeling.
+Note: You can choose all the above methods for variable selection, but this might result in enormous processing time depending on your data and distributed environment. 
+
+Note: Another important thing to note is that if you use the Text Mining node before the Variable Selection node in the pipeline, and any of the tree-based methods (decision trees, forest and gradient boosting) are used for variable selection in addition to the default methods, an error is returned. The log indicates that the ID for tree appears multiple times in the same BY group.  
+
+
+==
+
+Save pipeline to the Exchange
+
+(shortcut on upper right) I don't see it.
+
+==
+
+Create new columns:
+sys
+
+==
+
+Custom concept rules:
+
+https://www.youtube.com/watch?v=VsGJWixIowA
+
+==
+
+
+
+
+

@@ -1,12 +1,108 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Thu, 16 Jun 2022 10:17:49 +0200
+Date:   Thu, 16 Jun 2022 10:28:39 +0200
 
-updates
+some old files
 
 
-M  nvim/lua/user/lsp/handlers.lua
-M  nvim/lua/user/nvim-tree.lua
-M  zsh/zshrc.local
+A  dotfiles/.gitignore
+A  help/3dprint
+A  help/RStudioRAppRadian
+A  help/Rcpp
+A  help/Rnotes.txt
+A  help/airdrop
+A  help/amazon
+A  help/apache.txt
+A  help/arduino
+A  help/atom
+A  help/automator
+A  help/awk
+A  help/bash
+A  help/bitbucket
+A  help/blockwebsites
+A  help/brew
+A  help/call
+A  help/chrome
+A  help/conda
+A  help/cpp
+A  help/cron
+A  help/cut
+A  help/diff
+A  help/djay
+A  help/du
+A  help/emacs
+A  help/ender3v2
+A  help/excel
+A  help/expect
+A  help/facebook
+A  help/fusion360
+A  help/fzf
+A  help/gcc
+A  help/gcloud
+A  help/git
+A  help/githubPAT.txt
+A  help/gzip
+A  help/iphone
+A  help/ipython.txt
+A  help/iterm
+A  help/keyboard
+A  help/kicad
+A  help/kindle
+A  help/less
+A  help/netstat
+A  help/nmap
+A  help/nvim-lua
+A  help/osx
+A  help/outlook
+A  help/pdf
+A  help/photos
+A  help/plist
+A  help/powerpoint
+A  help/python
+A  help/qmk
+A  help/regex
+A  help/rosetta
+A  help/sas_data_analytics.txt
+A  help/sas_text_analytics.txt
+A  help/sas_viya.txt
+A  help/sed-awk
+A  help/ssh
+A  help/tar
+A  help/tidy
+A  help/valgrind
+A  help/versioning
+A  help/vim
+A  help/vimgolf
+A  help/vnc
+A  help/vscode
+A  help/xargs
+A  help/youtube
+A  help/zoxide
+A  help/zsh
+
+commit 3b0e856d15b8d5d96c2545e6c0cf3798b71464fa
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:27:16 2022 +0200
+
+    some dot files
+    
+    A  dotfiles/.emacs
+    A  dotfiles/.emacs.d/elpa/archives/gnu/archive-contents
+    A  dotfiles/.emacs.d/emacs.el
+    A  dotfiles/.emacs.d/emacs.elc
+    A  dotfiles/.emacs.d/help
+    A  dotfiles/.emacs.d/ido.last
+    A  dotfiles/.vimrc
+    ?? dotfiles/.gitignore
+
+commit 377a49f5431974f34c6c1e23470e0bd484306175
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:17:49 2022 +0200
+
+    updates
+    
+    M  nvim/lua/user/lsp/handlers.lua
+    M  nvim/lua/user/nvim-tree.lua
+    M  zsh/zshrc.local
 
 commit f7518d258e6a0ace6de8458ee8525874c44d5e08
 Author: Girish Palya <girishji@gmail.com>

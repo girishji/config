@@ -1,0 +1,19 @@
+How to edit already saved "quick action" or "service" menus:
+For quick actions: right click on folder in Finder, to to "quick actions",
+  go to "customize". In the new window right click on the specific quick
+  action and "open in finder". Then open that file using "automator".
+
+see http://www.macosxtips.co.uk/index_files/create-your-own-epub-ebook-files-using-automator.php for example
+very useful for pdf compression etc.
+- start with a dialog that asks you to choose app, service etc.
+- if you don't see empty right hand box then you are editing existing service
+- drag stuff from left to write
+- set options in dragged stuff and save
+- you can lik actions to select only certain file extension, or reveal in finder after result file is done
+- you can click options inside action to open a dialog (ex. select level of compression)
+- you can create application, service, etc (when you select it'll tell you what they are)
+
+to test:
+- best to test inside automator
+- add a temporary action at top called 'get specified finder items' or appropriate one, just to get input (remove this after test is done!)
+- click 'run' at top and see 'results' window in the actions (click the button)

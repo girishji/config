@@ -1,0 +1,6 @@
+> arch
+i386 (for intel) or arm64 (for M1)
+
+I recommend using the "Rosetta-Terminal" for installing the rest of your command line tools and using the Native Terminal for your daily workflow.
+
+https://www.courier.com/blog/tips-and-tricks-to-setup-your-apple-m1-for-development

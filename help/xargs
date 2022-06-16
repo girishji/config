@@ -1,0 +1,74 @@
+...| xargs -r -l ...
+
+if xargs is not working it is because of trailing blanks making next line seem part of this line, use -l option
+grep ... |xargs -l -r readlink
+
+use -r option since output from left side may be null
+----
+find *.jpg -print0 | xargs -0 -iFILE convert FILE -resize 100 .tFILE
+
+This will find all files ending in ".jpg" in the current directory (and all those beneath it... use "find *.jpg -maxdepth 1 -print0 ..." instead to limit yourself to the current directory). The "-print0" parameter tells find to use a null character to separate file names so spaces, tabs and newlines (yes, you can have a newline in your file name) don't cause you grief. The output is piped to "xargs" for processing. The "-0" parameter tells xargs that the input is going to be null delimited (so it matches out find prints it with "-print0") and "-iFILE" says "replace FILE with the actual file name". The rest of the parameters are the command that should be executed for each filename read in by xargs.
+----
+
+use while loop to replace xargs:
+ls -1 /nas/data/accounting/ | while read file; do mv /nas/data/accounting/$file /local/disk/ ; done
+
+----
+Examples
+
+To use a command on files whose names are listed in a file, enter:
+xargs lint -a < cfiles
+If the cfiles file contains the following text:
+
+main.c readit.c
+gettoken.c
+putobj.c
+the xargs command constructs and runs the following command:
+
+lint -a main.c readit.c gettoken.c putobj.c
+If the cfiles file contains more file names than fit on a single shell command line (up to LINE_MAX), the xargs command runs the lint command with the file names that fit. It then constructs and runs another lint command using the remaining file names. Depending on the names listed in the cfiles file, the commands might look like the following:
+
+lint -a main.c readit.c gettoken.c . . .
+lint -a getisx.c getprp.c getpid.c . . .
+lint -a fltadd.c fltmult.c fltdiv.c . . .
+This command sequence is not quite the same as running the lint command once with all the file names. The lint command checks cross-references between files. However, in this example, it cannot check between the main.c and the fltadd.c files, or between any two files listed on separate command lines.
+
+For this reason you may want to run the command only if all the file names fit on one line. To specify this to the xargs command use the -x flag by entering: 
+xargs  -x lint -a <cfiles
+If all the file names in the cfiles file do not fit on one command line, the xargs command displays an error message. 
+ 
+----
+
+To construct commands that contain a certain number of file names, enter: 
+xargs  -t  -n 2 diff <<EOF
+starting chap1 concepts chap2 writing
+chap3
+EOF
+This command sequence constructs and runs diff commands that contain two file names each (-n 2):
+diff starting chap1
+diff concepts chap2
+diff writing chap3
+The -t flag causes the xargs command to display each command before running it, so you can see what is happening. The <<EOF and EOF pattern-matching characters define a here document, which uses the text entered before the end line as standard input for the xargs command. 
+ 
+----
+To insert file names into the middle of command lines, enter: 
+ls | xargs  -t  -I {} mv {} {}.old
+This command sequence renames all files in the current directory by adding .old to the end of each name. The -I flag tells the xargs command to insert each line of the ls directory listing where {} (braces) appear. If the current directory contains the files chap1, chap2, and chap3, this constructs the following commands:
+mv chap1 chap1.old
+mv chap2 chap2.old
+mv chap3 chap3.old
+To run a command on files that you select individually, enter: 
+ls | xargs  -p  -n 1 ar r lib.a
+This command sequence allows you to select files to add to the lib.a library. The -p flag tells the xargs command to display each ar command it constructs and to ask if you want to run it. Enter y to run the command. Press the any other key if you do not want to run the command.
+Something similar to the following displays:
+
+----
+ar r lib.a chap1 ?...
+ar r lib.a chap2 ?...
+ar r lib.a chap3 ?... 
+To construct a command that contains a specific number of arguments and to insert those arguments into the middle of a command line, enter:
+ls | xargs -n6 | xargs -I{} echo {} - some files in the directory
+If the current directory contains files chap1 through chap10, the output constructed will be the following:
+
+chap1 chap2 chap3 chap4 chap5 chap6 - some files in the directory
+chap7 chap8 chap9 chap10 - some file in the directory

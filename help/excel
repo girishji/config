@@ -1,0 +1,205 @@
+
+control + `: to show formulas
+
+add ' at the beginning if you want a cell to start with a minus, -
+
+to change b1 to $b$1 or b$1 etc, press F4
+
+to go to edit mode of formula within the cell use F2
+
+--
+
+To jump around:
+
+control+ arrow keys
+tab to move to right
+shift tab for left
+enter to move down
+shift enter to move up
+shift + arrow : to add cells to selection
+
+to clear out a cell: Delete
+
+strikethrough : ctrl + 5 OR command+shift+X
+
+To select:
+whole row: shift+space (NOT alt space)
+whole col: control+space
+
+Ctrl+Shift, then hit either the down arrow to get all the data in the column below, up arrow to get all the data above, or (page up or page down) left or right arrow to get everything in the row (to the left or right, of course).
+
+Ctrl+Shift+* (the asterisk) will select the whole data set no matter what cell is selected
+
+to highlight all numbers that don't have formula behind them: F5 then chose 'specia->constants' in the dialog
+
+to make it look pretty:
+- resize: double click when cursor is between columns (at the top) and it will resize to show all text in columns
+- even better: select a bunch of columns and double click between any two columns (at the top where it has col names)
+- when columns are selected, resizing one col will resize all the same amount
+
+copy format: there is a paintbrush icon at top left, so highlight cell and copy format, now move mouse
+and when you release it will copy format to that cell. you can also select a bunch of cells to paste format
+
+conditional format: to format a column, select this button in the home ribbon
+
+to format $ or %: just select the drop down format button at top (home ribbon)
+
+merge
+- you can select cells to 'merge and center'
+
+--
+to format rows, cells, cols:
+control + 1
+
+to insert row, or column:
+(control+plus brings up dialog, but better way)
+highlight row or column (shift/control+space), then do control+plus
+
+to remove entire row
+control+minus, but if you want to avoid dialog box highlight entire column/row and control+minus
+
+to move a row up or down:
+highlight row, then hold down shift when you drag (https://www.youtube.com/watch?v=Xe4U_-o_EWw)
+
+to hide column: control+0
+for column: ctrl+9
+
+Alt+; to check if any rows or cols are hidden
+
+To move contents of a cell (or range): hover over border until hand icon appears
+range == a group of cells
+
+Copy formatting icon in the left top corner
+
+Apply the percentage format with no decimal places Control+Shift+Percent
+Apply the USD format with no decimal places Control+Shift+dollar
+
+--
+to copy from pdf and paste a table : https://www.youtube.com/watch?v=ZpNQIdtzrVo
+cut and paste first (simple), choose first column that have text, then data->text to columns
+
+--
+
+formula editing:
+- F2 to move from edit to point mode. you can put a + or - sign in a cell, move to point mode (f2) and
+  now it is easy to select cells
+- F4 to change from relative to absolute reference
+- hyperlink: when you use F2 to edit the formula, see the small hyperlinks that appear below
+  function arguments if you are using a function. use them to select argument.
+- F9: say you have a large formula in a cell. to evaluate a part of it, highlight it and press f9 - important
+  do not hit enter, it will permanently change the formula. instead 'escape'
+- evaluate window: highlight cell, under formula ribbon choose 'evaluate formula'
+- you can also name formulas: in formulas ribbon choose 'define name' and put your formula where
+  it says 'select name of cells'. use F3 to recall all your named functions when you have a cell selected
+- you can name one cell or range of cells and refer by single name (https://www.youtube.com/watch?v=60vWKRucphk)
+
+
+https://www.youtube.com/watch?v=Q6UPvWlBk4k
+
+--
+To sum
+1) autosum is cmd+shift+T - only works if sum value is at the bottom cell
+2) put sum in a cell in same column filtering out cells (use cmd+shift+t, to
+exclude cells from top use the tiny square icon that appears when you hover, for
+bottom cells use than hand icon to shift everything one cell up and then use square icon 
+3) put sum in any cell : type =sum( and then select cells/range
+
+--
+
+https://support.office.com/en-us/article/keyboard-shortcuts-in-excel-1798d9d5-842a-42b8-9c99-9b7213f0040f
+
+today's date
+ctrl+;
+cmd+;  is today's time
+
+command+shift+T  this is not just =sum() but auto sum (it guesses the cells to use)
+you can also use the sum symbol at right hand top corner (auto sum)
+
+alt+control+down arrow : auto complete (shows all options), start with =,
+and see all formulas, use tab (not enter).
+
+command+control(or option)+V  paste special
+(if you don't want to paste formula when copying cell, but paste actual numerical value, choose value
+in the dialog box)
+
+cmd+option+enter  to insert line break, add a new line within a cell, can adjust font size to make 2 lines fit into a cell
+
+Inside your data set (table), select region by control+A, then do Alt+F1 to create a chart!
+work with dataframe like table using 'table' not default layout of excel
+
+see flashfill at 4:13  https://www.youtube.com/watch?v=Xe4U_-o_EWw
+Edit->fill->flash fill (no keyboard shortcut in mac)
+
+
+--
+
+to do statistics, go to data->data analysis
+
+--
+
+to copy formula in column
+double click on lower right hand corner of cell
+control+. (period) to toggle to bottom and back.
+
+no shortcut for copying across a row
+
+--
+--
+to sum things: home tab, there is sum button on right side
+it has options to average, count, etc.
+select all the cells plus extra empty cell so it can sum
+
+=average( works 
+--
+
+create a table by clicking ctrl-T
+now you can have headers, nice colored formatting etc.
+you can click ctrl-t again, and choose options like
+total row, filter, remove duplicates,etc.
+you can also convert it back to range.
+
+--
+
+fill down
+Control+D
+or
+COMMAND +D
+
+fill right
+Control+R
+or
+COMMAND +R
+
+Fill the selected cell range with the text that you type
+COMMAND +Return
+or
+Control+Return
+
+copy formulas by simply copy+paste (instead of using autofill and drag)
+just use shift+click to select multiple cells to paste formula
+this works for rows
+
+for columns, double click on bottom right corner.
+
+--
+
+data set: is like a data frame. give it name, you can name columns etc.
+
+--
+to copy formulas from one column to another, without changing reference:
+highlight the cells
+ctrl-h to open find-and-replace
+replace = with # (change formula to a text comment)
+copy and paste
+replace back # to =
+
+another way: use notepad to copy formula
+go to formula tab, pick 'show formula'
+copy these to a textexit notepad, copy them again and paste
+
+https://www.youtube.com/watch?v=LfSKR5knkWE
+
+--
+
+
+

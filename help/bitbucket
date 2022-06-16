@@ -1,0 +1,23 @@
+git clone https://girishji@bitbucket.org/girishji/gesturesearchwidget.git
+
+Make a commit and push the change
+Learn the Git basics of stage, commit, push when you make a change to the 'sample.html' file.
+Go to your terminal window and navigate to the repository root.
+Using your favorite editor, edit the sample.html file.
+Change the heading from My First File to Playing in the Sand.
+Save and close the file.
+Stage the file with Git.
+git add sample.html
+Commit the change.
+git commit -m "changing sample.html"
+Push to Bitbucket.
+git push
+The system prompts you for a username/password.
+Enter your Bitbucket account name and the password.
+After the push completes, click Commits, in Bitbucket, to view your change.
+The 'git add' moves changes from the working directory to the staging area. This gives you the opportunity to prepare a set of changes (a snapshot) before committing it to the official history.
+Git add command
+The git commit takes the staged snapshot and commits it to the project history. Combined with git add, this defines the basic workflow for all Git users.
+Git commit
+Pushing lets you move a local branch or series of commits to another repository, which serves as a convenient way to publish contributions. This is like svn commit, but it sends a series of commits instead of a single changeset.
+Push graphic

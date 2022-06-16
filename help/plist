@@ -1,0 +1,27 @@
+plist can be binary or xml. xml can be edited with emacs. for binary you need plistbuddy, or defaults, or xcode/propery list editor.
+
+plistbuddy:
+cd ~/Library/Preferences/com.apple.LaunchServices
+/usr/libexec/plistbuddy ./com.apple.launchservices.secure.plist
+I used:
+print
+add :LSHandlers: dict
+add :LSHandlers:7:LSHandlerURLScheme string tel
+add :LSHandlers:7:LSHandlerRoleAll string com.google.chrome
+add :LSHandlers:7:LSHandlerPreferredVersions dict
+add :LSHandlers:7:LSHandlerPreferredVersions:LSHandlerRoleAll string -
+save
+exit
+
+
+defaults:
+$~/Library/Preferences$ defaults read com.apple.LaunchServices/com.apple.launchservices.secure
+
+http://blog.eexit.net/osx-dealing-with-property-list-files/
+https://support.apple.com/en-us/HT202292
+
+How do I configure custom URL handlers on OS X?
+http://superuser.com/questions/548119/how-do-i-configure-custom-url-handlers-on-os-x
+
+
+

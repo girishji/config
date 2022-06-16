@@ -1,0 +1,89 @@
+send -- (2 hyphens):
+Sending Strings That Look Like Flags
+Because the send command looks for special arguments such as -s and -h, you cannot
+send strings like these without taking some special action. An argument of "--" (two
+hyphens) forces send to interpret the following argument literally.2 So if you want to
+send -h, you can say:
+send -- "-h"
+The "--" does not affect strings that do not otherwise have a special meaning to send.
+
+====
+https://www.pantz.org/software/expect/expect_examples_and_tips.html
+
+Tips and Gotchas
+
+Use expects debug mode by putting the line "exp_internal 1" at the top of your script. This is a quick way of seeing what expect sees and finding out why something is not matching when it should be. It will help you see any of the special characters or spaces that you might be missing in your matches.
+Use autoexpect. Autoexpect usually comes with the package expect. When you execute autoexpect it spawns as shell for you and runs the command you give it. It will store your whole interactive session in a file called script.exp by default. It essentially writes your expect script for you in a very bloated and exact way. I would not suggest using it to write your scripts, but as a tool to see octal sequences and match examples. It might also be good for seeing special keys your hitting like Ctrl-C.
+When you have to send a control sequence/character to programs like Ctrl-C or Esc and you don't have an editor that allows you to put them directly in your script you can send the octal equivalent. Tcl provides a way of encoding using octal or hex. For example to send the Esc character you would use send "\033". To find the octal number for any key use the program od. Start it with "od -c". Press the function key you want to know about. Then hit return. Lastly, press Ctrl-D. The string between the 0000000 and \n is what you want. You could also try it this way: Type "echo " on the command line. Then Ctrl-V, then the key you want to see (lets say Ctrl-C). Then it will print ^C. After that put "|od -cb". This will print out the octal code between 0000000 and \n like before. Ctrl-C is octal 003.
+Once a send command is executed it moves on right away to the next command. If you needed to wait for something to finish put an expect in to wait for the output your expecting. A good example of this is waiting for the save command to finish on a Cisco Nexus router. It takes a few seconds to save. I know when I see 100% it is done. So I tell expect to wait until it sees 100% and then the command line again. If you don't know what is coming next you can try putting in a sleep statement like "sleep 4" to wait for your process to finish.
+Expect is not line oriented, characters are matched from the beginning to the end of the data (as opposed to line by line).
+Call ssh with command line arguments -q -o StrictHostKeyChecking=no to kill banners and key changes on a trusted network. This way you will not have to code for problems with banners or answering yes on key changes.
+See the Expect script design area above for some good notes.
+The expect function is a first match function. The order of your matching blocks (regexes) is the order the output is checked in. If the first block matches, the rest of the blocks are not tested and code in the matching area is executed. Put your most likely matches first.
+
+====
+https://www.pantz.org/software/expect/expect_examples_and_tips.html
+
+Most used commands and descriptions
+
+Below I will list the commands (with descriptions) I use the most in Expect. They should get you through the simple scripts that most people need.
+
+expect - The expect command will wait until one of the patterns given matches the output of a spawned process, a specified time period has passed, or an end-of-file is seen. Since you can give the expect command multiple things to match on you can have it do different things when it matches. The first sentence bares repeating, but I will try to expand on it. Expect will constantly loop through the multiple given patterns until a match is found. Expect will match the first pattern it finds in the order you specified them. When it finds a match it will execute any commands given and keep following any more nested commands until it hits the last command. It will never return to the calling block. It then moves onto the next part of the script.
+
+If at any time there are no matches it will timeout. If the pattern keyword (match word) "timeout" is used you can have it perform an action when the timeout happens.
+
+If an eof is returned it will exit the spawned process and move on. If you use "eof" as a pattern keyword then you can have it also perform an action if an eof happens.
+
+You can also use the pattern keyword called "default" that can perform an action if either eof or timeout are reached. We will see how to use this to make great error messages later.
+
+send - Sends string to the current process. Usually this is a command followed by a return character (/r) like send "yourpassword\r". You use the expect command to match the output and decide what to send the current process.
+
+spawn - Creates a new process by running a given program. This is usually given at the start of the script to begin the process. Examples given earlier were "spawn ssh user@host or spawn ftp host". You are starting up (connecting to) the process you want to interact with.
+
+send_user - Output that gets sent to stdout. This is used for sending message to the screen as the script runs. It is great for user feedback, banners, and for generating error messages.
+
+interact - This will give control of the current process over to the user for interaction. Great if the script can get a person to a certain point and then they have to take over. When you get to the point you want to interact with just put in the word "interact".
+
+log_user - By default all process output shows up on stdout (your screen). To stop this you can set log_user to 0 "log_user 0" at the top of your script. To turn things back on just set it back to "log_user 1" or remove the line.
+
+exp_internal - This is essentially the Expect debug log mode. Turn this on by setting this to 1 like "exp_internal 1". It will show you everything expect sees and how it is trying to match it. This is invaluable for when you think your script should be working, but it is not.
+
+set - Set is just how to set variables in Tcl and thus Expect. Things like setting the global timeout value from 10 seconds to 20 with "set timeout 20". Another would be grabbing a username from the command line of the expect script and setting it to a variable "set username [lindex $argv 0]".
+
+close - Closes the connection to the current process.
+
+Expect scripts design
+
+Before we get to actual Expect script examples let me lay out how I design my scripts and what I have learned works best for me.
+
+I love giving good feedback when an error condition is reached. To do this with expect try to use the eof and timeout keywords, or default pattern keyword in each expect statement. If you set a timeout and eof message and action in each expect block you can use a send_user message and tell the user what part of the script failed or if the process exited. If you use exit as your action for the keywords then you can be sure the script does not go any further. This helps make debugging what went wrong faster at the expense of a few extra lines per statement.I think its worth it.
+I try not to use the while loops with the expect command. I see people do this a lot and many times it is not needed. The expect command itself is a loop. It will keep looping through the output looking for a match. You can act on any matches and keep performing more matches and actions. Expect has a default timeout of 10 secs when looping through looking for a match. If there is never a match it will timeout and you can set an action to this timeout if you want.
+To set your Expect scripts apart from other scripts use the file extension .exp
+Always try to follow a send command with an expect statement if possible. This helps first with timing where the next command will not be executed until that last one has been completed and checked with the expect statement. You don't need sleep statements if you have the luxury of knowing what output you should be seeing. You can be sure the command completed correctly if you know what should be there when it is finished.
+
+====
+
+See https://www.pantz.org/software/expect/expect_examples_and_tips.html
+
+expect {
+  timeout { send_user "\nFailed to get password prompt\n"; exit 1 }
+  eof { send_user "\nSSH failure for $hostname\n"; exit 1 }
+  "*#" {}
+  "*assword:" {
+    send "$password\r"
+  }
+}
+
+Above means expect either "*#" or "*assword:", because different OS that you are trying to ssh into behave different
+
+====
+
+The expect_before And expect_after Commands
+One of the most common uses for any_spawn_id is to check for an eof. Even if an eof is not expected, it is a good idea to test for it. That way the script can gracefully shut down even if something unexpected happens.
+
+Unfortunately, adding eof patterns to all expect commands can make for a lot of extra typing. It is possible to create and call a new procedure that automatically tacks on the eof patterns, but Expect provides a more direct solution.
+
+The commands expect_before and expect_after declare patterns that are used automatically by subsequent expect commands. As an example, consider the following commands. Each one explicitly checks for an eof as well as the pattern. If the pattern is found, the next command is executed. If an eof occurs, the fictitious command eofproc is called.
+
+https://www.safaribooksonline.com/library/view/exploring-expect/9781565920903/ch11s10.html
+====

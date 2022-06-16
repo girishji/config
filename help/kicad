@@ -1,0 +1,37 @@
+PCB editor:
+right click -> special tools -> has (move exact, create array, etc).
+
+--
+run DRC (design rule checker) from pcb editor (inspect->design rule check)
+if it says some silkscreen violation, move that text 
+make sure your filled zones are not islands
+
+--
+
+filling zones (for ground). use B.Cu layer. make sure ground from processor
+connected to a pad or that it is connected to copper island through a via.
+only then will pour succeed.
+
+--
+
+pcb editor does not update footprints if you edit them separately. This
+is a bug. To mitigate, go to schematic editor, assign symbol to something
+else (temporarily), generate pcb in pcb editor, go back to schematic editor and assign
+symbol to what was before and generate pcb.
+
+--
+
+pcbnew is a standalone executable also. it has different menu and you
+use this for paneling. when invoked from within kicad launcher it
+works within 'project' context and links with schematic editor.
+
+--
+
+Move with Reference (right click->special tools) is very useful. Always
+adjust the grid size on tool row at the top.
+
+--
+
+In pcbeditor use tools->update footprint from library
+
+--

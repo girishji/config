@@ -1,0 +1,81 @@
+===========================================================
+
+Radian
+
+===========================================================
+
+Alt+Enter to open new line in multiline editing
+
+
+===========================================================
+
+R App for mac
+
+===========================================================
+
+.Rprofile has customizations. I included data.table library loading, and changed
+default plot size there.
+
+
+=================================================================
+
+RStudio
+
+=================================================================
+
+click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file
+
+--
+
+select text: C-Space, move the cursor, Cmd-C to copy
+
+--
+To fix syntax and spacing everywhere (including inside brackets etc) use
+Ctrl shift A
+To fix indent only: Ctrl I
+
+Ctrl + I to fix lines indentation. Ctrl + Shift + A for complete reformat of the selected part of a code.M
+
+==
+
+How to get Rmd text to soft wrap at 80 character margin
+
+RStudio shortcut Ctrl+Shift+/ (reflow comment in code menu) 
+
+==
+
+In Rstudio I turned off automatic insertion of quotes and parens
+this is done from setting menu easily
+It was automatically closing "" but not ''
+
+==
+
+RStudio: use emacs keybindings (preferences->Code) will cause polish characters
+to not work when used with Meta. But you get control-space selection and other goodies.
+When using Polish, disable emacs keybindings from Preferences.
+
+
+==
+
+You can dictate into R for mac
+R for mac: init file is .Rprofile
+All keybindings are same as R studio
+This is good for quick work
+cmd-N opens R file (dont'  use Rd file, it is doxygen associated)
+https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html
+
+to execute multiple line command, you have to highlight and 'cmd+enter'
+
+--
+
+In rstudio, alt-shift-k will reveal shortcuts, but
+easier to browse: https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts
+
+--
+
+Cmd-Shift-M for pipe
+Alt+_ for <-
+
+--
+
+
