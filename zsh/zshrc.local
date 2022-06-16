@@ -2,6 +2,9 @@
 #   their .vimrc
 #   https://grml.org/zsh/zsh-refcard.pdf
 
+# Temp stuff
+export PYTHONPATH="/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages"
+
 #setopt emacs
 setopt vi
 
@@ -530,7 +533,10 @@ fe() {
   [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
 }
 ff() {
-  fe $@
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 --preview 'bat --color=always --style=numbers --line-range=:500 --theme=GitHub {}'))
+}
+ff2() {
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
 }
 
 # Changing directory
