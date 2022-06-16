@@ -1,0 +1,200 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/Users/gp/sandbox/re2/src/" . "util/")
+ ("/Users/gp/sandbox/re2/" . "src/")
+ ("/Users/gp/sandbox/re2/src/re2google/re2/" . "testing/")
+ ("/Users/gp/.emacs.d/" . "elpa/")
+ ("/Users/gp/Google Drive/WNE/Semester_3/" . "StatisticsAndEDA/")
+ ("/Users/gp/Google Drive/WNE/" . "Semester_3/")
+ ("/Users/gp/Google Drive/CS229/" . "ProblemSet_1/")
+ ("/Users/gp/Google Drive/" . "CS229/")
+ ("/Users/gp/Sandbox/udemy/" . "inbox/")
+ ("/Users/gp/Sandbox/" . "udemy/")
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Język Polski/" . "1/")
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/" . "Język Polski/")
+ ("/Users/gp/Library/Mobile Documents/" . "com~apple~CloudDocs/")
+ ("/Users/gp/Library/" . "Mobile Documents/")
+ ("/" . "Users/")
+ ("/Users/gp/" . "help/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/Users/gp/sandbox/re2/src/"
+ "/Users/gp/.emacs.d/"
+ "/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/c-mode/"
+ "/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/c++-mode/"
+ "/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/"
+ "/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/cc-mode/"
+ "/Users/gp/sandbox/re2/tests/"
+ "/Users/gp/help/"
+ "/Users/gp/sandbox/re2/src/re2google/util/"
+ "/Users/gp/sandbox/re2/src/re2google/re2/testing/"
+ "/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/wikiSpider/wikiSpider/spiders/"
+ "/Users/gp/Google Drive/WNE/Semester_4/WebScraping/"
+ "/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/wikiSpider/wikiSpider/"
+ "/Users/gp/sandbox/re2/src/util/"
+ "~/"
+ "/Users/gp/sandbox/re2/"
+ "/Users/gp/sandbox/re2/vignettes/"
+ "/Users/gp/sandbox/re2/src/re2google/re2/"
+ "/Users/gp/sandbox/re2/src/re2google/"
+ "/Users/gp/sandbox/re2/R/"
+ "/Users/gp/sandbox/re2/man/"
+ "/Users/gp/"
+ "/Users/gp/sandbox/re2/src/tests/"
+ "/Users/gp/sandbox/re2/src/re2cpp/re2/testing/"
+ "/Users/gp/sandbox/re2/tests/re2cpp/re2/testing/"
+ "/Users/gp/sandbox/re2/tests/re2cpp/re2/"
+ "/Users/gp/Sandbox/re2cpp/"
+ "/Users/gp/Sandbox/re2/re2/"
+ "/Users/gp/Google Drive/WNE/Semester_3/StatisticsAndEDA/"
+ "/Users/gp/Google Drive/CS229/ProblemSet_1/"
+ "/"
+ "/Users/gp/Sandbox/udemy/inbox/"
+ "/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Język Polski/1/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "re2_re2proxy.cpp"
+ "emacs.el"
+ "emacs"
+ "re2_match_cpp.cpp"
+ "benchmark.cc"
+ "Rnotes.txt"
+ "regexp_benchmark.cc"
+ "re2_re2proxy.h"
+ "re2_random_text.cpp"
+ "Makevars"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/Users/gp/" (24715 43997 568916 578000) "Google Drive (honbadg@gmail.com)/" ".conda/" "help/" ".zsh_sessions/" ".viminfo" ".bash_history" "re2-package.Rd" "re2-package.Rd.tt" "foo.py" ".cdlist.save" ".gitconfig" ".python_history" "re2_random_text.cpp" "Downloads/" "CS229/" ".gem/" ".vscode/" ".gitmessage" ".zcompcache/" "Documents/" ".npm/" ".vscode-insiders/" ".zcompdump" ".jupyter/" ".Trash/" ".radian_profile" "opt/" ".Rapp.history" "Applications/" ".emacs" ".vimrc" "Movies/" ".ssh/" "re2_match_all.cpp" ".RData" ".idlerc/" ".zshenv" "sandbox/" ".hunspell_en_US" "Public/" "Google Drive/" "macros/" ".gitmessage.txt" ".radian_history" ".emacs.d/" "re2_regexp_syntax.R" "google-cloud-sdk/" ".vimgolf/" ".lesshst" ".matplotlib/" "Library/" "Desktop/" ".ipython/" ".zsh_history" "re2_regexp.Rd" "re2_re2container.cpp" "node_modules/" ".zprofile" ".atom/" ".zshrc.backup" ".pylint.d/" "Pictures/" "re2_regexp.o" ".local/" "OneDrive/" "bak/" ".zshrc" ".subversion/" "bin/" ".wget-hsts" "col2.sh" ".Rprofile" ".CFUserTextEncoding" ".lldb/" "re2_regexp.cpp" "consume.cpp" ".R/" ".DS_Store" ".vim/" ".cdlist" "foo.cpp" "Music/" ".config/" ".Rhistory" "re2_re2container.h" "re2_re2container.o" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/" (24701 60606 202487 790000) "re2_max_submatch.cpp" "re2google/" "re2_random_text.cpp" "re2_detect.o" "re2_check_rewrite_string.cpp" "re2_match_cpp.cpp" "re2_quote_meta.o" "re2.so" "RcppExports.cpp" "re2_possible_match_range.cpp" "re2_extract_replace.o" "re2_named_capturing_groups.cpp" "re2_replace_all.cpp" "re2_get_options.cpp" "re2_capturing_group_names.cpp" "re2_random_text.o" "re2_locate.o" "re2_detect.cpp" "re2_extract_replace.cpp" "re2_replace.cpp" "re2_named_capturing_groups.o" "Makevars" "re2_possible_match_range.o" "re2_get_options.o" "re2_replace_all.o" "re2_match.cpp" "RcppExports.o" "re2_do_match.h" "re2_do_match.o" "re2_regexp.o" "re2_max_submatch.o" "re2_quote_meta.cpp" "re2_re2proxy.cpp" "re2_match.o" "re2_capturing_group_names.o" "re2_number_of_capturing_groups.cpp" "re2_split.cpp" "re2_replace.o" "Makevars.win" "util/" "re2_number_of_capturing_groups.o" "re2_regexp.cpp" "re2_split.o" ".DS_Store" "re2_re2proxy.o" "re2_re2proxy.h" "re2_check_rewrite_string.o" "re2_do_match.cpp" "re2_locate.cpp" "../" "./")
+
+ ("/Users/gp/sandbox/re2/R/" (24701 58719 559397 822000) "re2-package.R" "RcppExports.R" "../" "./")
+
+ ("/Users/gp/sandbox/re2/" (24701 58718 372523 180000) "src/" ".git/" ".gitignore" "DESCRIPTION" "README.md" "NAMESPACE" "R/" "tests/" "ChangeLog" "LICENSE" ".DS_Store" "LICENSE.md" "vignettes/" ".Rbuildignore" "man/" "../" "./")
+
+ ("~/" (24701 58024 205933 480000) "Google Drive (honbadg@gmail.com)/" ".conda/" "help/" ".zsh_sessions/" ".viminfo" ".bash_history" "re2-package.Rd" "re2-package.Rd.tt" ".cdlist.save" ".gitconfig" ".python_history" "re2_random_text.cpp" "Downloads/" "CS229/" ".vscode/" ".gitmessage" ".zcompcache/" "Documents/" ".npm/" ".vscode-insiders/" ".zcompdump" ".jupyter/" ".Trash/" ".radian_profile" "opt/" ".Rapp.history" "Applications/" ".emacs" "Movies/" ".ssh/" "re2_match_all.cpp" ".RData" ".idlerc/" ".zshenv" "sandbox/" ".hunspell_en_US" "Public/" "Google Drive/" "macros/" ".gitmessage.txt" ".radian_history" ".emacs.d/" "re2_regexp_syntax.R" "google-cloud-sdk/" ".lesshst" ".matplotlib/" "Library/" "Desktop/" ".ipython/" ".zsh_history" "re2_regexp.Rd" "re2_re2container.cpp" "node_modules/" ".zprofile" ".atom/" ".zshrc.backup" ".pylint.d/" "Pictures/" "re2_regexp.o" ".local/" "OneDrive/" "bak/" ".zshrc" ".subversion/" "bin/" ".wget-hsts" ".Rprofile" ".CFUserTextEncoding" ".lldb/" "re2_regexp.cpp" "consume.cpp" ".R/" ".DS_Store" ".cdlist" "foo.cpp" "Music/" ".config/" ".Rhistory" "re2_re2container.h" "re2_re2container.o" "../" "./")
+
+ ("/Users/gp/.emacs.d/" (24701 58217 603894 365000) "help" "emacs.el" "elpa/" "emacs.elc" "emacs.el~" "auto-save-list/" "ido.last~" "ido.last" "snippets/" "../" "./")
+
+ ("/Users/gp/help/" (24701 57996 264763 875000) "expect" "outlook" "Rcpp" "cron" "git" "Rnotes.txt" "airdrop" "tar" "vscode" "photos" "bitbucket" "sas_viya.txt" "iphone" "djay" "sas_data_analytics.txt" "xargs" "cut" "chrome" "cpp" "powerpoint" "automator" "facebook" "tidy" "call" "ssh" "emacs~" "bash" "emacs" "regex" "youtube" "sed-awk" "RStudioRAppRadian" "ipython.txt" "diff" "gcc" "gzip" "vnc" "netstat" "pdf" "excel" "sas_text_analytics.txt" "awk" "atom" "less" "conda" "python" "osx" "amazon" "du" "apache.txt" ".DS_Store" "video" "iterm" "blockwebsites" "kindle" "gcloud" "plist" "../" "./")
+
+ ("/Users/gp/sandbox/re2/tests/" (24701 58274 366030 534000) "benchmark.R" "re2_R.h" "GNUmakefile.RInside" "README" "re2google_test/" "GNUmakefile" "re2_R.cc" "../" "./")
+
+ ("/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/c-mode/" (24701 56092 55303 457000) ".yas-parents" "printf" "fopen" "../" "./")
+
+ ("/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/c++-mode/" (24701 56609 307249 307000) "beginend" ".yas-parents" "class" "using" "template" "ns" "../" "./")
+
+ ("/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/" (24701 56092 250957 638000) "js-mode/" "ruby-mode/" "markdown-mode/" "csharp-mode/" "cc-mode/" "nxml-mode/" "snippet-mode/" "rst-mode/" "c++-mode/" "erlang-mode/" "html-mode/" "emacs-lisp-mode/" "c-mode/" "latex-mode/" "perl-mode/" "cperl-mode/" "python-mode/" "text-mode/" "objc-mode/" "f90-mode/" "sql-mode/" "scala-mode/" "css-mode/" "../" "./")
+
+ ("/Users/gp/.emacs.d/elpa/yasnippet-classic-snippets-1.0.2/snippets/cc-mode/" (24701 56582 875802 304000) "main" ".yas-parents" "for" "inc.1" "struct" "if" "once" "do" "inc" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/util/" (24701 51632 19896 782000) "RE2Syntax.md" "README" "convert.py" "GNUmakefile" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2google/" (24695 61593 318018 349000) "BUILD" "doc/" "lib/" "CONTRIBUTING.md" "re2/" "benchlog.macbook-air" "CONTRIBUTORS" "README" "ucs2.diff" "testinstall.cc" "re2.pc" "WORKSPACE" "benchlog/" "runtests" "libre2.symbols" "AUTHORS" "util/" "LICENSE" "CMakeLists.txt" "libre2.symbols.darwin" "GNUmakefile" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2google/re2/" (24698 53903 867673 695000) "prog.cc" "set.o" "stringpiece.cc" "re2.o" "set.h" "re2.h" "bitmap256.h" "regexp.h" "regexp.o" "make_perl_groups.pl" "perl_groups.o" "make_unicode_groups.py" "bitstate.cc" "prefilter_tree.cc" "simplify.cc" "prefilter.cc" "simplify.o" "unicode_casefold.o" "unicode_groups.o" "unicode_groups.h" "unicode_casefold.h" "mimics_pcre.o" "sparse_set.h" "nfa.o" "tostring.cc" "filtered_re2.cc" "compile.o" "re2.cc" "testing/" "bitstate.o" "compile.cc" "dfa.o" "dfa.cc" "filtered_re2.h" "filtered_re2.o" "prefilter_tree.h" "prefilter_tree.o" "walker-inl.h" "prefilter.o" "mimics_pcre.cc" "prefilter.h" "parse.o" "perl_groups.cc" "pod_array.h" "onepass.cc" "regexp.cc" "unicode.py" "tostring.o" "unicode_casefold.cc" "unicode_groups.cc" "prog.o" "prog.h" "sparse_array.h" "nfa.cc" "onepass.o" "fuzzing/" "parse.cc" "make_unicode_casefold.py" "set.cc" "stringpiece.h" "stringpiece.o" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/wikiSpider/wikiSpider/" (24690 63522 440590 127000) "pipelines.py" "items.py" "settings.py" "middlewares.py" "__pycache__/" "__init__.py" "spiders/" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_4/WebScraping/" (24693 40551 123030 864000) "Web-Scraping-with-Python-2nd-Edition.pdf" "06/" "07/" "notes.txt" ".DS_Store" "02/" "05/" "04/" "03/" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/wikiSpider/wikiSpider/spiders/" (24691 5755 562569 14000) "s_3.py" "s_2.py" "__pycache__/" "__init__.py" "s_1.py" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2google/re2/testing/" (24697 16758 609820 334000) "regexp_benchmark.cc" "string_generator.cc" "string_generator.h" "required_prefix_test.cc" "random_test.cc" "tester.cc" "exhaustive_tester.h" "string_generator_test.cc" "charclass_test.cc" "parse_test.cc" "exhaustive_test.cc" "simplify_test.cc" "re2_test.cc" "exhaustive_tester.cc" "backtrack.cc" "exhaustive3_test.cc" "search_test.cc" "set_test.cc" "regexp_generator.h" "exhaustive2_test.cc" "dfa_test.cc" "dump.cc" "regexp_generator.cc" "filtered_re2_test.cc" "compile_test.cc" "mimics_pcre_test.cc" "regexp_test.cc" "possible_match_test.cc" "null_walker.cc" "exhaustive1_test.cc" "re2_arg_test.cc" "tester.h" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2google/util/" (24698 53859 576472 930000) "benchmark.cc" "strutil.o" "strutil.h" "benchmark.h" "mutex.h" "strutil.cc" "pcre.h" "util.h" "test.cc" "logging.h" "rune.o" "pcre.cc" "test.h" "utf.h" "rune.cc" "flags.h" "malloc_counter.h" "mix.h" "fuzz.cc" "../" "./")
+
+ ("/Users/gp/sandbox/" (24689 50043 786157 808000) "rcpp/" "re2.Rcheck/" "R-4.0.4/" "re2/" "notes" "re2cpp/" "re2bad1/" "push.sh" "re2old/" "test/" ".DS_Store" "udemy/" "re2r/" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/" (24690 52790 37760 510000) "wikiSpider/" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_4/WebScraping/06/wikiSpider/" (24690 54011 359897 173000) "scrapy.cfg" "wikiSpider/" "../" "./")
+
+ ("/Users/gp/sandbox/re2/man/" (24689 30583 115270 144000) "../" "./")
+
+ ("/Users/gp/sandbox/re2/vignettes/" (24689 18832 909601 511000) ".gitignore" "re2_intro.Rmd" "re2_tests.Rmd" "re2_benchmark.Rmd" "re2_syntax.Rmd" "../" "./")
+
+ ("/Users/gp/sandbox/test/" (24688 25215 860910 739000) "FullMatch_DotStarCapture.png" "Rplots.pdf" "re2_benchmark.html" "Search_Medium.png" "FullMatch_DotStarDollar.png" "Search_Hard.png" "SearchPhone.png" "Search_Fanout.png" "benchlog.macbook-air" "Search_Success.png" "Search_Success1.png" "re2_benchmark.md" "test.cpp" "re2_benchmark.Rmd" "Search_Parens.png" "Search_Easy0.png" "Search_Easy1.png" "Read-and-delete-me" "Search_AltMatch.png" "Search_BigFixed.png" "FullMatch_DotStar.png" "plot.R" "../" "./")
+
+ ("/Users/gp/Downloads/" (24681 45401 601832 322000) "R-4.0.4.tar.gz" "re2r_0.2.0.tar.gz" "SKM_C554e20121116440.pdf" "przelew.pdf" "Miniconda3-latest-Linux-x86_64.sh" "sejmRP_1.3.4.tar.gz" "inputrc" ".Rapp.history" "Washington_PostBuffett-Analysis.pdf" "Requirements-for-registration-for-subsequent-semesters-of-study.docx" "Article-Financial-Statement-Analysis-Basics-2017.pdf" "Screen Shot 2021-03-10 at 2.28.11 PM.png" "Bliżej Polski. Wiedza o Polsce i jej kulturze -1.pdf" "v40i08.pdf" "bashrc" "eye_prescription.JPG" "Rserve/" "Bliżej Polski. Wiedza o Polsce i jej kulturze.rar" "empty.R" "LIST_POLSKA_S.A._SF2018_.pdf" "Rserve_1.8-7.tar.gz" "re2r.Rcheck/" "SKM_C554e21030917060.pdf" "R-devel/" ".localized" "signed annex.pdf" "google-cloud-sdk-331.0.0-darwin-x86_64.tar.gz" "bashrc (1)" ".DS_Store" "sejmRP/" "2019_04_18_(15_43_31)JednostkaInnaWZlotych(1)_v1-0.xml" "R-devel.tar.gz" "INSTRUCTION.pdf" ".Rhistory" "glos_1_43.pdf" "../" "./")
+
+ ("/Users/gp/.emacs.d/elpa/" (24679 31308 508872 908000) "archives/" "company-0.9.13/" "ess-20210331.804/" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/tests/" (24673 55689 479249 201000) "re2_R.h" "GNUmakefile.RInside" "README" "Makefile" "re2_R.cc" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2cpp/re2/testing/" (24671 8400 774906 706000) "regexp_benchmark.cc" "string_generator.cc" "string_generator.h" "required_prefix_test.cc" "random_test.cc" "tester.cc" "exhaustive_tester.h" "string_generator_test.cc" "charclass_test.cc" "parse_test.cc" "exhaustive_test.cc" "simplify_test.cc" "re2_test.cc" "exhaustive_tester.cc" "backtrack.cc" "exhaustive3_test.cc" "search_test.cc" "set_test.cc" "regexp_generator.h" "exhaustive2_test.cc" "dfa_test.cc" "dump.cc" "regexp_generator.cc" "filtered_re2_test.cc" "compile_test.cc" "mimics_pcre_test.cc" "regexp_test.cc" "possible_match_test.cc" "null_walker.cc" "exhaustive1_test.cc" "re2_arg_test.cc" "tester.h" "../" "./")
+
+ ("/Users/gp/sandbox/re2/tests/re2cpp/re2/" (24670 18261 348803 422000) "prog.cc" "set.o" "stringpiece.cc" "re2.o" "set.h" "re2.h" "bitmap256.h" "regexp.h" "regexp.o" "make_perl_groups.pl" "perl_groups.o" "make_unicode_groups.py" "bitstate.cc" "prefilter_tree.cc" "simplify.cc" "prefilter.cc" "simplify.o" "unicode_casefold.o" "unicode_groups.o" "unicode_groups.h" "unicode_casefold.h" "mimics_pcre.o" "sparse_set.h" "nfa.o" "tostring.cc" "filtered_re2.cc" "compile.o" "re2.cc" "testing/" "bitstate.o" "compile.cc" "dfa.o" "dfa.cc" "filtered_re2.h" "filtered_re2.o" "prefilter_tree.h" "prefilter_tree.o" "walker-inl.h" "prefilter.o" "mimics_pcre.cc" "prefilter.h" "parse.o" "perl_groups.cc" "pod_array.h" "onepass.cc" "regexp.cc" "unicode.py" "tostring.o" "unicode_casefold.cc" "unicode_groups.cc" "prog.o" "prog.h" "sparse_array.h" "nfa.cc" "onepass.o" "fuzzing/" "parse.cc" "make_unicode_casefold.py" "set.cc" "stringpiece.h" "stringpiece.o" "../" "./")
+
+ ("/Users/gp/sandbox/re2/tests/re2cpp/" (24670 14487 695402 891000) "re2/" "foo.out" "runtests" "libre2.symbols" "Makefile" "util/" "libre2.symbols.darwin" "obj/" "../" "./")
+
+ ("/Users/gp/sandbox/re2/tests/re2cpp/re2/testing/" (24664 48444 477763 250000) "regexp_benchmark.cc" "string_generator.cc" "string_generator.h" "required_prefix_test.cc" "random_test.cc" "tester.cc" "exhaustive_tester.h" "string_generator_test.cc" "charclass_test.cc" "parse_test.cc" "exhaustive_test.cc" "simplify_test.cc" "re2_test.cc" "exhaustive_tester.cc" "backtrack.cc" "exhaustive3_test.cc" "search_test.cc" "set_test.cc" "regexp_generator.h" "exhaustive2_test.cc" "dfa_test.cc" "dump.cc" "regexp_generator.cc" "filtered_re2_test.cc" "compile_test.cc" "mimics_pcre_test.cc" "regexp_test.cc" "possible_match_test.cc" "null_walker.cc" "exhaustive1_test.cc" "re2_arg_test.cc" "tester.h" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_3/StatisticsAndEDA/" (24601 2075 438412 62000) "Lecture 2 - Measures of Location/" "Lecture 8 - ANOVA  related/" "Lecture 9 - Tests for Nominal Data/" "Lecture 10 - Association measures and tests/" "Lecture 3 - Measures of Dispersion and Shape/" "Lecture 6 - Introduction to hypothesis testing/" "BOOK-Introduction to Statistics and Data Analysis.pdf" "Lecture 5 - Graphical analysis of data II/" "Look_Before_You_Analyze_Visualizing_Data_in_Crimin.pdf" "Lecture 7 - Two-sample tests/" "Exam_SEDA_29_01.docx" "exam_and_presentation.txt" "Lecture 1 - Random Variables And Probability Distributions/" "Lecture 4 - Graphical analysis of data I/" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Sandbox/re2cpp/" (24657 60290 510781 938000) ".git/" "BUILD" "doc/" "lib/" ".github/" "CONTRIBUTING.md" ".gitignore" "re2/" "CONTRIBUTORS" "README" "ucs2.diff" "testinstall.cc" "re2.pc" "WORKSPACE" "benchlog/" "runtests" "libre2.symbols" "Makefile" "AUTHORS" "util/" "LICENSE" "CMakeLists.txt" "libre2.symbols.darwin" "obj/" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2cpp/" (24666 62482 393932 109000) "BUILD" "doc/" "lib/" "CONTRIBUTING.md" ".gitignore" "re2/" "CONTRIBUTORS" "README" "ucs2.diff" "testinstall.cc" "re2.pc" "WORKSPACE" "benchlog/" "runtests" "libre2.symbols" "Makefile" "AUTHORS" "util/" "LICENSE" "CMakeLists.txt" "libre2.symbols.darwin" "../" "./")
+
+ ("/Users/gp/sandbox/re2/src/re2cpp/re2/" (24667 387 197161 514000) "prog.cc" "set.o" "stringpiece.cc" "re2.o" "set.h" "re2.h" "bitmap256.h" "regexp.h" "regexp.o" "make_perl_groups.pl" "perl_groups.o" "make_unicode_groups.py" "bitstate.cc" "prefilter_tree.cc" "simplify.cc" "prefilter.cc" "simplify.o" "unicode_casefold.o" "unicode_groups.o" "unicode_groups.h" "unicode_casefold.h" "mimics_pcre.o" "sparse_set.h" "nfa.o" "tostring.cc" "filtered_re2.cc" "compile.o" "re2.cc" "testing/" "bitstate.o" "compile.cc" "dfa.o" "dfa.cc" "filtered_re2.h" "filtered_re2.o" "prefilter_tree.h" "prefilter_tree.o" "walker-inl.h" "prefilter.o" "mimics_pcre.cc" "prefilter.h" "parse.o" "perl_groups.cc" "pod_array.h" "onepass.cc" "regexp.cc" "unicode.py" "tostring.o" "unicode_casefold.cc" "unicode_groups.cc" "prog.o" "prog.h" "sparse_array.h" "nfa.cc" "onepass.o" "fuzzing/" "parse.cc" "make_unicode_casefold.py" "set.cc" "stringpiece.h" "stringpiece.o" "../" "./")
+
+ ("/Users/gp/Sandbox/re2/re2/" (24654 21205 270779 410000) "prog.cc" "stringpiece.cc" "set.h" "re2.h" "bitmap256.h" "regexp.h" "make_perl_groups.pl" "make_unicode_groups.py" "bitstate.cc" "prefilter_tree.cc" "simplify.cc" "prefilter.cc" "unicode_groups.h" "unicode_casefold.h" "sparse_set.h" "tostring.cc" "filtered_re2.cc" "re2.cc" "testing/" "compile.cc" "dfa.cc" "filtered_re2.h" "prefilter_tree.h" "walker-inl.h" "mimics_pcre.cc" "prefilter.h" "perl_groups.cc" "pod_array.h" "onepass.cc" "regexp.cc" "unicode.py" "unicode_casefold.cc" "unicode_groups.cc" "prog.h" "sparse_array.h" "nfa.cc" "fuzzing/" "parse.cc" "make_unicode_casefold.py" "set.cc" "stringpiece.h" "../" "./")
+
+ ("/Users/gp/Sandbox/re2/" (24653 57553 842961 468000) ".git/" "BUILD" "doc/" "lib/" ".github/" "CONTRIBUTING.md" ".gitignore" "re2/" "CONTRIBUTORS" "README" "ucs2.diff" "testinstall.cc" "re2.pc" "WORKSPACE" "benchlog/" "runtests" "libre2.symbols" "Makefile" "AUTHORS" "util/" "LICENSE" "CMakeLists.txt" "libre2.symbols.darwin" "obj/" "../" "./")
+
+ ("/Users/gp/.ipython/profile_default/" (24649 54416 430623 756000) "startup/" "log/" "db/" "ipython_kernel_config.py" "pid/" "security/" "ipython_config.py" "history.sqlite" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_3/StatisticsAndEDA/Lecture 3 - Measures of Dispersion and Shape/" (24595 54242 157591 774000) "L3_practice.html" "Airbnb_Vienna_July_2017.csv" "Exercises_Lab_3.pdf" "Lab_3_practice.R" "L3_practice.nb.html" "Lecture_3.pptx" "Excercise_Lab_3.Rmd" "Solutions_Lab3_Exer_Students.R" "White_house.csv" "Excercise_Lab_3.html" "Excercise_Lab_3.nb.html" "Lecture_3.pdf" "L3_practice.Rmd" "Fruit_consumption.csv" "Fruit_consumption_modified.csv" "Airbnb_Warsaw_July_2017.csv" ".Rhistory" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/Semester_3/" (24585 26836 803109 657000) "StatisticsAndEDA/" "EGZ-2021ZP-DS.pdf" "IntroR/" "UnsupervisedLearning/" "PythonSQL/" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Google Drive/WNE/" (24582 41597 416035 591000) "Semester_3/" "kalendarz__wne_2019_2020_en.pdf" "IMG_0883.JPG" ".DS_Store" "Misc/" "../" "./")
+
+ ("/Users/gp/Google Drive/" (24584 26769 139191 210000) "uniqloeu_self_return_label2.pdf" "help/" "uniqloeu_self_return_label1.pdf" "tmp/" "CS229/" "Documents/" "WNE/" "wzór podania do prodziekana.docx" "Taxes/" "Study.csv" "OneUpOnWallStreet/" "Miscellaneous/" "Books/" ".tmp.drivedownload/" "Pictures/" "bin/" "Archive/" "Icon" "dotFiles/" "Probability-6-041-fall-2010/" ".DS_Store" "ProblemSet1Soln.ipynb" "Statistics-18-650-fall-2016/" "../" "./")
+
+ ("/Users/gp/Sandbox/udemy/inbox/" (24478 33611 38818 116000) "compile.js" "package.json" "package-lock.json" "deploy.js" "node_modules/" "contracts/" "test/" "../" "./")
+
+ ("/Users/gp/Google Drive/CS229/ProblemSet_1/" (24562 5537 58702 229000) "data/" ".vscode/" ".ipynb_checkpoints/" ".DS_Store" "ProblemSet1Soln.ipynb" "ps1.pdf" "../" "./")
+
+ ("/Users/gp/Google Drive/CS229/" (24552 33791 845571 361000) "ProblemSet_1/" "ProblemSet_0/" "jupyter-lab" "Supplementary-misc/" "ProblemSet_2/" "ProblemSet_3/" "ProblemSet_4/" "ClassNotes2020/" "ProblemSet_4_old/" "latex_interactive_guide.tex" "notes.txt" ".DS_Store" "ProblemSet_2_old/" "ProblemSet_3_old/" "ProblemSet_1_old/" ".Rhistory" "Supplementary-2018/" "../" "./")
+
+ ("/Users/gp/Applications/" (24225 16694 209752 289000) "Chrome Apps.localized/" ".localized" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Sandbox/udemy/" (24458 57410 240736 187000) "inbox/" "../" "./")
+
+ ("/Users/gp/Sandbox/" (24458 57393 307388 607000) ".DS_Store" "udemy/" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Język Polski/1/" (24308 52966 0 0) "videoplayback.mp4" "e1.txt" "e2.txt" "in-polish.txt" ".DS_Store" "transcript.txt" "transcript.pages" "../" "./")
+
+ ("/Users/gp/Sandbox/udemy/inbox/contracts/" (24475 59322 287391 539000) "Inbox.sol" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Język Polski/" (24305 43865 0 0) "pronouns.png" "2/" "help" "3/" "1/" "combine.py" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Downloads/" (24296 63563 0 0) "videoplayback.mp4" "Why NO means YES in Polish - Easy Polish 135.mp4" "✈ Ja kontra Gambia, i cukierki.mp4" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/" (24299 46193 915765 776000) "Downloads/" "MSOfficeDMG/" ".Trash/" "Język Polski/" "Logins_dontDelete_encrypted_copy.pages" "PastDocsArchive/" "Logins_dontDelete_encrypted.txt" ".DS_Store" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/" (24301 54078 274598 351000) "iCloud~com~apple~itunesu/" "iCloud~org~videolan~vlc-ios/" "iCloud~com~google~container/" "VJXTL73S8G~com~algoriddim~djay-ios/" "F6266T9T75~com~apple~iMovie/" "com~apple~iBooks~cloudData/" "iCloud~com~microsoft~Office~Excel/" "iCloud~com~adobe~Adobe-Reader/" "iCloud~cc~arcye~richtextor/" "iCloud~com~getdropbox~Dropbox/" "iCloud~com~apple~passd/" "iCloud~com~microsoft~Office~PowerPoint/" "iCloud~com~microsoft~Office~Word/" "F3LWYJ7GM7~com~apple~mobilegarageband/" "iCloud~com~ryangregg~exchange~tasks/" "com~apple~iBooks~secureData/" "iCloud~is~workflow~my~workflows/" "iCloud~com~postindustria~stockinvestor/" "E24N8SPR73~com~skyjos~fileexplorer/" "iCloud~com~udoncode~copied/" "com~apple~ScriptEditor2/" "iCloud~com~blackburninternet~Mini-Text/" "iCloud~com~newin~nplayer/" "iCloud~us~zoom~videomeetings/" "iCloud~com~omz-software~Pythonista3/" "iCloud~com~helloTalk~helloTalk/" "iCloud~com~microsoft~lync2013~iphone/" "com~apple~Automator/" "com~apple~Preview/" "com~apple~CloudDocs/" "iCloud~com~handlellc~richtextedit/" "iCloud~thekf~dictionary/" "SXHX3674N7~com~reference~dictionary~dictionary/" "57T9237FN3~net~whatsapp~WhatsApp/" "com~apple~Numbers/" "iCloud~com~apple~clips/" "com~apple~Pages/" "iCloud~ph~telegra~Telegraph/" "iCloud~com~apple~iBooks/" "iCloud~dk~simonbs~Scriptable/" "iCloud~com~microsoft~skype~teams/" "com~apple~TextInput/" "ZRTG2SVSTD~com~limepresso~pomodoro/" "iCloud~com~apple~mobilesafari/" "iCloud~com~apple~iBooks~iTunesU/" "iCloud~group~com~imgur/" "com~apple~shoebox/" "X6B29J8D22~com~savysoda~documents/" "iCloud~com~citrixonline~iOS~GoToWebinar/" "iCloud~com~microsoft~onenote/" "iCloud~group~pl~millenniumbank~bankmillennium/" "com~apple~Keynote/" "com~apple~TextEdit/" "iCloud~com~apple~ncplugin~weather/" "iCloud~com~skyjos~fileexplorer/" "iCloud~com~microsoft~skydrive/" "com~apple~QuickTimePlayerX/" ".DS_Store" "8YE23NZS57~com~kayak~travel/" "iCloud~pl~tablica/" "com~apple~mail/" "iCloud~com~kayak~travel/" "iCloud~com~glassdoor~glassdoor/" "iCloud~com~apple~DocumentsApp/" "iCloud~com~barebones~bbedit/" "com~apple~mobilemail/" "com~apple~SafariShared~History/" "../" "./")
+
+ ("/Users/gp/Library/" (24254 62333 283376 394000) "Caches/" "CoreFollowUp/" "Keyboard/" "texlive/" "Services/" "Cookies/" "Input Methods/" "Reminders/" "SafariSafeBrowsing/" "Spelling/" "CallServices/" "Screen Savers/" "Metadata/" "KeyboardServices/" "Fonts/" "PersonalizationPortrait/" "ScreenRecordings/" "Containers/" "Dictionaries/" "Group Containers/" "LaunchAgents/" "Suggestions/" "Mobile Documents/" "Scripts/" "PreferencePanes/" "MediaStream/" "Colors/" "Safari/" "Accounts/" "Internet Plug-Ins/" "Logs/" "Keyboard Layouts/" "Audio/" "SyncedPreferences/" "Printers/" "com.apple.internal.ck/" "Sounds/" "Speech/" "FontCollections/" "com.apple.icloud.searchpartyd/" "Workflows/" "Passes/" "Favorites/" "LanguageModeling/" "Google/" "GameKit/" "Compositions/" "Mail/" ".localized" "Assistants/" "Application Scripts/" "ApplicationSupport/" "ColorPickers/" "Sharing/" ".DS_Store" "Keychains/" "HomeKit/" "Messages/" "PDF Services/" "studentd/" "Preferences/" "Calendars/" "Developer/" "WebKit/" "IdentityServices/" "Saved Application State/" "Autosave Information/" "Assistant/" "Maps/" "Application Support/" "../" "./")
+
+ ("/Users/" (24203 34505 0 0) "gp2/" "gp/" "Shared/" ".localized" "../" "./")
+
+ ("/Users/gp//" (24305 42477 268271 302000) "help/" ".viminfo" ".cdlist.save" ".gitconfig" ".python_history" "Downloads/" "ltximg/" ".rstudio-desktop/" "Documents/" ".zcompdump" ".Trash/" ".Rapp.history" "Applications/" ".emacs" "Movies/" ".RData" ".zshenv" "Public/" "Google Drive/" ".emacs.d/" ".lesshst" "Library/" "Desktop/" ".zsh_history" "Pictures/" ".local/" "OneDrive/" "bak/" ".zshrc" ".subversion/" "bin/" ".wget-hsts" ".Rprofile" ".CFUserTextEncoding" ".R/" ".DS_Store" ".cdlist" "Music/" ".config/" ".Rhistory" "../" "./")
+
+ ("/Users/gp///" (24305 42477 268271 302000) "help/" ".viminfo" ".cdlist.save" ".gitconfig" ".python_history" "Downloads/" "ltximg/" ".rstudio-desktop/" "Documents/" ".zcompdump" ".Trash/" ".Rapp.history" "Applications/" ".emacs" "Movies/" ".RData" ".zshenv" "Public/" "Google Drive/" ".emacs.d/" ".lesshst" "Library/" "Desktop/" ".zsh_history" "Pictures/" ".local/" "OneDrive/" "bak/" ".zshrc" ".subversion/" "bin/" ".wget-hsts" ".Rprofile" ".CFUserTextEncoding" ".R/" ".DS_Store" ".cdlist" "Music/" ".config/" ".Rhistory" "../" "./")
+
+ ("/Users/gp/Library/Mobile Documents/com~apple~CloudDocs/Język Polski/3/" (24305 43301 0 0) "e1.txt" "e2.txt" "in-polish.txt" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

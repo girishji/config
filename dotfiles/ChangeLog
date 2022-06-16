@@ -1,0 +1,130 @@
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu, 16 Jun 2022 10:27:16 +0200
+
+some dot files
+
+
+A  dotfiles/.emacs
+A  dotfiles/.emacs.d/elpa/archives/gnu/archive-contents
+A  dotfiles/.emacs.d/emacs.el
+A  dotfiles/.emacs.d/emacs.elc
+A  dotfiles/.emacs.d/help
+A  dotfiles/.emacs.d/ido.last
+A  dotfiles/.vimrc
+?? dotfiles/.gitignore
+
+commit 377a49f5431974f34c6c1e23470e0bd484306175
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:17:49 2022 +0200
+
+    updates
+    
+    M  nvim/lua/user/lsp/handlers.lua
+    M  nvim/lua/user/nvim-tree.lua
+    M  zsh/zshrc.local
+
+commit f7518d258e6a0ace6de8458ee8525874c44d5e08
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 2 21:42:15 2022 +0200
+
+    update options
+    
+    M  nvim/init.lua
+    M  nvim/lua/user/bufferline.lua
+    M  nvim/lua/user/cmp.lua
+    M  nvim/lua/user/keymaps.lua
+    M  nvim/lua/user/lsp/configs.lua
+    M  nvim/lua/user/lsp/handlers.lua
+    M  nvim/lua/user/lsp/null-ls.lua
+    A  nvim/lua/user/nvim-tree.lua
+    A  nvim/lua/user/openbrowser.lua
+    M  nvim/lua/user/options.lua
+    M  nvim/lua/user/plugins.lua
+    M  nvim/lua/user/telescope.lua
+    M  nvim/lua/user/whichkey.lua
+    M  zsh/zshrc.local
+
+commit f994bc818104e0335419963a737fa1ff184908c2
+Author: Girish Palya <girishji@gmail.com>
+Date:   Fri May 6 15:18:19 2022 +0200
+
+    add nvim files
+    
+    M  .gitignore
+    M  nvim/init.lua
+    M  nvim/lua/user/keymaps.lua
+    M  nvim/lua/user/lsp/handlers.lua
+    M  nvim/lua/user/options.lua
+    M  nvim/lua/user/treesitter.lua
+    M  nvim/lua/user/whichkey.lua
+    M  zsh/zshrc.local
+
+commit 37a1555f1bf6c451a3cd60eecec9c0842899be15
+Author: Girish Palya <girishji@gmail.com>
+Date:   Fri May 6 13:06:24 2022 +0200
+
+    add zsh and nvim files
+    
+     M .gitignore
+     M nvim/init.lua
+     M nvim/lua/user/keymaps.lua
+     M nvim/lua/user/lsp/handlers.lua
+     M nvim/lua/user/options.lua
+     M nvim/lua/user/treesitter.lua
+     M nvim/lua/user/whichkey.lua
+    A  zsh/zshrc.local
+
+commit fbcb8874f83c5fb6389326fef4accfbb530847f2
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:39:35 2022 +0200
+
+    fixed typo
+    
+    M  .gitignore
+    D  nvim/plugin/packer_compiled.lua
+
+commit 4ccc54ec3f05db90e9091af264f3c80c2e1d63a8
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:37:49 2022 +0200
+
+    fixed ignore file
+    
+    M  .gitignore
+
+commit a64c100c313757459601e42b278ec66b34fc06c6
+Author: Girish Palya <girishji@gmail.com>
+Date:   Mon May 2 19:34:00 2022 +0200
+
+    Add plugin config files
+    
+    config as in
+    https://www.youtube.com/playlist?list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ
+    
+    M  .gitignore
+    A  nvim/init.lua
+    A  nvim/lua/user/autopairs.lua
+    A  nvim/lua/user/bufferline.lua
+    A  nvim/lua/user/cmp.lua
+    A  nvim/lua/user/comment.lua
+    A  nvim/lua/user/indentline.lua
+    A  nvim/lua/user/keymaps.lua
+    A  nvim/lua/user/lsp/configs.lua
+    A  nvim/lua/user/lsp/handlers.lua
+    A  nvim/lua/user/lsp/init.lua
+    A  nvim/lua/user/lsp/null-ls.lua
+    A  nvim/lua/user/lsp/settings/jsonls.lua
+    A  nvim/lua/user/lsp/settings/sumneko_lua.lua
+    A  nvim/lua/user/lualine.lua
+    A  nvim/lua/user/options.lua
+    A  nvim/lua/user/plugins.lua
+    A  nvim/lua/user/telescope.lua
+    A  nvim/lua/user/toggleterm.lua
+    A  nvim/lua/user/treesitter.lua
+    A  nvim/lua/user/whichkey.lua
+    A  nvim/plugin/packer_compiled.lua
+
+commit 6c24091b3af3ec08d619e1a12bc3d2782cd47281
+Author: gp <girishji@gmail.com>
+Date:   Sat Apr 30 15:20:58 2022 +0200
+
+    Initial commit

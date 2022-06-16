@@ -1,0 +1,523 @@
+;;----------------------------------------------------------
+;; Customizations (see also ~/Library/Preferences/org.gnu.Emacs.plist)
+;;
+ 
+;;----------------------------------------------------------------------
+; Code folding / Hide all lines based on indentation (useful to get summary of a C file)
+; M-1 C-x $ (folds all lines with indentation >1, uses set-selective-display variable
+; C-x $ (to undo above)
+; Above is bound to F5
+;
+; Shift-Page Up: In Terminal (running emacs) this works as page-up,
+;    same with Page-Down
+; M-m Move cursor to the first non white space character on the line.
+; C-x z Repeat most recently executed command.
+; C-c f or C-cC-f will toggle font from fixed to variable width.
+;
+; Spelling (using ispell.el, not spell.el)
+; M-$ to spell a word (better than M-Tab below)
+; M-Tab to correct or complete the word under cursor.
+; To insert a word into private dictionary: M-$ and i (or u for lowercase)
+; M-x sc  to continue spelling from current word.
+; sb (ispell-buffer), sr (ispell-region)
+; private dictionary is ~/.aspell.*
+; 
+; When it is checking you can use the following:
+;<SPC>
+;    Skip this wordcontinue to consider it incorrect, but don't change it here.
+;r new <RET>
+;    Replace the word (just this time) with new. (The replacement string will be rescanned for more spelling errors.)
+;R new <RET>
+;    Replace the word with new, and do a query-replace so you can replace it elsewhere in the buffer if you wish. (The replacements will be rescanned for more spelling errors.)
+;digit
+;    Replace the word (just this time) with one of the displayed near-misses. Each near-miss is listed with a digit; type that digit to select it.
+;a
+;    Accept the incorrect wordtreat it as correct, but only in this editing session.
+;A
+;    Accept the incorrect wordtreat it as correct, but only in this editing session and for this buffer.
+;i
+;    Insert this word in your private dictionary file so that Aspell or Ispell will consider it correct from now on, even in future sessions.
+;u
+;    Insert the lower-case version of this word in your private dictionary file.
+;m
+;    Like i, but you can also specify dictionary completion information.
+;l word <RET>
+;    Look in the dictionary for words that match word. These words become the new list of near-misses; you can select one of them as the replacement by typing a digit. You can use `*' in word as a wildcard.
+;C-g
+;    Quit interactive spell checking, leaving point at the word that was being checked. You can restart checking again afterward with C-u M-$.
+;X
+;    Same as C-g.
+;x
+;    Quit interactive spell checking and move point back to where it was when you started spell checking.
+;q
+;    Quit interactive spell checking and kill the Ispell subprocess.
+;C-l
+;    Refresh the screen.
+;C-z
+;    This key has its normal command meaning (suspend Emacs or iconify this frame).
+;?
+;    Show the list of options. 
+;
+;;----------------------------------------------------------------------
+; M-tab runs ispell-complete word which gives choice of words from dictionary.
+;;----------------------------------------------------------------------
+; cd dir emacs& // will make the default dir set to say sandbox/src/java
+;;----------------------------------------------------------------------
+; To run emacs inside console window: emacs -nw
+;;----------------------------------------------------------------------
+; Stuff to remember
+; M-C-\ indent region
+; c-tab page up
+; c-n and c-p (m-n and m-p) to go up/down lines
+; c-f and c-b (m-f and m-b) to go forward and backward in a line
+; flush-lines
+; occur // to filter lines with a regexp
+; c-backspace to switch windows (keep only 2)
+;;-----------------------------------------------------------
+; Tags:
+; M-.: runs find tag, default word is picked up from where the cursor is.
+;   so put the cursor over the word and then press M-.
+; c-;: runs complete-tag, it finds the definition within the file.
+;`M-. TAG <RET>'
+;     Find first definition of TAG (`find-tag').
+;`C-u M-.'
+;     Find next alternate definition of last tag specified.
+;`C-u - M-.'
+;     Go back to previous tag found.
+;`C-M-. PATTERN <RET>'
+;     Find a tag whose name matches PATTERN (`find-tag-regexp').
+;`C-u C-M-.'
+;     Find the next tag whose name matches the last pattern used.
+;`C-x 4 . TAG <RET>'
+;     Find first definition of TAG, but display it in another window
+;     (`find-tag-other-window').
+;`C-x 5 . TAG <RET>'
+;     Find first definition of TAG, and create a new frame to select the
+;    buffer (`find-tag-other-frame').
+;M-*: go back to what was before M-.
+;M-x man, then type say perlfunc to view the perlfunc man pages
+;;-----------------------------------------------------------
+; C-a: beginning of line
+; C-e: end of line
+; c-o: open line
+; c-j: open line and indent
+; c-d: delete char
+; c-f, c-b: forward and backward char
+; m-f, m-b: foward and backward word
+; c-n, c-p: next and previous line
+; M-^: to join two lines
+; unfill: to join all lines in a paragraph in a buffer (in my_utils.el). this 
+;   is often not necessary since longlines-mode is used for text-mode.
+; M-j; unfill (as above)
+; c-k: to kill line (c-u - 2 c-k kill 2 previous lines, not -)
+; c-y, m-y: to yank last killed, to replace just yanked with eariler batch
+; c-s, c-r: isearch forward/backward
+; c-]: abort recursive edit
+; c-l: recenter
+; : List functions in a file
+; c-x i: insert-file
+; : find file, without specifying path name
+; c-q: quoted insert, to insert octal, special chars etc. (like c-v in vi)
+; m-<, m->: beginning, end of buffer
+; m-g: goto line
+; m-c: capitalize word
+
+; comment-region: to comment out
+; uncomment-region: to revert
+; c-u -1 (or -2) comment-region uncomments stuff
+; flush-lines: to remove lines with a string from buffer (for examining logs)
+
+;; Undo
+; c-/ c-x u or c-_ : undo
+; any command, while undoing, breaks the sequence. From that point
+;   all previous commands become command you can undo. So to redo,
+;   type 'c-f' or any command that breaks sequence, and starts undoing
+;   again, which will redo.
+; If buffer is modified accidentally, then type 'undo's until the stars
+;   disappear from modeline.
+
+;; Clipboard
+; ccopy, cyank and ccut enable cut and paste between applications.
+
+;; cursor movement
+; `M-m' move (forward or back) to the first nonblank char
+; `C-a' Move to the beginning of the line (`beginning-of-line').
+; `C-e' Move to the end of the line (`end-of-line').
+; `C-f' Move forward one character (`forward-char').
+; `C-b' Move backward one character (`backward-char').
+; `M-f' Move forward one word (`forward-word').
+; `M-b' Move backward one word (`backward-word').
+; `C-n' Move down one line
+; `C-p' Move up one line, vertically (`previous-line').
+; `M-<' Move to the top of the buffer (`beginning-of-buffer').
+; `M->' Move to end of buffer
+; `M-x' goto-line 
+
+;; Deleting text
+; `<DEL>' Delete the character before point (`delete-backward-char').
+; `C-d' Delete the character after point (`delete-char').
+; `C-k' Kill to the end of the line (`kill-line').
+; `M-d' Kill forward to the end of the next word (`kill-word').
+; `M-<DEL>' Kill back to the beginning of the previous word
+
+;; Transposing
+; c-t: two chars
+; m-t: words
+; c-x c-t: 2 lines
+
+;; Indenting
+; c-m-\: is indent-region
+; c-j: is <ret> followed by <tab>
+; m-^: merge two lines, cancel the effect of c-j
+; to insert <tab> char use c-q <tab>
+; m-q: to break lines into specified column width.
+
+;; Repeat
+; c-x z: to repeat earlier command
+; c-x z z z: to repeat it 3 times
+
+;; Numeric args:
+; instead of c-u 5 ... you can do m-5 ...
+
+;; Line number
+; m-x line-number-mode
+
+;; Wrap lines / fill paragraph
+; m-q
+
+;; blank lines
+; try c-o, c-j
+; c-x c-o removes all but 1 blank line
+
+;; Mark ring:
+; See 'Regions' about how to set mark
+; mark is also useful for remembering spots. They are in mark-ring.
+; c-u c-<spc>: To return to marked location
+; Searches set the mark (tell you in echo area), so is m-< etc.
+; mark ring is local for a buffer
+;; Global mark ring: ordinary marks recorded in global ring also
+; c-x c-<spc>: cycles you through
+
+;; svn mode
+; c-x m-s =  to show diff of file, see other commands in psvn.el
+; c-x m-s l  to show log of file
+; c-x m-s s  status this directory
+; c-x m-s u  svn update
+; c-x m-s c  svn commit
+
+;; [SEE BOOKMARKS] set mark in a register, and be able to find mark in a file
+; C-x r <spc> R: save position of point in register R
+; c-x r j R; Jump to position saved in register R
+
+;; for yanking text multiple times
+; c-x r s R: copy regions into register R
+; c-x r i R: insert text from register R
+
+;; if you visit some files frequently, save it in register
+; (set-register ?z '(file . "/girish/ChangeLog"))
+; puts file name in register z
+; ?z is same as "z"
+; to visit, c-x r j z'.
+
+;; Bookmarks are like registers, but they persist between sessions
+; and you can only store position in a file
+; c-x r m <ret>: set a bookmark at point
+; c-x r m BOOKMARK <ret>: set a bookmark named BOOKMARK
+; c-x r b BOOKMARK: jump to BOOKMARK
+; c-x r l: list all bookmarks
+; m-x bookmark-save: save current bookmarks in a default file
+; Also see "Mark Ring"
+
+
+;The Mark Ring
+; 
+; Aside from delimiting the region, the mark is also useful for remembering spots that you may want to go back to. Each
+; buffer remembers 16 previous locations of the mark, in the mark ring. Commands that set the mark also push the old mark onto this ring.
+; 
+; C-<SPC> C-<SPC>
+; Set the mark, pushing it onto the mark ring, without activating it. 
+; C-u C-<SPC>
+; Move point to where the mark was, and restore the mark from the ring of former marks.
+; The command C-<SPC> C-<SPC> is handy when you want to use the mark to remember a position to which you may wish to return. 
+; It pushes the current point onto the mark ring, without activating the mark (which would cause Emacs to highlight the region). This
+; is actually two consecutive invocations of C-<SPC> (set-mark-command); the first C-<SPC> sets the mark, and the second
+; C-<SPC> deactivates it. (When Transient Mark mode is off, C-<SPC> C-<SPC> instead activates Transient Mark mode temporarily. See Persistent Mark.)
+; 
+; To return to a marked position, use set-mark-command with a prefix argument: C-u C-<SPC>. This moves point 
+; to where the mark was, and deactivates the mark if it was active. Each subsequent C-u C-<SPC> jumps
+; to a prior position stored in the mark ring. The positions you move through in this way are not lost; they go to the end of the ring.
+; 
+; If you set set-mark-command-repeat-pop to non-nil, then immediately after you type C-u C-<SPC>, you
+; can type C-<SPC> instead of C-u C-<SPC> to cycle through the mark ring. By default, set-mark-command-repeat-pop is nil.
+; 
+; Each buffer has its own mark ring. All editing commands use the current buffer's mark ring. In particular, C-u C-<SPC> always stays in the same buffer.
+; 
+
+;; Regions (there is rectangles too, read it if necessary)
+; c-<spc> to set the mark where point is
+; c-x c-x: to interchange mark and point (very useful)
+; you can execute commands (say c-x c-u to convert to uppercase) by
+;   setting a mark and going to end of region and typing c-x c-u.
+;   In other words, don't need to explicitly specify end using c-x c-x
+; can also use drag-mouse-1 or mouse-3
+; to highlight the region you need to make mark transient (lasts until
+;   next command. Use m-x transient-mark-mode
+; M-@: mark word, m-h: mark paragraph, c-x h: mark whole buffer
+; Using region:
+; c-w: to kill
+; c-x r s: to save it in register
+; c-x <tab> or c-m-\: to indent
+; m-x fill-region: to fill it up as text, meaning break at specified column
+; m-x print-region: to print it
+; M-@: mark word, m-h: mark paragraph, c-x h: mark whole buffer
+; c-u 3 m-@: mark next 3 words, verify with c-x c-x
+
+; rectangle
+; c-x r t: to insert stuff into a new rectangle
+; c-x r k: to kill rectangle
+
+; paragraph:
+; m-}, m-{: to move to end and beginning of paragraph
+; m-h: to mark a paragraph
+
+;; Search
+; to search for word under cursor do: 1) copy word under cursor to kill
+;   ring using copy-word-under-cursor and type c-s m-y
+; c-s, c-r: incremental search
+; <ret> stops searching and leaves cursor where search brought it to
+; c-g: quit searching, cursor moves back
+; c-a: quit search and move to beginning of line
+; c-s c-s: to search for perviously searched stuff, after exiting search
+; m-p, m-n: will cycle the search-ring
+; c-w: copies word into search buffer. ex. put point at beginning of word,
+;   type c-s, then c-w, this will highlight the word, type c-s to further
+;   search the word. You can use c-w in the middle of search to add additional
+;   words to search.
+; c-y: same as c-w except it copies the whole line.
+; m-y: copies text from kill ring to search string
+; Regexp searching:
+; c-m-s: for regexp searching, just like c-s
+; c-m-r: for reverse regexp search
+;; Replace
+; m-%: query replace
+; c-m-%: query replace regexp
+; m-x replace-string, replace-regexp will do as expected
+
+;; folding:
+; c-x $: with arg N will hide lines with atleast N lines of indentation
+; c-x $: with no arg to get it back
+
+;; Files in minibuffer
+; c-x c-f will do
+; // has special meaning, which means ignore everything before it
+;   so /gf/hs/ff//home/permabit/girish/foo.c will find foo.c in /home...
+; to kill use m-<backspace> to kill a word, or c-a c-k to kill whole line
+;   c-a moves to beginning of line, c-k kills it
+; c-x c-r: visit file for viewing, read only
+;   c-x c-q to toggle the read only part
+; c-x c-v: if you mistyped, visit alternalte file, not one visited last
+;   it kills current buffer and loads new one
+; c-x 4 f: visit file in another window
+; c-x c-s to save
+; c-x s: to save all buffers
+; m-~: clears out indication that buffer is modified, so c-x c-c don't
+;    complain (~ means 'not')
+; m-x revert-buffer: will replace current buffer with file from disk, 
+;    like e! command in vi.
+; resize-minibuffer-mode: call this so that minibuffer gets a bigger display
+;    if needed.
+
+;; Editing in minibuffer
+; for newline use c-o or c-q c-j (c-q to escape c-j)
+; c-x <esc> <esc> : to repeat / reexecute minibuffer command
+;  Above command is also useful to find exact arguments passed to the
+;  command. Sometimes emacs passes extra arguments (like nil) to
+;  the functions.
+; m-x list-command-history works
+; can use arrow keys inside minibuffer
+
+;; Not echo password
+; m-x send-invisible
+
+;; Buffers
+; c-x to kill buffer
+; c-x s to save all open buffers, ! to save em all after it asks
+; c-x c-b to list buffers
+; d to mark for deletion after listing, x to delete/excute
+; c-x 4 b name/num: to open buffer in another window
+; see swbuff.el for key mappings
+
+;; Windows
+; c-x 2: splits horizontally
+; c-x 3: splits vertically
+; c-x o: move cursor to other window
+; c-x 0: delete selected window
+;   above can also be produced using esc esc esc (c-[ 3 times)
+; c-x 1: delete all but selected window
+
+;; Frames
+; c-x 5 2: create new frame
+; c-x 5 0: delete the frame
+
+;; Matching paren
+; c-m-f and c-m-b works
+; c-m-u goes up to beginning paren. If the cursor is in the middle
+;   of paren enclosed space, c-m-u takes it to beginning paren.
+
+; M-x sort-lines to sort import lines in java
+
+;; grep and find
+; use grep-find function
+; ---------------------------------------------------------------------
+; Dired:
+; use g: update, i: list subdirs along with tree, v: to view
+; d: to mark for deletion, x: to delete marked ones
+; ---------------------------------------------------------------------
+; grep-find, grep, compile, kill-grep, kill-compilation etc all be
+; with c-x ` and <RET> to visit the output one by one.  find-dired,
+; find-name-dired, find-grep-dired find-dires - like find
+; find-name-dired - for matching wildcard patterns find-grep-dired -
+; to test contects of files, rather than file names.  Difference
+; between above and grep-find is that grep-find starts to search from
+; '.', but find-grep-dired asks for dirname to begin searching. Also,
+; the output of grep-find lists the line number and matching line,
+; while find-grep-dired only lists the filename.  In running above,
+; shell variables work. For example you can use $SANDBOX
+; ---------------------------------------------------------------------
+; iswitch: Use c-s (and c-r) to move from one to next in the option
+; list presented by iswitch.
+; ---------------------------------------------------------------------
+; shell: C-c C-c to send SIGINT to running program
+; ---------------------------------------------------------------------
+; lisp
+; to load a function (only) or evaluate, position cursor to ending parenthesis and 
+;   type c-x c-e (eval-last-sexp)
+; ---------------------------------------------------------------------
+; VI like view mode M-x view-mode RET Do c-h b: to get key bindings
+; for this mode
+; ---------------------------------------------------------------------
+; To compile: cd $SANDBOX/java; ant -emacs clean test-jar 
+;   can remove 'clean' if necessary 
+; c-x ` : to visit the locus of the next compiler, available in all
+;  buffers, not just compilation buffer!
+; c-u -1 c-x ' : try this, might take you back in the error list
+; m-n and m-p: to move next/previous error messages
+; c-u c-x `: to start from top
+; each compile error has a number, M-. and n to go to the nth error
+; error message or `grep' match.
+;`<RET>'
+;     Visit the locus of the error message that point is on.  This
+;     command is used in the compilation buffer.
+;`Mouse-2'
+;     Visit the locus of the error message that you click on.
+; compilation-minor-mode:
+;  Let you use above commands in any buffer (ex. shell), just change
+;  the minor mode using M-x.
+; grep, compile, grep-find etc. can be used with above commands
+; C-c C-k		kill-compilation
+; C-c C-c		compile-goto-error (map it to other-window)
+; ---------------------------------------------------------------------
+; picture-mode : to draw pics in emacs, useful. Type c-c c-c to return
+;  to previous mode, which strips all trailing white spaces etc.
+; ---------------------------------------------------------------------
+; Keyboard macro (kbd-macro)
+; c-x ( : start-kbd-macro
+; c-x ) : end-kbd-macro
+; c-x e : execute last keyboard macro (call-last-kbd-macro)
+; you can name them too, so that many can be invoked
+; ---------------------------------------------------------------------
+; M-> : to make window (compilation) keep up with displaying the output
+; run xmllint -format on a shell window to format a xml file
+;
+; byte-compiler has a bug where it complains about
+; premabit-serverlog.el file. some variable does not get evaluated
+; correctly. Visit the file, do c-x c-e at the end of parenthesis for
+; those complaining variables and then byte compile the file. When you
+; have a .elc file generated then there should not be any problem.
+;
+;----------------------------------------------------------------------
+; dabbrev-completion            C-M-/
+;   Command: Completion on current word.
+; dabbrev-expand                M-/
+;   Command: Expand previous word "dynamically".
+; expand-abbrev                 C-x a e, C-x a ', C-x '
+;   Command: Expand the abbrev before point, if there is an abbrev there.
+; 
+;----------------------------------------------------------------------
+; to run shell script that you are editing do 'c-c c-x'
+;
+;----------------------------------------------------------------------
+;M-x tabify, scans the region for sequences of spaces, and converts
+;sequences of at least three spaces to tabs if that can be done
+;without changing indentation. 
+;M-x untabify, changes all tabs in the
+;region to appropriate numbers of spaces.
+;----------------------------------------------------------------------
+; To set font size:
+; Options->Customize Emacs->Specific face
+; type 'default'
+; change height (currently 130) and click 'save for future sessions'
+;----------------------------------------------------------------------
+;
+
+;; * cscope Keybindings:
+;;
+;; All keybindings use the "C-c s" prefix, but are usable only while
+;; editing a source file, or in the cscope results buffer:
+;;
+;;      C-c s s         Find symbol.
+;;      C-c s d         Find global definition.
+;;      C-c s g         Find global definition (alternate binding).
+;;      C-c s G         Find global definition without prompting.
+;;      C-c s c         Find functions calling a function.
+;;      C-c s C         Find called functions (list functions called
+;;                      from a function).
+;;      C-c s t         Find text string.
+;;      C-c s e         Find egrep pattern.
+;;      C-c s f         Find a file.
+;;      C-c s i         Find files #including a file.
+;;
+;; These pertain to navigation through the search results:
+;;
+;;      C-c s b         Display *cscope* buffer.
+;;      C-c s B         Auto display *cscope* buffer toggle.
+;;      C-c s n         Next symbol.
+;;      C-c s N         Next file.
+;;      C-c s p         Previous symbol.
+;;      C-c s P         Previous file.
+;;      C-c s u         Pop mark.
+;;
+;; These pertain to setting and unsetting the variable,
+;; `cscope-initial-directory', (location searched for the cscope database
+;;  directory):
+;;
+;;      C-c s a         Set initial directory.
+;;      C-c s A         Unset initial directory.
+;;
+;; These pertain to cscope database maintenance:
+;;
+;;      C-c s L         Create list of files to index.
+;;      C-c s I         Create list and index.
+;;      C-c s E         Edit list of files to index.
+;;      C-c s W         Locate this buffer's cscope directory
+;;                      ("W" --> "where").
+;;      C-c s S         Locate this buffer's cscope directory.
+;;                      (alternate binding: "S" --> "show").
+;;      C-c s T         Locate this buffer's cscope directory.
+;;                      (alternate binding: "T" --> "tell").
+;;      C-c s D         Dired this buffer's directory.
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(mumamo-background-colors (quote (mumamo-background-chunk-major mumamo-background-chunk-submode1 mumamo-background-chunk-submode2 mumamo-background-chunk-submode3 mumamo-background-chunk-submode4)))
+ '(mumamo-chunk-coloring 1)
+ '(server-kill-new-buffers t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(mumamo-background-chunk-major ((((class color) (min-colors 8)) (:background "black"))))
+ '(mumamo-background-chunk-submode1 ((((class color) (min-colors 8)) (:background "black")))))
