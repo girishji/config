@@ -1,0 +1,630 @@
+" Copy vimrc from grml.org. This file will be sourced by their .vimrc
+"   Some commands from grml: DiffOrig, ;tr (remove trailing whitespaces)
+"
+" Source this as 
+" :so % or :w|so % (save and source)
+" | is a chaining operator in vim, like ; in c
+
+set nocompatible
+
+"---------------------
+" Basic editing config
+"---------------------
+" set nu " number lines
+set rnu " relative line numbering
+set incsearch " incremental search (as string is being typed)
+set hls " highlight search
+" set listchars=tab:>>,nbsp:~ " set list to see tabs and non-breakable spaces
+set lbr " line break
+set scrolloff=3 " show lines above and below cursor (when possible)
+set laststatus=2
+set autochdir " automatically set current directory to directory of last opened file
+set backspace=indent,eol,start " allow backspacing over everything
+set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
+set lazyredraw " skip redrawing screen in some cases
+set hidden " allow auto-hiding of edited buffers
+set history=8192 " more history
+set nojoinspaces " suppress inserting two spaces between sentences
+set shortmess+=I " disable startup message
+set report=0 " show yank confirmation even if 1 or 2 lines yanked  
+
+"------------------
+" Syntax and indent
+"------------------
+syntax on " turn on syntax highlighting
+set showmatch " show matching braces when text indicator is over them
+
+" source ~/.vim/color_scheme/my_font_style.vim
+" source ~/.vim/color_scheme/monotone.vim
+
+"  See https://jeffkreeftmeijer.com/vim-16-color/
+" Beyond the first sixteen named colors numbered 1 through 16, we arrive in
+" absolute color territory. The color codes from 16 to 255 are used to print
+" 8-bit colors, from which 232 to 255 are grayscale values from black to
+" white.
+"
+" colorscheme dim
+" colorscheme grim
+" XXX: For reading code comments should be bright. For writing code, the
+"  opposite. Change color of pythonComment below to 1 (red) or 4 (blue).
+" highlight Todo cterm=reverse   " TODO, XXX, Todo, etc
+" highlight Statement cterm=italic
+" highlight Function     gui=bold       cterm=bold 
+"
+" https://stackoverflow.com/questions/25346482/vim-isnt-highlighting-basic-types-in-c-c
+" use :hi and :syntax list
+"
+if &background == "light"
+  " highlight LineNr       ctermfg=8
+  ""highlight LineNr       ctermbg=7
+  " highlight pythonComment      ctermfg=3
+  " highlight pythonString ctermfg=3
+  " highlight pythonRawString ctermfg=3
+  " highlight Quotes ctermfg=8
+  " highlight TripleQuotes ctermfg=8
+  " highlight Statement ctermfg=1 
+  " highlight pythonString ctermfg=5
+  " highlight pythonRawString ctermfg=5
+  " highlight pythonQuotes ctermfg=3
+  " highlight pythonTripleQuotes ctermfg=3
+else
+  " highlight LineNr ctermbg=8 ctermfg=248
+  " highlight Type ctermfg=10
+  " highlight PreProc ctermfg=3
+  " highlight Pmenu ctermbg=3
+  " highlight PmenuSel ctermbg=10 ctermfg=0
+  "" highlight PmenuSel ctermbg=1 ctermfg=7
+  " highlight PmenuSbar ctermbg=11
+  " highlight PmenuThumb ctermbg=14
+  " highlight Visual ctermbg=52
+endif
+
+" highlight current line, but only in active window
+" augroup CursorLineOnlyInActiveWindow
+"     autocmd!
+"     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"     autocmd WinLeave * setlocal nocursorline
+" augroup END
+
+" " Underline current line but only in insert mode
+" autocmd InsertEnter * setlocal cursorline
+" autocmd InsertLeave * setlocal nocursorline
+"
+" set cursorline
+" highlight clear CursorLine
+" highlight clear CursorLineNr 
+" " highlight CursorLine gui=underline cterm=underline
+" highlight CursorLine ctermbg=0 cterm=NONE  
+
+" smart case-sensitive search
+set ignorecase
+set smartcase
+" tab completion for files/bufferss
+set wildmode=longest,list:full
+set wildmenu
+" set mouse+=a " enable mouse mode (scrolling, selection, etc)
+set nofoldenable " disable folding by default
+
+"--------------------
+" Misc configurations
+"--------------------
+
+" unbind keys
+" map <C-a> <Nop>
+" Q is mapped to gq
+" nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
+
+" Use visual mode with :normal Ex command. 
+"  Use this with . and @q
+" comment out range of lines: Before executing the specified Normal mode
+" command on each line, Vim moves the  cursor to the beginning of the line. So
+" we don’t have to worry about where the cursor is positioned when we execute
+" the command. ex: ➾ :%normal i//
+" If we want to run a Normal mode command on a series of consecutive lines,
+" visually select and use . or @q (if macro is stored in register q). 
+" ex: :'<,'>normal .
+vnoremap <Leader>n :normal 
+
+" map gm to go to middle of line instead of middle of screen
+nnoremap gm gM
+
+" Disable audible bell because it's annoying.
+set noerrorbells visualbell t_vb=
+
+" open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" XXX: Inteferes with UltiSnips
+" quicker window movement
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-l> <C-w>l
+
+" toggle relative numbering
+nnoremap <C-n> :set rnu!<CR>
+
+" Try to prevent bad habits like using the arrow keys for movement. This is
+" not the only possible bad habit. For example, holding down the h/j/k/l keys
+" for movement, rather than using more efficient movement commands, is also a
+" bad habit. The former is enforceable through a .vimrc, while we don't know
+" how to prevent the latter.
+" Do this in normal mode...
+nnoremap <Left>  :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up>    :echoe "Use k"<CR>
+nnoremap <Down>  :echoe "Use j"<CR>
+" ...and in insert mode
+inoremap <Left>  <ESC>:echoe "Use h"<CR>
+inoremap <Right> <ESC>:echoe "Use l"<CR>
+inoremap <Up>    <ESC>:echoe "Use k"<CR>
+inoremap <Down>  <ESC>:echoe "Use j"<CR>
+
+" Cursor shows which mode you are in
+"   https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI.="\e[6 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+"
+
+" Tabularize (align =, etc)
+" see http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+" Learn the use of \zs from above video (3:17)
+" See how he highlights by doing /\w+:
+" Syntax is :Tabularize /pattern
+if exists("Tabularize")
+  nmap <Leader>aa :Tabularize /
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+" Quick-scope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" highlight QuickScopePrimary guifg='#00C7DF' gui=underline ctermfg=155 cterm=underline
+" highlight QuickScopeSecondary guifg='#afff5f' gui=underline ctermfg=81 cterm=underline
+" highlight QuickScopePrimary gui=reverse cterm=reverse
+" highlight QuickScopeSecondary gui=reverse cterm=reverse
+highlight QuickScopePrimary gui=underline cterm=underline ctermfg=1
+highlight QuickScopeSecondary gui=underline cterm=underline ctermfg=4
+let g:qs_max_chars=100
+
+" " Sneak
+" let g:sneak#label = 1
+" let g:sneak#use_ic_scs = 1 " case insensitive sneak
+" let g:sneak#s_next = 1 " immediately move to the next instance of search
+" " remap so I can use , and ; with f and t
+" map [s <Plug>Sneak_,
+" map ]s <Plug>Sneak_;
+" " C-o goes back to place before search
+  
+" highlightedyank
+" highlight HighlightedyankRegion cterm=reverse gui=reverse
+highlight link HighlightedyankRegion Search
+" highlight HighlightedyankRegion cterm=underline gui=Underline
+
+" easymotion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" nmap s <Plug>(easymotion-overwin-f)
+" XXX temp disable next two lines (undo when you are programming)
+" map S <Plug>(easymotion-bd-w)
+" map t <Plug>(easymotion-s)
+" see map-keys-fails in https://vimhelp.org/map.txt.html
+set <F18>=[17;2~
+map <f18> <Plug>(easymotion-s)
+" -- end of XXX
+" Pick colors outside 16-color paletter 
+"  See https://jeffkreeftmeijer.com/vim-16-color/
+"  See https://jonasjacek.github.io/colors/
+if &background == "light"
+  highlight EasyMotionTarget ctermbg=none ctermfg=160 
+  highlight EasyMotionShade  ctermbg=none ctermfg=242
+  highlight EasyMotionTarget2First ctermbg=none ctermfg=88 
+  highlight EasyMotionTarget2Second ctermbg=none ctermfg=88 
+  " highlight EasyMotionMoveHL ctermbg=green ctermfg=black
+  " highlight EasyMotionIncSearch ctermbg=green ctermfg=black
+else
+  " highlight EasyMotionTarget ctermbg=none ctermfg=7 
+  " highlight EasyMotionShade  ctermbg=none ctermfg=2
+  " highlight EasyMotionTarget2First ctermbg=none ctermfg=6 
+  " highlight EasyMotionTarget2Second ctermbg=none ctermfg=6 
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Book Practical vim:
+"
+" Now when we type %% on Vim’s : command-line prompt, it automatically expands
+" to the path of the active buffer, just as though we had typed %:h<Tab>.
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+" The :find command allows us to open a file by its name without having to
+" provide a fully qualified path. To exploit this feature, we first have to
+" configure the ‘path’ setting.
+"
+" The * symbol will match zero or more characters, but only in the scope of the
+" specified directory (:h wildcard   ). The ** wildcard also report erratum •
+" discuss matches zero or more characters, but it can recurse downward into
+" directories below the specified directory.
+" ex :args **/*.js **/*.css
+" set path+=,/Users/gp/sandbox/re2/**
+set path=.,,,,/Users/gp/sandbox/re2/**,~,~/help,**2,/usr/include
+" set path=.,**
+" find can do tab completion. You can also do control-d  to show all choices.
+nnoremap <Leader>f :find<Space>
+
+" Can als do :noh to mute search highlighting.
+" nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap <Leader>h :nohlsearch<CR>
+" Normally, <C-l> clears and redraws the screen (see :h CTRL-L   ). This mapping
+" builds on top of the usual behavior by muting search highlighting.
+
+" Emacs C-s C-w like solution:
+" As well as overriding the * command, we’ve customized the # command, which
+" searches backward for selected text. Use visual mode and Search for the Current
+" Selection.
+" visual mode hightlight, and then type * or #
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR> 
+xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+
+function! s:VSetSearch(cmdtype)
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g') 
+    let @s = temp
+endfunction
+
+" This will cause Vim to treat all numerals as decimal, regardless of whether
+" they are padded with zeros (007 is octal 7 otherwise)
+set nrformats=
+
+" for editing macro stored in register 'r'
+" after editing close the quote (see notes)
+" you can apped to macro by doing qQ
+nnoremap <Leader>m :let @q='<C-R><C-R>q
+
+" visually select recent pasted text (or changed text)
+" A simple procedure would be to press `[ to jump to the start of the text you
+" last changed. For example, you may use ciw to change inner word, or p to
+" paste, then scroll elsewhere. Typing `[ would jump to the start of the word
+" you just changed
+nnoremap gp `[v`]
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Programming related
+"
+
+" enable filetype detection:
+filetype on
+filetype plugin on
+filetype indent on " file type based indentation
+
+autocmd FileType c,cpp,vim,r set shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType zsh set shiftwidth=4 softtabstop=4 expandtab
+
+" Let clang-format do the indentation
+"   use the = verb in normal mode (like gg=G or just =G)
+"   equalprg: External program to use for '=' command.
+" XXX: not much benefit to having clang, messes up = 
+" autocmd FileType c,cpp,make setlocal equalprg=clang-format
+" turns out that when you are in insert mode, it does not
+"   use equalprg (clang-format) value. Only when you explicitly
+"   call '=' it uses clang-format.
+
+" http://vimdoc.sourceforge.net/htmldoc/change.html#fo-table
+" autocmd FileType c,cpp,r,make set formatoptions=c2wqoj
+autocmd FileType c,cpp,make set formatoptions=c2wqojr
+autocmd FileType r set formatoptions=c2wqojra
+
+" For R 
+autocmd FileType r 
+      \ setlocal equalprg=Rscript\ --vanilla\ -e\ 
+      \'suppressPackageStartupMessages(library(styler));con<-file(\"stdin\");
+      \on.exit(close(con));writeLines(style_text(readLines(con),transformers=tidyverse_style(scope=\"tokens\")))'
+" https://github.com/tpope/vim-rsi/blob/master/plugin/rsi.vim#L68-L9422
+if has("gui_running") || has('nvim')
+  autocmd FileType r
+        \ inoremap <M-p> %>%<Space>|
+        \ inoremap <M--> <-<Space>
+else
+  autocmd FileType r
+        \ silent! exe "set <F33>=\<Esc>p" |	
+        \ inoremap <F33> %>%<Space>|
+        \ silent! exe "set <F34>=\<Esc>-" |	
+        \ inoremap <F34> <-<Space>
+endif
+
+" in makefiles, don't expand tabs to spaces, since actual tab characters are
+" needed
+autocmd FileType make set shiftwidth=4
+" autocmd FileType make set noexpandtab shiftwidth=4 softtabstop=0
+
+" linting: linter is a tool that shouts out the fishy parts of the code
+" https://github.com/cpplint/cpplint
+" use !{movement} to prepopulate range, then use tab-completion:
+"  try: !24fcpp<tab><cr>
+"  or: :%!cpplint
+" see Filtering the Contents of a Buffer Through an External Command in book
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Misc stuff
+"
+" gets rid of spellchecking when you don't want to see it. you can
+"   then re-toggle it with the same command.
+" toggle spelling visuals with <leader>s
+nnoremap <leader>s :set spell!
+
+" below from https://stevelosh.com/blog/2010/09/coming-home-to-vim/
+" makes Vim handle long lines correctly:
+" softwrap vs hardwrap: http://vimcasts.org/episodes/hard-wrapping-text/
+"   and http://vimcasts.org/episodes/soft-wrapping-text/
+set wrap
+set textwidth=79
+set colorcolumn=+2 " highlight column after 'textwidth' 
+if &background == "light"
+  highlight ColorColumn ctermbg=7 guibg=lightgrey
+else
+  highlight ColorColumn ctermbg=0 guibg=lightgrey
+endif
+" When softwrap happens move by screen line instead of file line
+nnoremap j gj
+nnoremap k gk
+
+" re-hardwrap paragraphs of text (Q is mapped to gq in .vimrc)
+nnoremap <leader>q gqip
+" Use gq$ also.
+" nnoremap <leader>q gqis
+" Use gqip (format inside paragraph) or gwip (leaves cursor where it was)
+
+" Map C-s to save file
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>i
+" The inoremap statements apply to insert mode, while the cnoremap ones apply
+"   to command mode, and nnoremap for normal mode.
+
+" This loads the "matchit" plugin if the required features are available.
+" It makes the % command more powerful.
+if has('syntax') && has('eval')
+	packadd! matchit
+endif
+
+" Buffer management
+" Use :E (or :e.) liberally
+"
+" lands me on the buffer prompt and displays all buffers so I can just type a
+" partial (with tab) or a number to switch to that buffer.
+nnoremap <leader>b :b <C-d>
+" switches to the last buffer I was editing
+" \o does not work in help/vim file, but \\o works. Use [b instead.
+nnoremap <leader>o :b#<cr>
+" kill this buffer
+" XXX Sometimes this does not register and you may have to repeat
+nnoremap <leader>k :bd<cr>
+
+nnoremap <silent> [b :bprevious<CR> 
+nnoremap <silent> ]b :bnext<CR> 
+nnoremap <silent> [B :bfirst<CR> 
+nnoremap <silent> ]B :blast<CR>
+
+" quickfix list
+nnoremap <silent> [q :cprevious<CR> 
+nnoremap <silent> ]q :cnext<CR> 
+" nnoremap <silent> [Q :cfirst<CR> 
+" nnoremap <silent> ]Q :clast<CR>
+nnoremap <silent> [Q :copen<CR> 
+nnoremap <silent> ]Q :cclose<CR>
+
+" file list
+nnoremap <silent> [f :previous<CR> 
+nnoremap <silent> ]f :next<CR> 
+nnoremap <silent> [F :first<CR> 
+nnoremap <silent> ]F :last<CR>
+
+" https://gist.github.com/seanh/a866462a27cb3ad7b084c8e6000a06b9 vimgrep to
+" search,  :vimgrep /fooBar/ ** (C-o will jump back to where u were) flags: f -
+" fuzzy, j - do not jump to first match, g - add every match it uses quickfix
+" list 
+nnoremap <leader>g :vimgrep<space> //j **<Left><Left><Left><Left><Left>
+" nnoremap <leader>g :vimgrep<space> //fj **/*.c
+
+" Add this snippet to your vimrc to tell Vim to automatically open the
+" location/quickfix window after :make, :grep, :lvimgrep and friends if there
+" are valid locations/errors:
+augroup myvimrc autocmd!
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
+augroup END
+
+" Make
+" nnoremap <leader>m :make<cr>
+
+" Visual mode
+"  make s-v do region and vice versa
+" nnoremap <S-V> <C-V>
+" nnoremap <C-V> <S-V>
+
+" Tab (as in tabbed windows) management
+" :tabe[dit] {filename}, <C-w>T (current window to new tab), 
+" :tabc[lose] :tabo[nly], :tabn[ext] {N}
+" Normal, Visual, Select, Operator-pending modes (not Insert, Command-line)
+map <S-Left> gT
+map <S-Right> gt
+"
+noremap <Leader>tt :tabedit<CR>
+noremap <Leader>to :tabedit<Space>
+noremap <Leader>tc :tabclose<CR>
+noremap <Leader>t1 :tabonly<CR>
+
+" Window splitting
+" <C-w>s, <C-w>v, :sp[lit] {file}, :vsp[lit] {file}, C-ww (C-w C-w), C-wo etc
+" <C-w>_ Maximize height of the active window
+"  <C-w>= Equalize width and height of all windows
+
+" Map for page-up and down
+" noremap <Space> <C-f>
+" S-space is mapped in iterm2. 
+" 'send hex code' option seems missing, but it is not. type 'send...' into that
+" box. Also Vim iterm2 profile is saved in google cloud.
+" To look up a hex code for a ctrl+letter combination:
+" See https://stackoverflow.com/questions/279959/how-can-i-make-shiftspacebar-page-up-in-vim
+" nnoremap <S-Space> <C-b>
+
+" in iterm2, mapped shift-backspace to C-w. Easier to delete word in insert
+" mode.
+" also mapped shift-space (to C-b, hex code 0x02), and control-tab
+
+" Add file type to status bar
+set statusline=\ %<%f\ %h%m%r%=%y\ %-14.(%l,%c%V%)\ %P\ 
+
+" more intuitive, see :h Y
+map Y y$
+
+" Use C-r 'register' to paste
+nnoremap <Leader>r :registers<CR>
+
+" Visual mode search
+"   https://vim.fandom.com/wiki/Search_and_replace_in_a_visual_selection
+" vnoremap <M-/> <Esc>/\%V
+" C-/ produces the same hex code as C-_ 
+" Map C-/ to do search within visually selected text
+vnoremap <C-_> <Esc>/\%V
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Netrw
+" https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+
+let g:netrw_keepdir = 0 " keep dir sync'ed
+let g:netrw_winsize = 30 " size, 30% split
+" let g:netrw_banner = 0 " hide banner
+
+" dd for Direct rate of current file, da for current working directory (or 
+" close netrw window)
+nnoremap <leader>dd :Lexplore %:p:h<CR>
+nnoremap <Leader>da :Lexplore<CR>
+
+function! NetrwMapping()
+endfunction
+
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+  autocmd filetype set scrolloff=0
+augroup END
+
+" p: Opens a preview window.
+function! NetrwMapping()
+  " close preview window
+  nmap <buffer> P <C-w>z
+  " close netrw
+  nmap <buffer> <Leader>dd :Lexplore<CR>
+  nmap <buffer> <C-l> <C-w>l
+endfunction
+
+let g:netrw_preview   = 0
+" let g:netrw_liststyle = 3 " tree 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+":h ins-completion
+":h 'complete'
+"
+" Using C-x C-n (or C-p) multiple times so it completes based on context and 
+" then use C-n/p to assist, is faster than cut paste.
+" C-x C-L (or C-L) will complete line
+"
+" load buffers using :args *
+" delete buffers :args {argslist}
+" :next :prev (mapped to [f ]f)
+"
+" The following mappings are suggested to make typing the completion commands
+" a bit easier (although they will hide other commands): >
+" :inoremap ^] ^X^]
+" :inoremap ^F ^X^F
+" :inoremap ^D ^X^D
+" :inoremap ^L ^X^L
+
+" inoremap <C-L> <C-x><C-L>
+
+" the following will map <Tab> to either actually insert a <Tab> if
+" the current line is currently only whitespace, or start/continue a CTRL-P
+" completion operation: >
+
+function! CleverTab()
+  if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+    return "\<Tab>"
+  else
+    return "\<C-P>"
+  endif
+endfunction
+
+inoremap <Tab> <C-R>=CleverTab()<CR>
+
+" Autocomplete
+" See book for 1) C-x C-n with C-n useage, 2) C-n C-p useage
+" Bind Control-Tab (C-Tab) to C-_ in iTerm2
+"   Accoring to https://hea-www.harvard.edu/~fine/Tech/vi.html <C-_> is free
+inoremap <C-_> <C-x><C-p>
+
+" <C-n> or <C-p> Generic keywords
+" <C-x> s Spelling suggestions
+" Try pressing <C-n><C-p>. That’s two separate commands: <C-n> followed
+" immediately by <C-p> (although <C-p><C-n> would work just as well).
+" <C-n><C-p> keywords in 'complete' 
+" <C-x><C-n> Current buffer keywords
+" <C-x><C-f> Filename completion
+" <C-x><C-l>  Whole line completion
+" <C-x><C-k>  Dictionary
+" " Omni-completion
+" inoremap <silent> ,o <C-x><C-o>
+" " Tags
+" inoremap <silent> ,t <C-x><C-]>
+" " User defined completion 
+" inoremap <silent> ,u <C-x><C-u>
+
+" setup omni compelete (trigger it with C-x C-o
+set omnifunc=syntaxcomplete#Complete
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" UltiSnips
+" https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+" See 3.2.2 https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+" let g:ulti_expand_or_jump_res = 0 "default value, just set once
+" function! Ulti_ExpandOrJump_and_getRes()
+"   call UltiSnips#ExpandSnippetOrJump()
+"   return g:ulti_expand_or_jump_res
+" endfunction
+
+" XXX S-tab is to go backwards in menu list of Autocomplete
+"  Now that you mapped S-tab, use C-n and C-p in tab complete menu to go
+"  up/down.
+let g:UltiSnipsExpandTrigger="<S-tab>"
+let g:UltiSnipsJumpForwardTrigger="<S-tab>"
+
+" inoremap <NL> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
+" inoremap <Tab> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":CleverTab()<CR>
+
+" let g:UltiSnipsExpandTrigger="<nop>"
+" inoremap <S-Tab> <C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?"":IMAP_Jumpfunc('', 0)<CR>
+
+let g:UltiSnipsListSnippets="<C-A>"
+
+" g:UltiSnipsJumpForwardTrigger          <c-j>
+" g:UltiSnipsJumpBackwardTrigger         <c-k>
+
+" this is needed
+inoremap <c-x><c-k> <c-x><c-k>
+
+" let g:UltiSnipsEditSplit="vertical"
+
+" This is faster 
+"   (snippets from here: https://github.com/honza/vim-snippets)
+"   and http://phoenix.yizimg.com/dawikur/algorithm-mnemonics.vim
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/pack/snippets/resources/UltiSnips']
+set runtimepath+=~/.vim/pack/snippets/resources
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

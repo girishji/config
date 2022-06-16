@@ -1,17 +1,187 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Thu, 16 Jun 2022 10:27:16 +0200
+Date:   Thu, 16 Jun 2022 10:33:18 +0200
 
-some dot files
+added vim file
 
 
-A  dotfiles/.emacs
-A  dotfiles/.emacs.d/elpa/archives/gnu/archive-contents
-A  dotfiles/.emacs.d/emacs.el
-A  dotfiles/.emacs.d/emacs.elc
-A  dotfiles/.emacs.d/help
-A  dotfiles/.emacs.d/ido.last
-A  dotfiles/.vimrc
-?? dotfiles/.gitignore
+D  dotfiles/.vimrc
+A  dotfiles/.vimrc.local
+
+commit 52f180330d1ebc8fa28640fe0e31801a39b96fab
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:31:21 2022 +0200
+
+    some files
+    
+    D  help/3dprint
+    D  help/RStudioRAppRadian
+    D  help/Rcpp
+    D  help/Rnotes.txt
+    D  help/airdrop
+    D  help/amazon
+    D  help/apache.txt
+    D  help/arduino
+    D  help/atom
+    D  help/automator
+    D  help/awk
+    D  help/bash
+    D  help/bitbucket
+    D  help/blockwebsites
+    D  help/brew
+    D  help/call
+    D  help/chrome
+    D  help/conda
+    D  help/cpp
+    D  help/cron
+    D  help/cut
+    D  help/diff
+    D  help/djay
+    D  help/du
+    D  help/emacs
+    D  help/ender3v2
+    D  help/excel
+    D  help/expect
+    D  help/facebook
+    D  help/fusion360
+    D  help/fzf
+    D  help/gcc
+    D  help/gcloud
+    D  help/git
+    D  help/githubPAT.txt
+    D  help/gzip
+    D  help/iphone
+    D  help/ipython.txt
+    D  help/iterm
+    D  help/keyboard
+    D  help/kicad
+    D  help/kindle
+    D  help/less
+    D  help/netstat
+    D  help/nmap
+    D  help/nvim-lua
+    D  help/osx
+    D  help/outlook
+    D  help/pdf
+    D  help/photos
+    D  help/plist
+    D  help/powerpoint
+    D  help/python
+    D  help/qmk
+    D  help/regex
+    D  help/rosetta
+    D  help/sas_data_analytics.txt
+    D  help/sas_text_analytics.txt
+    D  help/sas_viya.txt
+    D  help/sed-awk
+    D  help/ssh
+    D  help/tar
+    D  help/tidy
+    D  help/valgrind
+    D  help/versioning
+    D  help/vim
+    D  help/vimgolf
+    D  help/vnc
+    D  help/vscode
+    D  help/xargs
+    D  help/youtube
+    D  help/zoxide
+    D  help/zsh
+
+commit 22d446aae085a09dcab96c9334f6f2f6c0965d3b
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:28:39 2022 +0200
+
+    some old files
+    
+    A  dotfiles/.gitignore
+    A  help/3dprint
+    A  help/RStudioRAppRadian
+    A  help/Rcpp
+    A  help/Rnotes.txt
+    A  help/airdrop
+    A  help/amazon
+    A  help/apache.txt
+    A  help/arduino
+    A  help/atom
+    A  help/automator
+    A  help/awk
+    A  help/bash
+    A  help/bitbucket
+    A  help/blockwebsites
+    A  help/brew
+    A  help/call
+    A  help/chrome
+    A  help/conda
+    A  help/cpp
+    A  help/cron
+    A  help/cut
+    A  help/diff
+    A  help/djay
+    A  help/du
+    A  help/emacs
+    A  help/ender3v2
+    A  help/excel
+    A  help/expect
+    A  help/facebook
+    A  help/fusion360
+    A  help/fzf
+    A  help/gcc
+    A  help/gcloud
+    A  help/git
+    A  help/githubPAT.txt
+    A  help/gzip
+    A  help/iphone
+    A  help/ipython.txt
+    A  help/iterm
+    A  help/keyboard
+    A  help/kicad
+    A  help/kindle
+    A  help/less
+    A  help/netstat
+    A  help/nmap
+    A  help/nvim-lua
+    A  help/osx
+    A  help/outlook
+    A  help/pdf
+    A  help/photos
+    A  help/plist
+    A  help/powerpoint
+    A  help/python
+    A  help/qmk
+    A  help/regex
+    A  help/rosetta
+    A  help/sas_data_analytics.txt
+    A  help/sas_text_analytics.txt
+    A  help/sas_viya.txt
+    A  help/sed-awk
+    A  help/ssh
+    A  help/tar
+    A  help/tidy
+    A  help/valgrind
+    A  help/versioning
+    A  help/vim
+    A  help/vimgolf
+    A  help/vnc
+    A  help/vscode
+    A  help/xargs
+    A  help/youtube
+    A  help/zoxide
+    A  help/zsh
+
+commit 3b0e856d15b8d5d96c2545e6c0cf3798b71464fa
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:27:16 2022 +0200
+
+    some dot files
+    
+    A  dotfiles/.emacs
+    A  dotfiles/.emacs.d/elpa/archives/gnu/archive-contents
+    A  dotfiles/.emacs.d/emacs.el
+    A  dotfiles/.emacs.d/emacs.elc
+    A  dotfiles/.emacs.d/help
+    A  dotfiles/.emacs.d/ido.last
+    A  dotfiles/.vimrc
+    ?? dotfiles/.gitignore
 
 commit 377a49f5431974f34c6c1e23470e0bd484306175
 Author: Girish Palya <girishji@gmail.com>
