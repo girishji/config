@@ -1,1 +1,0 @@
-gzip -dc path_to_file | tar xvf -

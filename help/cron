@@ -1,5 +1,0 @@
-fusion or mercury crontab file is /vobs/projects/springboard/fabos/src/thresh/mail_handler.sh.in
-you can install crontab file without using editor. Use 'crontab <file>'
-====
-coverity cron job on sj-bld-066
-moved from blc-10-6

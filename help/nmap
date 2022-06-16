@@ -1,7 +1,0 @@
-like ping
-
-You can't ping ports, as Ping is using ICMP which doesn't have the concept of ports. Ports belong to the transport layer protocols like TCP and UDP. However, you could use nmap to see whether ports are open or not
-
-nmap -p 80 example.com
-Edit: As flokra mentioned, nmap is more than just a ping-for-ports-thingy. It's the security auditers and hackers best friend and comes with tons of cool options. Check the doc for all possible flags.
-

@@ -1,6 +1,0 @@
-
-Global Metadata
-In Model Studio, metadata is defined as the set of variable roles, measurement levels, and other configurations that apply to your data set. When creating multiple projects using similar data sets (or when using a single data set), you might find it useful to store the metadata configurations for usage across projects. Model Studio enables you to do this by collecting the variables in a repository named Global Metadata. Metadata configurations that are stored as global metadata apply to new data sets that contain variables with the same name. 
-
-For more information about managing global metadata, see the following documentation: SAS® Visual Data Mining and Machine Learning: User's Guide. 
-

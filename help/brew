@@ -1,9 +1,0 @@
-For Docker installation, however, you’ll need to use Homebrew Cask.
-
-“What’s Homebrew Cask, and why can’t I install Docker with brew install docker?” you might ask. Let’s clarify…
-
-If you have ever installed any GUI software on Mac the “standard way,” you probably know that it normally requires downloading the package, opening it, and installing by the drag-and-drop method to the Application folder. Homebrew, by default, can only install command-line tools.
-
-Homebrew Cask is a Homebrew extension for installing GUI software on Mac. It means that instead of the standard download and drag-and-drop process, you can use this.
-
-brew cask install [gui_tool]

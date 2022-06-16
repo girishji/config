@@ -1,6 +1,0 @@
-open /System/Library/CoreServices/Screen\ Sharing.app
-for vnc port 1 use 5901 etc
-(after you open this app, go to connection->recent and pick one)
-
-or use safari type vnc://gpalya-xen:5901
-
