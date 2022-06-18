@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+from datetime import datetime, timedelta
+import csv
+from threading import Timer
+
+# Configurables
+period = 30 # minutes
+file_path = '/Users/gp/Google Drive/Study.csv'
+
+############################################################
+def main():
+
+    if len(sys.argv) < 2:
+        duration = 1
+    else:
+        if sys.argv[1] == '?':
+            print()
+            os.system('cal')
+            print_hist()
+            print()
+            return
+        duration = int(sys.argv[1]) 
+
+    diff, lines = get_schedule(duration)
+
+    threads = []
+    # https://code-maven.com/display-notification-from-the-mac-command-line
+    # banner = lambda : os.system('osascript -e \'display notification "Timer expired!" with title "Study"\'')
+    banner = lambda : os.system('osascript -e \'display alert "Timer expired!" message "Study"\'')
+    for i in range(len(lines)):
+        remaining = diff if i == 0 else (remaining + period)
+        # Timer creates a new thread to call banner() after so many seconds
+        t = Timer(remaining * 60, banner, ()) 
+        #t.daemon = False
+        t.start()
+        threads.append(t)
+ 
+    # osascript -e 'display notification "hello world!"'
+    
+    while True:
+        os.system('clear')
+        for i, line in enumerate(lines):
+            print('{}  {}  [{}]'.format(i + 1, line[0],  'x' if line[1] else ' '))
+        print('Input: ', end='', flush=True)
+        try:
+            line = sys.stdin.readline().rstrip()
+            index = int(line)
+            lines[index - 1][1] = True if not lines[index - 1][1] else False
+        except: # all errors, including ValueError
+            # calculate total time spent studying and write to file
+            total = 0
+            for i, line in enumerate(lines):
+                if line[1]:
+                    total+= (diff if i == 0 else period)
+            if total:
+                with open(file_path, 'a') as the_file:
+                    the_file.write('{},{}\n'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), total))
+            for t in threads:
+                t.cancel()
+            return
+
+############################################################
+def get_schedule(duration):
+    lines = []
+    now = datetime.now()
+    if now.minute >= 30:
+        diff = 60 - now.minute
+    else:
+        diff = 30 - now.minute
+    next_t = now + timedelta(minutes=diff)
+    lines.append([format_str(now, next_t), False])
+    for i in range(int(duration * 60 / period)):
+        to_t = next_t + timedelta(minutes=period)
+        lines.append([format_str(next_t, to_t), False])
+        next_t = to_t
+    return [diff, lines]
+
+############################################################
+def format_str(from_t, to_t):
+    from_s = from_t.strftime('%I:%M %p')
+    to_s = to_t.strftime('%I:%M %p')
+    return '{} - {}'.format(from_s, to_s)
+
+############################################################
+def print_hist():
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        rows = list(reader)
+    aggregate = {}
+    format_str = '%Y-%m-%d %H:%M:%S'
+    for row in rows:
+        date = datetime.strptime(row[0], format_str).date()
+        if date not in aggregate:
+            aggregate[date] = 0 
+        aggregate[date] += int(row[1])
+    total = 0
+    for date, val in aggregate.items():
+        if date + timedelta(days=7) > datetime.now().date():
+            hm = '{}:{}'.format(int(val / 60), str(int(val % 60)).zfill(2))
+            print(date.strftime("%a, %B %d, %Y ->"), hm)
+        total += int(val)
+    print()
+    avg = total / len(aggregate)
+    print('Average -> {}:{}'.format(int(avg / 60), str(int(avg % 60)).zfill(2)))
+    print()
+    for row in rows:
+        date = datetime.strptime(row[0], format_str).date()
+        if date == date.today():
+            print(', '.join(row)) 
+
+############################################################
+if (__name__ == '__main__'):
+    main()
+    

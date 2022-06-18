@@ -95,7 +95,7 @@ local mappings = {
   },
   ["g"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
   ["r"] = { "<cmd>Telescope resume theme=ivy<cr>", "Resumes the last picker" },
-  ["p"] = { "<cmd>Telescope pickers theme=ivy<cr>", "Picker over cached pickers" },
+  -- ["p"] = { "<cmd>Telescope pickers theme=ivy<cr>", "Picker over cached pickers" },
   ["G"] = { "<cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>",
     "Find Text in opened buffers" },
   ["u"] = { "<cmd>Telescope grep_string theme=ivy<cr>", "Find Text under cursor" },
@@ -124,7 +124,10 @@ local mappings = {
     "Lists registers",
   },
   -- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-  ["T"] = { "<cmd>Format<CR>", "Format all code" },
+  ["F"] = { "<cmd>Format<CR>", "Format all code" },
+
+  ["t"] = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
+  ["p"] = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
 
   P = {
     name = "Packer",
@@ -207,7 +210,7 @@ local mappings = {
     C = { "<cmd>Telescope commands<cr>", "Commands" },
   },
 
-  t = {
+  T = {
     name = "Terminal",
     n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
     u = { "<cmd>lua _NCDU_TOGGLE()<cr>", "NCDU" },

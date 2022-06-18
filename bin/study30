@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+sleep 1800 && afplay /System/Library/Sounds/Frog.aiff 
+
+# There are more sound effect files in
+# /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/Sounds/.

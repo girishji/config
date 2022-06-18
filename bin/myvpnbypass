@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# before connecting to vpn:
+# first find default gateway. do 'netstat -rn' at the top look for en0 interface and gw. note this.
+# 
+# after connecting to vpn:
+# - find out ip addr of sip.brocade.com (lync server). Ping it and it prints. (144.49.138.17)
+# - add route for this ip to go through previous default gw (after vpn, there will be new gw in tun)
+# sudo route add -host 144.49.138.17 10.100.148.1
+# (don't use -net as that would indicate network and you need to provide netmask)
+# - say previous default gw was 10.100.148.1. Add a route for this to go through en0 (instead of tun)
+# sudo route add -host 10.100.148.1 -interface en0
+
+# on mac en0 appears to be wifi, en4 is ethernet
+# NOTE: above route add commands associate tun0 with the new routes you added (if vpn is connected), and therefore problem persists. 
+#     You want to associate en0 or en4 with new route and gateway you added. So disconnect from vpn, do route add,
+#     and then connect back to vpn.
+
+# email started giving problems again within vpn
+# email.brocade.com (144.49.210.51), bypass this
+
+echo "You have to be sudo to execute this...(do this after disconnecting vpn)"
+
+#gateway=10.100.148.1  # brocade gw - all address starting with 10.x is corporate internal, find suitable gw for comcast
+
+gateway=$1
+if [[ -z "$gateway" ]]; then
+    gateway=$(netstat -rn|grep default|awk '{print $2}'|head -1)
+fi
+
+# sip.brocade.com is 144.49.138.17
+sip=$(nslookup sip.brocade.com | grep Address | awk '(NR==2) {print $2}')
+email=$(nslookup email.brocade.com | grep Address | awk '(NR==2) {print $2}')
+echo "sip.brocade.com: $sip"
+echo "email.brocade.com: $email"
+/sbin/route delete $sip
+/sbin/route delete $emial
+/sbin/route add -host $sip $gateway
+/sbin/route add -host $email $gateway
+# verify
+netstat -rn | grep $sip
+netstat -rn | grep $email
+
+# hq1wp-exhub02.corp.brocade.com (10.70.38.14) (inside brocade only, no need for vpn)
+# legacy.brocade.com 144.49.210.51 (accessing from outside brocade)
+# above server change happens automatically within outlook. As such I cannot hardcode
+# either server (or email.brocade.com) in outlook - it changes anyway.
+# so no need to add route. if you are having problems verify server selected is the correct one.
+#/sbin/route add -host 144.49.210.51 $gateway
+

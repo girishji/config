@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+## girish
+#
+# > todo \?  # shows only items
+#
+# commands:
+#  to add: type item and press enter
+#  to delete: "- <item number>"
+#
+
+
+import os
+import sys
+import pickle
+
+base_dir = os.path.expanduser('~/Google Drive/Documents')
+todo_file = base_dir + '/todo.csv'
+
+def main():
+    only_show = True if not len(sys.argv) == 1 and sys.argv[1] == '?' else False
+
+    rows = []
+    with open(todo_file, 'rb') as f:
+        try:
+            rows = pickle.load(f)
+        except:
+            pass
+    while True:
+        if not only_show:
+            os.system('clear')
+        os.system('cal -A 2')
+        print()
+        for i, r in enumerate(rows):
+            print('    {}) {}'.format(i + 1, r))
+        if only_show:
+            print()
+            break
+        print('Todo: ', end='', flush=True)
+        line = sys.stdin.readline().rstrip()
+        cmd = line.split()[0]
+        if cmd == '-':
+            index = int(line.split()[1])
+            del rows[index - 1]
+        elif cmd == 'q':
+            with open(todo_file, 'wb') as f:
+                pickle.dump(rows, f)
+            return
+        else:
+            rows.append(line)
+
+if (__name__ == '__main__'):
+    main()

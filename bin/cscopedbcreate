@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Poongo - Generate cscope DB
+
+find . -name "*.[cChx]" -print | egrep -v 'hsl/' > cscope.files
+find . -name "*.cxx" -print >> cscope.files
+find . -name "*.hpp" -print >> cscope.files
+find . -name "*.cpp" -print >> cscope.files
+ctags -L cscope.files
+cscope -bq 
+cscope -d
+

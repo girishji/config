@@ -1,82 +1,118 @@
 Author: Girish Palya <girishji@gmail.com>
-Date:   Thu, 16 Jun 2022 10:31:21 +0200
+Date:   Sat, 18 Jun 2022 18:09:46 +0200
 
-some files
+add bin dir
 
 
-D  help/3dprint
-D  help/RStudioRAppRadian
-D  help/Rcpp
-D  help/Rnotes.txt
-D  help/airdrop
-D  help/amazon
-D  help/apache.txt
-D  help/arduino
-D  help/atom
-D  help/automator
-D  help/awk
-D  help/bash
-D  help/bitbucket
-D  help/blockwebsites
-D  help/brew
-D  help/call
-D  help/chrome
-D  help/conda
-D  help/cpp
-D  help/cron
-D  help/cut
-D  help/diff
-D  help/djay
-D  help/du
-D  help/emacs
-D  help/ender3v2
-D  help/excel
-D  help/expect
-D  help/facebook
-D  help/fusion360
-D  help/fzf
-D  help/gcc
-D  help/gcloud
-D  help/git
-D  help/githubPAT.txt
-D  help/gzip
-D  help/iphone
-D  help/ipython.txt
-D  help/iterm
-D  help/keyboard
-D  help/kicad
-D  help/kindle
-D  help/less
-D  help/netstat
-D  help/nmap
-D  help/nvim-lua
-D  help/osx
-D  help/outlook
-D  help/pdf
-D  help/photos
-D  help/plist
-D  help/powerpoint
-D  help/python
-D  help/qmk
-D  help/regex
-D  help/rosetta
-D  help/sas_data_analytics.txt
-D  help/sas_text_analytics.txt
-D  help/sas_viya.txt
-D  help/sed-awk
-D  help/ssh
-D  help/tar
-D  help/tidy
-D  help/valgrind
-D  help/versioning
-D  help/vim
-D  help/vimgolf
-D  help/vnc
-D  help/vscode
-D  help/xargs
-D  help/youtube
-D  help/zoxide
-D  help/zsh
+M  .gitignore
+A  bin/cscopecron.sh
+A  bin/cscopedbcreate
+A  bin/diff1
+A  bin/diff2
+A  bin/fusion360cleanuninstall.sh
+A  bin/gitcommit
+A  bin/mymount
+A  bin/myvpnbypass
+A  bin/qmk.sh
+A  bin/rsyncin
+A  bin/speculator.R
+A  bin/study
+A  bin/study30
+A  bin/todo
+M  nvim/init.lua
+M  nvim/lua/user/cmp.lua
+A  nvim/lua/user/dictionary.lua
+M  nvim/lua/user/plugins.lua
+M  nvim/lua/user/whichkey.lua
+
+commit 869dcbf31ae873b933791c4a1fe2ec8d9144765e
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:33:18 2022 +0200
+
+    added vim file
+    
+    D  dotfiles/.vimrc
+    A  dotfiles/.vimrc.local
+
+commit 52f180330d1ebc8fa28640fe0e31801a39b96fab
+Author: Girish Palya <girishji@gmail.com>
+Date:   Thu Jun 16 10:31:21 2022 +0200
+
+    some files
+    
+    D  help/3dprint
+    D  help/RStudioRAppRadian
+    D  help/Rcpp
+    D  help/Rnotes.txt
+    D  help/airdrop
+    D  help/amazon
+    D  help/apache.txt
+    D  help/arduino
+    D  help/atom
+    D  help/automator
+    D  help/awk
+    D  help/bash
+    D  help/bitbucket
+    D  help/blockwebsites
+    D  help/brew
+    D  help/call
+    D  help/chrome
+    D  help/conda
+    D  help/cpp
+    D  help/cron
+    D  help/cut
+    D  help/diff
+    D  help/djay
+    D  help/du
+    D  help/emacs
+    D  help/ender3v2
+    D  help/excel
+    D  help/expect
+    D  help/facebook
+    D  help/fusion360
+    D  help/fzf
+    D  help/gcc
+    D  help/gcloud
+    D  help/git
+    D  help/githubPAT.txt
+    D  help/gzip
+    D  help/iphone
+    D  help/ipython.txt
+    D  help/iterm
+    D  help/keyboard
+    D  help/kicad
+    D  help/kindle
+    D  help/less
+    D  help/netstat
+    D  help/nmap
+    D  help/nvim-lua
+    D  help/osx
+    D  help/outlook
+    D  help/pdf
+    D  help/photos
+    D  help/plist
+    D  help/powerpoint
+    D  help/python
+    D  help/qmk
+    D  help/regex
+    D  help/rosetta
+    D  help/sas_data_analytics.txt
+    D  help/sas_text_analytics.txt
+    D  help/sas_viya.txt
+    D  help/sed-awk
+    D  help/ssh
+    D  help/tar
+    D  help/tidy
+    D  help/valgrind
+    D  help/versioning
+    D  help/vim
+    D  help/vimgolf
+    D  help/vnc
+    D  help/vscode
+    D  help/xargs
+    D  help/youtube
+    D  help/zoxide
+    D  help/zsh
 
 commit 22d446aae085a09dcab96c9334f6f2f6c0965d3b
 Author: Girish Palya <girishji@gmail.com>

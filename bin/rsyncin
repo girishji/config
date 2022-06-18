@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# rsyncin /vobs/projects/springboard/linux_plat/linux_2_6_30 /Users/gpalya/work -sync
+# rsyncin /vobs/projects/springboard/fabos /Users/gpalya/work -sync
+# rsyncin /vobs/projects/springboard/tps/ZebOS /Users/gpalya/work -sync
+
+set -o nounset
+view=gpalya_fos_mercury_proto2_dev_01
+box=blc-10-6
+
+if [ $# -eq 2 ]; then
+	rsync -navz --delete -e "ssh gpalya@$box /users/home40/gpalya/bin/setviewrun $view" gpalya@${box}:$1 $2
+elif [ $# -eq 3 ]; then
+	rsync -avz --delete -e "ssh gpalya@$box /users/home40/gpalya/bin/setviewrun $view" gpalya@${box}:$1 $2
+else
+	echo "usage: $0 path-to-vobs-dir path-to-dest [-sync] /* without -sync option only dry run is displayed */"
+    echo "ex1: $0 /vobs/projects/springboard/fabos/src/sys/dev/dce/hsl1 /Users/gpalya/work -sync"
+	echo "ex2: $0 /vobs/projects/springboard/fabos/src/sys/dev/dce/hsl1/ /Users/gpalya/work/hsl1 -s"
+fi
+
+
+
+#sysdir=/vobs/projects/springboard/fabos/src/sys
+#bccbsys=/vobs/projects/springboard/fabos/bccb/sys
+#zebosdir=/vobs/projects/springboard/tps/ZebOS
+#localdir=/Users/gpalya/work
+
+
+
+
+

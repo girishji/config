@@ -24,6 +24,8 @@ require "user.indentline"
 require "user.whichkey"
 -- require "user.autocommands"
 require "user.openbrowser"
+require "user.dictionary"
+
 --
 -- HELP --
 -- double esc will get rid of popup window

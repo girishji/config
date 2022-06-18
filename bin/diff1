@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# -p show function name
+# -u universal output (show +- instead of <>)
+diff -u -p $@

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# -y is --side-by-side 
+# --suppress-common-lines  
+# -W or --width=158
+#diff -b -B -y -W 158 $@
+diff -y -W 158 "$@" --strip-trailing-cr
+

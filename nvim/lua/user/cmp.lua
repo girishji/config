@@ -28,6 +28,7 @@ local kind_icons = {
   Variable = "",
   Class = "",
   Interface = "",
+  dictionary = "暈",
   Module = "",
   Property = "",
   Unit = "",
@@ -56,7 +57,7 @@ cmp.setup {
   },
   mapping = {
     -- ["<C-k>"] = cmp.mapping.select_prev_item(),
-		-- ["<C-j>"] = cmp.mapping.select_next_item(),
+    -- ["<C-j>"] = cmp.mapping.select_next_item(),
     ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
@@ -108,6 +109,7 @@ cmp.setup {
         luasnip = "[Snippet]",
         nvim_lsp = "[LSP]",
         buffer = "[Buffer]",
+        dictionary = "[Dictionary]",
         path = "[Path]",
       })[entry.source.name]
       return vim_item
@@ -117,6 +119,11 @@ cmp.setup {
     { name = "luasnip" },
     { name = "nvim_lsp" },
     { name = "buffer" },
+    -- {
+    --   name = "dictionary",
+    --   keyword_length = 2,
+    -- },
+    { name = "dictionary" },
     { name = "path" },
   },
   confirm_opts = {
