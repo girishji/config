@@ -9,8 +9,8 @@ end
 dictionary.setup {
 
   dic = {
-    -- ["*"] = { "/Users/gp/.local/share/nvim/site/pack/packer/start/google-10000-english/google-10000-english-usa-no-swears.txt" },
-    ["*"] = { "/usr/share/dict/words" },
+    ["*"] = { "/Users/gp/.local/share/nvim/site/pack/packer/start/google-10000-english/google-10000-english-usa-no-swears.txt" },
+    -- ["*"] = { "/usr/share/dict/words" },
     -- ["lua"] = "path/to/lua.dic",
     -- ["javascript,typescript"] = { "path/to/js.dic", "path/to/js2.dic" },
     -- filename = {
@@ -30,6 +30,6 @@ dictionary.setup {
   document_command = "wn %s -over",
   async = false,
   capacity = 5,
-  debug = true,
+  debug = false,
 
 }

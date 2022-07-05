@@ -47,6 +47,11 @@ keymap("n", "<S-h>", ":bprevious<CR>", opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
+-- Search for visually selected text using //
+vim.cmd [[
+  vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+]]
+
 -- Move text up and down
 -- keymap("v", "<A-j>", ":m .+1<CR>==", opts)
 -- keymap("v", "<A-k>", ":m .-2<CR>==", opts)
@@ -78,9 +83,9 @@ keymap("n", "<C-n>", ":set rnu!", opts)
 
 -- save file and quit
 -- following 3 are also redefined in whichkey.lua (using leader key)
-keymap("n", "<C-s>", ":w<CR>", opts)
-keymap("i", "<C-s>", "<Esc>:w<CR>i", opts)
-keymap("n", "<c-q>", ":q<cr>", opts)
+-- keymap("n", "<C-s>", ":w<CR>", opts)
+-- keymap("i", "<C-s>", "<Esc>:w<CR>i", opts)
+-- keymap("n", "<c-q>", ":q<cr>", opts)
 
 -- misc
 -- make gm move to center of line
@@ -88,8 +93,52 @@ keymap("n", "gm", "gM", opts)
 keymap("v", "gm", "gM", opts)
 -- gp to selct visually last pasted text
 -- keymap("n", "gp", "`[v`]", opts)
--- following mapping to reselect last modified chunk (including pasted)
+
+-- following mapping to: 
+--    reselect last modified chunk (including pasted)
+--    g/ to search visually selected text
+--    qq to surround visual selection with single quote
 vim.cmd [[
   nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
+  vnoremap g/ y/<C-R>"<CR>
+  vnoremap qq <Esc>`>a'<Esc>`<i'<Esc>
 ]]
+
+
+-- visually select range of python code, execute it, insert results
+-- (in all below cases vim inserts `<`> automatically)
+-- in visual mode either type ':ExecPy' or ':call ExecutePythonCode()'
+-- you can do ":w !python" to run selected code and disply result in 
+--   the status window below
+-- https://vim.fandom.com/wiki/Capture_ex_command_output
+--
+vim.api.nvim_exec([[
+  function! ExecutePythonCode() range
+    " redirect output to variable
+    redir => message
+    " https://stackoverflow.com/questions/8841465/vim-for-loop-trailing-characters-error
+    " https://vi.stackexchange.com/questions/23063/leading-blank-line-with-execute-function
+    exec a:firstline . "," . a:lastline . " :w !python3"
+    redir END
+    if empty(message)
+      echoerr "no output"
+    else
+      normal! `>
+      normal! o
+      normal i------------------------
+      " silent put=trim(message)
+      for line in split(message, "\n")
+        " check for empty line
+        if match(line, "^\\s*$") == -1
+          silent put = line
+        endif
+      endfor
+      normal o
+      normal i------------------------
+      normal o
+    endif
+  endfuncti on
+  command! -range ExecPy <line1>,<line2> call ExecutePythonCode()
+  " command! -range EP `<,`> call ExecutePythonCode()
+]], false)
 

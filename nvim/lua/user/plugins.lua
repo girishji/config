@@ -111,6 +111,9 @@ return packer.startup(function(use)
   -- https://idie.ru/posts/vim-modern-cpp
   use "tyru/open-browser.vim"
 
+  -- zk
+  -- use "mickael-menu/zk-nvim"
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

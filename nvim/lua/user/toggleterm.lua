@@ -68,3 +68,9 @@ local python = Terminal:new({ cmd = "python", hidden = true })
 function _PYTHON_TOGGLE()
 	python:toggle()
 end
+
+local ipython = Terminal:new({ cmd = "ipython  --no-confirm-exit", hidden = true })
+
+function _IPYTHON_TOGGLE()
+	ipython:toggle()
+end

@@ -3,7 +3,7 @@
 #   https://grml.org/zsh/zsh-refcard.pdf
 
 # Temp stuff
-export PYTHONPATH="/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages"
+# export PYTHONPATH="/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages"
 
 #setopt emacs
 setopt vi
@@ -50,6 +50,10 @@ zstyle ':prompt:grml:left:setup' items rc change-root arch_show path vcs arrow_s
 # bindkey -v
 export EDITOR=nvim
 
+# zk
+# export ZK_NOTEBOOK_DIR=$HOME/Repositories/notebook
+# export ZK_NOTEBOOK_DIR=/Users/gp/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notebook
+
 # https://unix.stackexchange.com/questions/44115/how-do-i-perform-a-reverse-history-search-in-zshs-vi-mode
 # bindkey "^R" history-incremental-search-backward
 # bindkey "^P" history-beginning-search-backward
@@ -76,6 +80,9 @@ alias targ='tar -c --exclude-from=.gitignore -vzf'
 
 ##
 alias r='radian'
+alias p3='python3'
+alias ip='ipython --no-confirm-exit'
+#alias py='python'
 alias R='R --no-save'
 alias l='ls'
 alias le='less -R'
@@ -91,9 +98,7 @@ alias v2='vim --clean'
 alias n='nvim'
 alias bc='bc -l'
 alias op='open'
-alias ip='ipython --no-confirm-exit'
 alias gd='git diff'
-#alias py='python'
 #alias em='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
 alias em='emacs'
 # alias ec='my_emacsclient'

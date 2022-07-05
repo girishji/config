@@ -126,8 +126,10 @@ local mappings = {
   -- ["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
   ["F"] = { "<cmd>Format<CR>", "Format all code" },
 
-  ["t"] = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
-  ["p"] = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
+  ["t"] = { "<cmd>ToggleTerm direction=float<cr>", "Floating terminal" },
+  ["p"] = { "<cmd>lua _IPYTHON_TOGGLE()<cr>", "iPython" },
+
+  ["z"] = { "<cmd>cd %:p:h<cr>", "cd to directory of this buffer/file" },
 
   P = {
     name = "Packer",

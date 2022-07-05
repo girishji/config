@@ -25,6 +25,7 @@ require "user.whichkey"
 -- require "user.autocommands"
 require "user.openbrowser"
 require "user.dictionary"
+-- require "user.zk"
 
 --
 -- HELP --
